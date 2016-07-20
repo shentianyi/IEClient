@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClearInsight", "ClearInsight\ClearInsight.csproj", "{FBB9C5AF-0EC8-4A56-89B3-87358CB0EF46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClearInsight.Tests", "ClearInsight.Tests\ClearInsight.Tests.csproj", "{FB7A3F90-8F3D-409F-B5B1-2844B60E5875}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C967B5BE-4E23-4B20-9C6B-640AD8755047}"
+	ProjectSection(SolutionItems) = preProject
+		ClearInsight.vsmdi = ClearInsight.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = ClearInsight.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FBB9C5AF-0EC8-4A56-89B3-87358CB0EF46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBB9C5AF-0EC8-4A56-89B3-87358CB0EF46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBB9C5AF-0EC8-4A56-89B3-87358CB0EF46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBB9C5AF-0EC8-4A56-89B3-87358CB0EF46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB7A3F90-8F3D-409F-B5B1-2844B60E5875}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB7A3F90-8F3D-409F-B5B1-2844B60E5875}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB7A3F90-8F3D-409F-B5B1-2844B60E5875}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB7A3F90-8F3D-409F-B5B1-2844B60E5875}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -10,6 +10,7 @@ using RestSharp;
 using RestSharp.Deserializers;
 using RestSharp.Serializers;
 using Newtonsoft.Json;
+using ClearInsight.Helper;
 
 namespace ClearInsight
 {
@@ -94,15 +95,26 @@ namespace ClearInsight
         }
 
         /// <summary>
-        /// User Login
+        /// User Login And Out
         /// </summary>
         /// <param name="entry">ClearInsight.Model.User</param>
         /// <returns>CIResponse response</returns>
-        public CIResponse UserLogin(User user)
+        public User UserLogin(User user)
         {
             var request = new RestRequest(Method.POST);
 
-            request.Resource = "api/v1/users/login";
+            request.Resource = "/api/v1/users/login";
+            request.AddParameter("user", user.toJson());
+
+            //return Execute(request);
+            return JsonHelper.JsonDeserialize<User>(Execute(request).Content);
+        }
+
+        public CIResponse UserLogout(User user)
+        {
+            var request = new RestRequest(Method.POST);
+
+            request.Resource = "/api/v1/users/logout";
             request.AddParameter("user", user.toJson());
 
             return Execute(request);
@@ -113,14 +125,47 @@ namespace ClearInsight
         /// </summary>
         /// <param name="entry">ClearInsight.Model.KpiEntry</param>
         /// <returns>CIResponse response</returns>
-        public CIResponse UploadKpiEntry(KpiEntry entry)
+        public KpiEntry UploadKpiEntry(KpiEntry entry)
         {
             var request = new RestRequest(Method.POST);
 
-            request.Resource = "api/v1/kpis/entries";
+            request.Resource = "/api/v1/kpis/entries";
             request.AddParameter("entry", entry.toJson());
 
-            return Execute(request);
+            //return Execute(request);
+            return JsonHelper.JsonDeserialize<KpiEntry>(Execute(request).Content);
+        }
+
+        /// <summary>
+        /// Get Projects
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns>CIResponse response</returns>
+        public List<Project> GetProjects(ProjectStatus Status = ProjectStatus.ON_GOING)
+        {
+            var request = new RestRequest(Method.GET);
+            request.Resource = "/api/v1/projects";
+            request.AddParameter("status", Status);
+
+            return JsonHelper.JsonDeserialize<List<Project>>(Execute(request).Content);
+        }
+
+        public List<Project> GetMProjects(ProjectStatus Status = ProjectStatus.ON_GOING)
+        {
+            var request = new RestRequest(Method.GET);
+            request.Resource = "/api/v1/projects";
+            request.AddParameter("status", (int)Status);
+
+            return JsonHelper.JsonDeserialize<List<Project>>(Execute(request).Content);
+        }
+
+        public List<Node> GetWorkUnitNodes(int id)
+        {
+            var request = new RestRequest(Method.GET);
+            request.Resource = "/api/v1/projects/work_unit_nodes";
+            request.AddParameter("project_id", id);
+
+            return JsonHelper.JsonDeserialize<List<Node>>(Execute(request).Content);
         }
 
         /// <summary>
@@ -136,7 +181,7 @@ namespace ClearInsight
             validator.validate(lst);
 
             var request = new RestRequest(Method.POST);
-            request.Resource = "api/v1/kpi_entry/entry";
+            request.Resource = "/api/v1/kpi_entry/entry";
 
             //request.AddParameter("email", entry.Email);
             //request.AddParameter("kpi_id", entry.KpiID);
@@ -169,7 +214,7 @@ namespace ClearInsight
             validator.validate(entries.OfType<KpiEntry>().ToList());
 
             var request = new RestRequest(Method.POST);
-            request.Resource = "api/v1/kpi_entry/entries";
+            request.Resource = "/api/v1/kpi_entry/entries";
             request.RequestFormat = DataFormat.Json;
             
             /*object[] objs = new object[entries.Length];
@@ -202,7 +247,7 @@ namespace ClearInsight
             validator.validate(lst);
             var request = new RestRequest(Method.POST);
 
-            request.Resource = "api/v1/kpi_entry/entry";
+            request.Resource = "/api/v1/kpi_entry/entry";
 
             //request.AddParameter("email", entry.Email);
             //request.AddParameter("kpi_id", entry.KpiID);
@@ -235,7 +280,7 @@ namespace ClearInsight
             validator.validate(entries.OfType<KpiEntry>().ToList());
 
             var request = new RestRequest(Method.POST);
-            request.Resource = "api/v1/kpi_entry/entries";
+            request.Resource = "/api/v1/kpi_entry/entries";
             request.RequestFormat = DataFormat.Json;
             object[] objs = new object[entries.Length];
             /*for (int i = 0; i < entries.Length; i++)
@@ -261,7 +306,7 @@ namespace ClearInsight
         public CIResponse TestSecret()
         {
             var request = new RestRequest(Method.GET);
-            request.Resource = "api/v1/kpi_entry/secret";
+            request.Resource = "/api/v1/kpi_entry/secret";
 
             return Execute(request);
         }

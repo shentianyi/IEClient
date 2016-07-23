@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ClearInsight;
 using ClearInsight.Model;
+using ClearInsight.Helper;
 
 namespace ClearInsight.Tests
 {
@@ -12,7 +13,7 @@ namespace ClearInsight.Tests
         private ClearInsightAPI api;
         public KpiEntryTest()
         {
-            api = new ClearInsightAPI("http://192.168.1.27:3000", "a78cb4fa299c8cc8419bdede510e4d542bae4338570f0729ea1cf0a427e71914");
+            api = new ClearInsightAPI("http://192.168.10.150:3000", "6ac975df20fd0e42c43f9ff0e3cfe7d36004e16471d0eb3951460285d74260bd");
         }
 
         public void TestUserLogin()
@@ -20,13 +21,25 @@ namespace ClearInsight.Tests
             Console.WriteLine("Test User Login");
             //init user
             User user = new User();
-            user.Email = "admin@ci.com";
-            user.Password = "111111";
+            user.email = "admin@ci.com";
+            user.password = "123456@";
 
             //call api
-            CIResponse response = api.UserLogin(user);
+            User user2 = api.UserLogin(user);
             //
-            Console.WriteLine(response.ToString());
+            Console.WriteLine(user2.ToString());
+        }
+
+        public void TestUserLogout()
+        {
+            Console.WriteLine("Test User Logout");
+            //init user
+            User user = new User();
+            user.email = "admin@ci.com";
+            user.password = "123456@";
+
+            //call api
+            CIResponse response = api.UserLogout(user);
         }
 
         public void TestUploadKpiEntry()
@@ -34,23 +47,42 @@ namespace ClearInsight.Tests
             Console.WriteLine("Test Upload Kpi Entry");
             //init entry
             KpiEntry entry = new KpiEntry();
-            entry.KpiID = "1";
-            entry.ProjectItemID = "1";
-            entry.TenantID = "1";
-            entry.NodeID = "1";
-            entry.NodeCode = "1";
-            entry.NodeUuid = "1";
-            entry.Value = "2222";
-            entry.Entry = "2016-6-8";
+            entry.kpi_id = 1;
+            entry.project_item_id = 1;
+            entry.tenant_id = 1;
+            entry.node_id = 1;
+            entry.node_code = "1";
+            entry.node_uuid = "1";
+            entry.value = "2222";
+            entry.entry = new System.DateTime();
 
             //call api
-            CIResponse response = api.UploadKpiEntry(entry);
+            KpiEntry ke = api.UploadKpiEntry(entry);
             //
-            Console.WriteLine(response.ToString());
+            Console.WriteLine(ke.ToString());
         }
 
+        public void TestGetProjects()
+        {
+            Console.WriteLine("Test Get Projects");
+            //init params
+            //call api
+            List<Project> projects  = api.GetMProjects(ProjectStatus.ON_GOING);
 
+            //
+            Console.WriteLine(projects);
+        }
 
+        public void TestGetWorkUnitNodes()
+        {
+            Console.WriteLine("Test Get Work Unit Nodes");
+            //init params
+            //call api
+            List<Node> nodes = api.GetWorkUnitNodes(5);
+
+            //output
+            Console.WriteLine(nodes);
+        }
 
     }
 }

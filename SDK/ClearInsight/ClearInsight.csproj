@@ -59,6 +59,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -72,6 +73,10 @@
     <Compile Include="Exception\CiRequestTooLong.cs" />
     <Compile Include="Exception\ClearInsightException.cs" />
     <Compile Include="Model\CIResponse.cs" />
+    <Compile Include="Helper\JsonHelper.cs" />
+    <Compile Include="Model\Msg.cs" />
+    <Compile Include="Model\Node.cs" />
+    <Compile Include="Model\Project.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Model\Enum.cs" />
     <Compile Include="Model\KpiEntry.cs" />

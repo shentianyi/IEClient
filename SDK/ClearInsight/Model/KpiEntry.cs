@@ -17,56 +17,60 @@ namespace ClearInsight.Model
         /// id of kpi
         /// <remarks>should not be empty</remarks>
         /// </summary>
-        public string KpiID { get; set; }
+        public int kpi_id { get; set; }
 
         /// <summary>
         /// Property <c>Project Item ID</c>
         /// id of project item
         /// <remarks>should not be empty</remarks>
         /// </summary>
-        public string ProjectItemID { get; set; }
+        public int project_item_id { get; set; }
 
         /// <summary>
         /// Property <c>Tenant ID</c>
         /// id of tenant
         /// <remarks>should not be empty</remarks>
         /// </summary>
-        public string TenantID { get; set; }
+        public int tenant_id { get; set; }
 
         /// <summary>
         /// Property <c>Node ID</c>
         /// id of node
         /// <remarks>should not be empty</remarks>
         /// </summary>
-        public string NodeID { get; set; }
+        public int node_id { get; set; }
 
         /// <summary>
         /// Property <c>Node Code</c>
         /// code of node
         /// <remarks>should not be empty</remarks>
         /// </summary>
-        public string NodeCode { get; set; }
+        public string node_code { get; set; }
 
         /// <summary>
         /// Property <c>Node Uuid</c>
         /// uuid of node
         /// <remarks>should not be empty</remarks>
         /// </summary>
-        public string NodeUuid { get; set; }
+        public string node_uuid { get; set; }
 
         /// <summary>
         /// Property <c>Value</c>
         /// value of kpi entry
         /// <remarks>should not be empty</remarks>
         /// </summary>
-        public string Value { get; set; }
+        public string value { get; set; }
 
         /// <summary>
         /// Property <c>Entry</c>
         /// entry of kpi entry
         /// <remarks>should not be empty</remarks>
         /// </summary>
-        public string Entry { get; set; }
+        public DateTime entry { get; set; }
+
+        public string id { get; set; }
+        public DateTime created_at { get; set; }
+        public DateTime updated_at { get; set; }
 
         /// <summary>
         /// Function<c>toJson</c>
@@ -86,14 +90,14 @@ namespace ClearInsight.Model
         {
             JObject o = new JObject();
 
-            o["kpi_id"] = this.KpiID;
-            o["project_item_id"] = this.ProjectItemID;
-            o["tenant_id"] = this.TenantID;
-            o["node_id"] = this.NodeID;
-            o["node_code"] = this.NodeCode;
-            o["node_uuid"] = this.NodeUuid;
-            o["value"] = this.Value;
-            o["entry"] = this.Entry;
+            o["kpi_id"] = this.kpi_id;
+            o["project_item_id"] = this.project_item_id;
+            o["tenant_id"] = this.tenant_id;
+            o["node_id"] = this.node_id;
+            o["node_code"] = this.node_code;
+            o["node_uuid"] = this.node_uuid;
+            o["value"] = this.value;
+            o["entry"] = this.entry;
 
             return o;
         }

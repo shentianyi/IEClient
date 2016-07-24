@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IEClient", "IEClient\IEClient.csproj", "{CE5B885D-CC0D-42BA-81C1-52AAC8726A16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IEClientLib", "IEClientLib\IEClientLib.csproj", "{26D7E2C8-DA0A-468F-8EE1-D97F86CB1D6C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{F5E13216-A995-40AB-9EBC-ABBD51AD9624}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCon", "TestCon\TestCon.csproj", "{9C7F4204-0EB3-45E5-90E6-B6FA68FD45AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CE5B885D-CC0D-42BA-81C1-52AAC8726A16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE5B885D-CC0D-42BA-81C1-52AAC8726A16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE5B885D-CC0D-42BA-81C1-52AAC8726A16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE5B885D-CC0D-42BA-81C1-52AAC8726A16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26D7E2C8-DA0A-468F-8EE1-D97F86CB1D6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26D7E2C8-DA0A-468F-8EE1-D97F86CB1D6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26D7E2C8-DA0A-468F-8EE1-D97F86CB1D6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26D7E2C8-DA0A-468F-8EE1-D97F86CB1D6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C7F4204-0EB3-45E5-90E6-B6FA68FD45AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C7F4204-0EB3-45E5-90E6-B6FA68FD45AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C7F4204-0EB3-45E5-90E6-B6FA68FD45AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C7F4204-0EB3-45E5-90E6-B6FA68FD45AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9C7F4204-0EB3-45E5-90E6-B6FA68FD45AD} = {F5E13216-A995-40AB-9EBC-ABBD51AD9624}
+	EndGlobalSection
+EndGlobal

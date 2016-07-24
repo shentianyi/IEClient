@@ -1,0 +1,11 @@
+2014-5-4
+Version 1.1.1
+Fix some bugs.
+
+2014-4-20
+Version 1.1
+Support Kpi Property.
+
+2014-2-10
+Version 1.0.1
+Fix bug of exceptions.

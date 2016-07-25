@@ -85,7 +85,7 @@
                  MouseDoubleClick="to_ItemBinding_Click">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Columns="4"></UniformGrid>
+                    <UniformGrid Columns="4" VerticalAlignment="Top"></UniformGrid>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>

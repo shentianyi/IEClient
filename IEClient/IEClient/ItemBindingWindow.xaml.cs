@@ -13,6 +13,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ClearInsight.Model;
+using ClearInsight;
+using IEClient.Properties;
 
 namespace IEClient
 {
@@ -29,169 +32,25 @@ namespace IEClient
             LoadData();
             this.WindowState = System.Windows.WindowState.Maximized;
         }
-        
-            private void binding_Click(object sender, SelectionChangedEventArgs e)
+
+        private void binding_Click(object sender, SelectionChangedEventArgs e)
         {
- 
+
             Point mouse_position = Mouse.GetPosition(e.Source as FrameworkElement);
             Point positionToscreen = (e.Source as FrameworkElement).PointToScreen(mouse_position);
             position_x = positionToscreen.X;
             position_y = positionToscreen.Y;
-           //MessageBox.Show(string.Format("GetCursorPos {0},{1}", position_x, position_y));
-           //MessageBox.Show(string.Format("GetCursorPos {0},{1}  GetPosition {2},{3}\r\n {4},{5}", p.X, p.Y, pp.X, pp.Y, ppp.X, ppp.Y));
+
             BindingWindow win = new BindingWindow();
             win.ShowDialog();
         }
 
         private void LoadData()
         {
-            List<Student> students = new List<Student>
-            {
-                new Student { Station=BindingWindow.device, Device="设备一"},
-                new Student { Station="工位二", Device="设备二"},
-                new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-                new Student { Station="工位一", Device="设备一"},
-                new Student { Station="工位二", Device="设备二"},
-                new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-                new Student { Station="工位一", Device="设备一"},
-                new Student { Station="工位二", Device="设备二"},
-                new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-                new Student { Station="工位一", Device="设备一"},
-                new Student { Station="工位二", Device="设备二"},
-                new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-                 new Student { Station="工位一", Device="设备一"},
-                new Student { Station="工位二", Device="设备二"},
-                new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-                new Student { Station="工位一", Device="设备一"},
-                new Student { Station="工位二", Device="设备二"},
-                new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-                new Student { Station="工位一", Device="设备一"},
-                new Student { Station="工位二", Device="设备二"},
-                new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-                new Student { Station="工位一", Device="设备一"},
-                new Student { Station="工位二", Device="设备二"},
-                new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-                 new Student { Station="工位一", Device="设备一"},
-                new Student { Station="工位二", Device="设备二"},
-                new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-                new Student { Station="工位一", Device="设备一"},
-                new Student { Station="工位二", Device="设备二"},
-                new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-                new Student { Station="工位一", Device="设备一"},
-                new Student { Station="工位二", Device="设备二"},
-                new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-                new Student { Station="工位一", Device="设备一"},
-                new Student { Station="工位二", Device="设备二"},
-                new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-                 new Student { Station="工位一", Device="设备一"},
-                new Student { Station="工位二", Device="设备二"},
-                new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-                new Student { Station="工位一", Device="设备一"},
-                new Student { Station="工位二", Device="设备二"},
-                new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-                new Student { Station="工位一", Device="设备一"},
-                new Student { Station="工位二", Device="设备二"},
-                new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-                new Student { Station="工位一", Device="设备一"},
-                new Student { Station="工位二", Device="设备二"},
-                new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-                    new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-                new Student { Station="工位一", Device="设备一"},
-                new Student { Station="工位二", Device="设备二"},
-                new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-                new Student { Station="工位一", Device="设备一"},
-                new Student { Station="工位二", Device="设备二"},
-                new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-                 new Student { Station="工位一", Device="设备一"},
-                new Student { Station="工位二", Device="设备二"},
-                new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-                new Student { Station="工位一", Device="设备一"},
-                new Student { Station="工位二", Device="设备二"},
-                new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-                new Student { Station="工位一", Device="设备一"},
-                new Student { Station="工位二", Device="设备二"},
-                new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-                new Student { Station="工位一", Device="设备一"},
-                new Student { Station="工位二", Device="设备二"},
-                new Student { Station="工位三", Device="设备三"},
-                new Student { Station="工位四", Device="设备四"},
-                new Student { Station="工位五", Device="设备五"},
-                new Student { Station="工位六", Device="设备六"},
-            };
-            this.UniformGrid.DataContext = students;
-        }
-        public class Student
-        {
-            public string Station { get; set; }
-            public string Device { get; set; }
-
-        }
+            ClearInsightAPI ci = new ClearInsightAPI(Settings.Default.BaseUrl, UserSession.GetInstance().CurrentUser.token);
+            List<Node> nodes = ci.GetWorkUnitNodes(UserSession.GetInstance().CurrentProject.id);
+            this.UniformGrid.DataContext =nodes;
+        } 
         
         private void save_test(object sender, RoutedEventArgs e)
         {

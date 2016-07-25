@@ -10,6 +10,7 @@ namespace ClearInsight.Model
         static UserSession instance;
         static object locker = new object();
         public User CurrentUser { get; set; }
+        public Project CurrentProject { get; set;}
 
         public static UserSession GetInstance()
         {

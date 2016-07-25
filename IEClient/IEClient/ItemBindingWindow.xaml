@@ -15,8 +15,8 @@
         <DataTemplate x:Key="deviceList">
             <Border Width="Auto" Height="Auto" BorderBrush="Gray" BorderThickness="3" Margin="5" CornerRadius="50">
                 <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                <TextBlock Text="{Binding Path=Station}" Margin="5" FontWeight="Bold" HorizontalAlignment="Center" FontSize="20"/>
-                    <TextBlock Text="{Binding Path=Device}" Margin="5" FontWeight="Bold" HorizontalAlignment="Center" FontSize="15"/>
+                <TextBlock Text="{Binding Path=name}" Margin="5" FontWeight="Bold" HorizontalAlignment="Center" FontSize="20"/>
+                    <TextBlock Text="{Binding Path=devise_code}" Margin="5" FontWeight="Bold" HorizontalAlignment="Center" FontSize="15"/>
                 </StackPanel>
             </Border>
         </DataTemplate>

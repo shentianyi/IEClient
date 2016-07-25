@@ -37,18 +37,12 @@ namespace IEClient
         {
             ClearInsightAPI ci = new ClearInsightAPI(Settings.Default.BaseUrl,UserSession.GetInstance().CurrentUser.token);
             List<Project> projects = ci.GetProjects();
-
-           
+            
             this.UniformGrid.DataContext = projects;
         }
        
         private void to_Check_Cleck(object sender, RoutedEventArgs e)
         {
-            // MessageBox.Show("hh");
-            // Application.Current.Shutdown();
-           // CheckWindow win = new CheckWindow();
-            //CheckPage page = new CheckPage();
-            //win.Content = new ResPage();
             ItemsWindow win = new ItemsWindow();
             win.Content = new CheckPage();
             win.Title = "设备检测";                      
@@ -57,10 +51,11 @@ namespace IEClient
         }
         private void to_ItemBinding_Click(object sender, RoutedEventArgs e)
         {
+            Project project = this.UniformGrid.SelectedItem as Project;
+            UserSession.GetInstance().CurrentProject = project;
+
             ItemBindingWindow win = new ItemBindingWindow();
             win.ShowDialog();
-
-        }
-
+        } 
     }
 }

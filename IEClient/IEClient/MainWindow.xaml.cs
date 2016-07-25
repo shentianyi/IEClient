@@ -45,7 +45,7 @@ namespace IEClient
             if (msg.result)
             {
                 UserSession.GetInstance().CurrentUser = msg.data;
-                   ItemsWindow win = new ItemsWindow();
+                ItemsWindow win = new ItemsWindow();
                 win.Show();
                 this.Close();
             }

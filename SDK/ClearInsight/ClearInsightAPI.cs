@@ -156,7 +156,7 @@ namespace ClearInsight
         {
             var request = new RestRequest(Method.GET);
             request.Resource = "/api/v1/projects";
-            request.AddParameter("status", Status);
+            request.AddParameter("status", (int)Status);
 
             return JsonHelper.JsonDeserialize<List<Project>>(Execute(request).Content);
         }

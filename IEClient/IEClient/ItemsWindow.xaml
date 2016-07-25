@@ -50,13 +50,13 @@
                 <Button x:Name="itemWindow" Style="{StaticResource menuButton}">
                     <StackPanel>
                         <Image Source="image/item.png" Height="64" Width="86" ></Image>
-                        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">所有项目</TextBlock>
+                        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">项目管理</TextBlock>
                     </StackPanel>
                 </Button>
                 <Button x:Name="checkWindow" Style="{StaticResource menuButton}" Click="to_Check_Cleck">
                     <StackPanel>
                         <Image Source="image/check.png" Height="64" Width="86" ></Image>
-                        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">设备检测</TextBlock>
+                        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">测试管理</TextBlock>
                     </StackPanel>
                 </Button>
 
@@ -75,14 +75,15 @@
 
         <GridSplitter  Height="2" Background="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="1"/>
 
-       
+
 
 
         <ListBox Name="UniformGrid" Grid.Row="2" Margin="7,3,7,10" ItemTemplate="{StaticResource deviceList}" 
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                  ItemsSource="{Binding}"
-                 Background="Transparent"
-                 MouseDoubleClick="to_ItemBinding_Click">
+                 Background="Transparent">
+            <!--MouseDoubleClick="to_ItemBinding_Click"-->
+                 
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Columns="4"></UniformGrid>

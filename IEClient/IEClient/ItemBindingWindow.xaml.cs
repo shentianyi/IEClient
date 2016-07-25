@@ -33,15 +33,16 @@ namespace IEClient
             this.WindowState = System.Windows.WindowState.Maximized;
         }
 
-        private void binding_Click(object sender, SelectionChangedEventArgs e)
+        private void binding_Click(object sender, MouseButtonEventArgs e)
         {
 
             Point mouse_position = Mouse.GetPosition(e.Source as FrameworkElement);
             Point positionToscreen = (e.Source as FrameworkElement).PointToScreen(mouse_position);
             position_x = positionToscreen.X;
             position_y = positionToscreen.Y;
+            Node node = this.UniformGrid.SelectedItem as Node;
 
-            BindingWindow win = new BindingWindow();
+            BindingWindow win = new BindingWindow() { node=node};
             win.ShowDialog();
         }
 

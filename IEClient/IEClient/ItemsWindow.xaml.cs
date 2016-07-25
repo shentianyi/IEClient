@@ -49,13 +49,14 @@ namespace IEClient
             win.Show();
             this.Close();
         }
-        private void to_ItemBinding_Click(object sender, RoutedEventArgs e)
+        private void to_ItemBinding_Click(object sender, MouseButtonEventArgs e)
         {
             Project project = this.UniformGrid.SelectedItem as Project;
             UserSession.GetInstance().CurrentProject = project;
 
             ItemBindingWindow win = new ItemBindingWindow();
             win.ShowDialog();
-        } 
+        }
+         
     }
 }

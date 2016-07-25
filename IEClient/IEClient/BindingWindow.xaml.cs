@@ -11,6 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ClearInsight;
+using ClearInsight.Model;
+using IEClient.Properties;
 
 namespace IEClient
 {
@@ -19,7 +22,8 @@ namespace IEClient
     /// </summary>
     public partial class BindingWindow : Window
     {
-        public static string device;
+        public Node node { get; set; }
+        ClearInsightAPI ci;
         public BindingWindow()
         {
             InitializeComponent();
@@ -28,16 +32,16 @@ namespace IEClient
             this.Top = ItemBindingWindow.position_y;
             this.Left = ItemBindingWindow.position_x;
             if (screenWidth - ItemBindingWindow.position_x < this.Width)
-                {
-                    this.Left = (ItemBindingWindow.position_x - this.Width);
-                }
+            {
+                this.Left = (ItemBindingWindow.position_x - this.Width);
+            }
             if (screenHeight - ItemBindingWindow.position_y < this.Height)
-                {
-                    this.Top = (ItemBindingWindow.position_y - this.Height);
-                }
-
-
+            {
+                this.Top = (ItemBindingWindow.position_y - this.Height);
+            }
+            
         }
+
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -45,15 +49,44 @@ namespace IEClient
                 DragMove();
             }
         }
-             private void cancel_Click(object sender, RoutedEventArgs e)
+        private void cancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
         private void save_Click(object sender, RoutedEventArgs e)
         {
+            bindDevice();
+        }
 
-            device = deviceID.Text;
-            this.Close();
+        private void deviceID_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                bindDevice();
+            }
+        }
+
+        private void bindDevice()
+        {
+            ClearInsightAPI ci = new ClearInsightAPI(Settings.Default.BaseUrl, UserSession.GetInstance().CurrentUser.token);
+
+            if (string.IsNullOrWhiteSpace(deviceID.Text.Trim()))
+            {
+                MessageBox.Show("请输入设备编码");
+            }
+            else
+            {
+                this.node.devise_code = deviceID.Text.Trim();
+                ci.BindNodeDevise(this.node.id, this.node.devise_code);
+                this.Close();
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.deviceID.Text = this.node.devise_code;
+            this.deviceID.Focus();
+            this.deviceID.SelectAll();
         }
     }
 }

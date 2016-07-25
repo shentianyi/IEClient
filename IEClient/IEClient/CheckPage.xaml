@@ -63,13 +63,13 @@
                 <Button x:Name="itemWindow" Style="{StaticResource menuButton}" Click="to_Item_Click">
                     <StackPanel>
                         <Image Source="image/item.png" Height="64" Width="86" ></Image>
-                        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">所有项目</TextBlock>
+                        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">项目管理</TextBlock>
                     </StackPanel>
                 </Button>
                 <Button x:Name="checkWindow" Style="{StaticResource menuButton}">
                     <StackPanel>
                         <Image Source="image/check.png" Height="64" Width="86" ></Image>
-                        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">设备检测</TextBlock>
+                        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">设备管理</TextBlock>
                     </StackPanel>
                 </Button>
                 <Button x:Name="settingWindow" Style="{StaticResource menuButton}">

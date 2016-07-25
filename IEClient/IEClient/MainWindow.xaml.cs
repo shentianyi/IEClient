@@ -13,6 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ClearInsight;
+using ClearInsight.Model;
+using IEClient.Properties;
 
 namespace IEClient
 {
@@ -28,21 +31,28 @@ namespace IEClient
             double screenWidth = SystemParameters.FullPrimaryScreenWidth;
             this.Top = (screenHeight - this.Height) / 2;
             this.Left = (screenWidth - this.Width) / 2;
-            getData();
+
+            // preset
+            email.Text = "admin@ci.com";
+            password.Text = "123456@";
         }
-        void getData()
-        {
-        }
+        
 
         private void login_Click(object sender, RoutedEventArgs e)
         {
-            getData();
-            // MessageBox.Show("hh");
-            // Application.Current.Shutdown();
-            ItemsWindow win = new ItemsWindow();
-            //win.Content = new ResPage();
-            win.Show();
-            this.Close();
+            ClearInsightAPI ci = new ClearInsightAPI(Settings.Default.BaseUrl);
+            Msg<User> msg = ci.UserLogin(email.Text.Trim(), password.Text.Trim());
+            if (msg.result)
+            {
+                UserSession.GetInstance().CurrentUser = msg.data;
+                   ItemsWindow win = new ItemsWindow();
+                win.Show();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("登录失败，请核实邮件和密码");
+            }
         }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {

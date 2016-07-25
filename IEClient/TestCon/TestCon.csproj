@@ -45,6 +45,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\SDK\ClearInsight\ClearInsight.csproj">
+      <Project>{fbb9c5af-0ec8-4a56-89b3-87358cb0ef46}</Project>
+      <Name>ClearInsight</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IEClientLib\IEClientLib.csproj">
       <Project>{26d7e2c8-da0a-468f-8ee1-d97f86cb1d6c}</Project>
       <Name>IEClientLib</Name>

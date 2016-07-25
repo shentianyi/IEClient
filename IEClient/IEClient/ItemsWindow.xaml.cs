@@ -14,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ClearInsight;
+using ClearInsight.Model;
+using IEClient.Properties;
 
 namespace IEClient
 {
@@ -32,23 +35,13 @@ namespace IEClient
 
         private void LoadData()
         {
-            List<Student> students = new List<Student>
-            {
-                new Student { Item="项目一", Note="一些说明"},
-                new Student { Item="项目二", Note="一些说明"},
-                new Student { Item="项目三", Note="一些说明"},
-                new Student { Item="项目四", Note="一些说明"},
-                new Student { Item="项目五", Note="一些说明"},
-                new Student { Item="项目六", Note="一些说明"},
-            };
-            this.UniformGrid.DataContext = students;
-        }
-        public class Student
-        {
-            public string Item { get; set; }
-            public string Note { get; set; }
+            ClearInsightAPI ci = new ClearInsightAPI(Settings.Default.BaseUrl,UserSession.GetInstance().CurrentUser.token);
+            List<Project> projects = ci.GetProjects();
 
+           
+            this.UniformGrid.DataContext = projects;
         }
+       
         private void to_Check_Cleck(object sender, RoutedEventArgs e)
         {
             // MessageBox.Show("hh");

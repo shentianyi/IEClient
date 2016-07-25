@@ -26,6 +26,8 @@ namespace IEClient
         public static double position_x;
         public static double position_y;
 
+        private bool underTesting = false;
+
         public CheckPage()
         {
             InitializeComponent();

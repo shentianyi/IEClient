@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:IEClient"
         xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="所有项目" Height="600" Width="800" MinWidth="400" MinHeight="300" Background="#0078C1">
+        Title="项目管理" Height="600" Width="800" MinWidth="400" MinHeight="300" Background="#0078C1">
     <Window.Resources>
         <Style x:Key="menuButton">
             <Setter Property="Button.Margin" Value="15,5"/>

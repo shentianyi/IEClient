@@ -69,7 +69,7 @@
                 <Button x:Name="checkWindow" Style="{StaticResource menuButton}">
                     <StackPanel>
                         <Image Source="image/check.png" Height="64" Width="86" ></Image>
-                        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">设备管理</TextBlock>
+                        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">测试管理</TextBlock>
                     </StackPanel>
                 </Button>
                 <Button x:Name="settingWindow" Style="{StaticResource menuButton}">

@@ -133,6 +133,9 @@ namespace IEClientLib
         /// <returns></returns>
         private bool SendCmd(CmdType cmdType, string slaveCode,bool reSend=false,bool needAK=true)
         {
+            if (string.IsNullOrWhiteSpace(slaveCode)) {
+                return false;
+            }
             LogUtil.Logger.Debug("start send.................");
             if (!IsOpen())
             {

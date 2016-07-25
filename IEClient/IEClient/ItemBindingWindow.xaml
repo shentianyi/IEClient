@@ -6,14 +6,11 @@
         xmlns:local="clr-namespace:IEClient"
         xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="项目详情" MinWidth="400" MinHeight="300">
-    <Window.Background>
-        <ImageBrush ImageSource="image/binding.jpg"/>
-    </Window.Background>
-    
+        Title="项目详情" MinWidth="400" MinHeight="300" Background="#0078C1">
+
     <Window.Resources>
         <DataTemplate x:Key="deviceList">
-            <Border Width="Auto" Height="Auto" BorderBrush="Gray" BorderThickness="3" Margin="5" CornerRadius="50">
+            <Border Width="Auto" Height="Auto" BorderBrush="Gray" BorderThickness="3" Margin="5" CornerRadius="10,10,10,10">
                 <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                 <TextBlock Text="{Binding Path=name}" Margin="5" FontWeight="Bold" HorizontalAlignment="Center" FontSize="20"/>
                     <TextBlock Text="{Binding Path=devise_code}" Margin="5" FontWeight="Bold" HorizontalAlignment="Center" FontSize="15"/>

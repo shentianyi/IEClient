@@ -34,14 +34,14 @@ namespace IEClient
 
             // preset
             email.Text = "admin@ci.com";
-            password.Text = "123456@";
+            password.Password = "123456@";
         }
         
 
         private void login_Click(object sender, RoutedEventArgs e)
         {
             ClearInsightAPI ci = new ClearInsightAPI(Settings.Default.BaseUrl);
-            Msg<User> msg = ci.UserLogin(email.Text.Trim(), password.Text.Trim());
+            Msg<User> msg = ci.UserLogin(email.Text.Trim(), password.Password.Trim());
             if (msg.result)
             {
                 UserSession.GetInstance().CurrentUser = msg.data;
@@ -66,4 +66,6 @@ namespace IEClient
             MessageBox.Show(email.Text);
         }
     }
+
+  
 }

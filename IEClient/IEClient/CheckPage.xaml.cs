@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ClearInsight;
+using ClearInsight.Model;
+using IEClient.Properties;
 
 namespace IEClient
 {
@@ -20,6 +23,8 @@ namespace IEClient
     /// </summary>
     public partial class CheckPage : Page
     {
+        public static double position_x;
+        public static double position_y;
 
         public CheckPage()
         {
@@ -28,42 +33,17 @@ namespace IEClient
         }
         private void LoadData()
         {
-            List<Student> students = new List<Student>
-            {
-                new Student { Device="设备1", Station=80, Gender=true, Electricity=75},
-                new Student { Device="设备2", Station=80, Gender=false, Electricity=75},
-                new Student { Device="设备3", Station=80, Gender=true, Electricity=75},
-                new Student { Device="设备4", Station=80, Gender=true, Electricity=80},
-                new Student { Device="设备5", Station=80, Gender=false, Electricity=75},
-                new Student { Device="设备6", Station=80, Gender=true, Electricity=75},
-                new Student { Device="设备7", Station=80, Gender=true, Electricity=100},
-                new Student { Device="设备8", Station=80, Gender=true, Electricity=75},
-                new Student { Device="设备9", Station=80, Gender=true, Electricity=23},
-                new Student { Device="设备10", Station=80, Gender=true, Electricity=75},
-                new Student { Device="设备11", Station=80, Gender=true, Electricity=100},
-                new Student { Device="设备12", Station=80, Gender=true, Electricity=75},
-                new Student { Device="设备13", Station=80, Gender=true, Electricity=68},
-                new Student { Device="设备14", Station=80, Gender=true, Electricity=100},
-                new Student { Device="设备15", Station=80, Gender=true, Electricity=74},
-                new Student { Device="设备16", Station=80, Gender=true, Electricity=100},
-                new Student { Device="设备17", Station=80, Gender=true, Electricity=75},
-                new Student { Device="设备18", Station=80, Gender=true, Electricity=100},
-            };
-            this.UniformGrid.DataContext = students;
+            ClearInsightAPI ci = new ClearInsightAPI(Settings.Default.BaseUrl, UserSession.GetInstance().CurrentUser.token);
+            List<Node> nodes = ci.GetWorkUnitNodes(UserSession.GetInstance().CurrentProject.id);
+            this.UniformGrid.DataContext = nodes;
         }
-        public class Student
-        {
-            public string Device { get; set; }
-            public int Station { get; set; }
-            public bool Gender { get; set; }
-            public int Electricity { get; set; }
-        }
+       
 
         private void to_Item_Click(object sender, RoutedEventArgs e)
         {
             //page 转 window
             ItemsWindow win = new ItemsWindow();
-            win.Title = "所有项目";
+            win.Title = "项目管理";
             win.Show();
             Window page = (Window)this.Parent;
             page.Close();
@@ -80,17 +60,28 @@ namespace IEClient
         private void range_set_Click(object sender, RoutedEventArgs e)
         {
             SettingBoxWindow win = new SettingBoxWindow();
-            //win.Show();
+      
             win.ShowDialog();
-            
-            //Window page = (Window)this.Parent;
-           // page.Close();
         }
         private void finish_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("确定退出？");
         }
-        
+
+
+        private void binding_Click(object sender, MouseButtonEventArgs e)
+        {
+
+            Point mouse_position = Mouse.GetPosition(e.Source as FrameworkElement);
+            Point positionToscreen = (e.Source as FrameworkElement).PointToScreen(mouse_position);
+            position_x = positionToscreen.X;
+            position_y = positionToscreen.Y;
+            Node node = this.UniformGrid.SelectedItem as Node;
+
+            BindingWindow win = new BindingWindow() { node = node,PositionX= position_x,PositionY=position_y };
+            win.ShowDialog();
+        }
+
 
     }
 }

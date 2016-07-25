@@ -43,20 +43,25 @@ namespace IEClient
        
         private void to_Check_Cleck(object sender, RoutedEventArgs e)
         {
-            ItemsWindow win = new ItemsWindow();
-            win.Content = new CheckPage();
-            win.Title = "设备检测";                      
-            win.Show();
-            this.Close();
+            if (this.UniformGrid.SelectedIndex > -1)
+            {
+                Project project = this.UniformGrid.SelectedItem as Project;
+                UserSession.GetInstance().CurrentProject = project;
+                ItemsWindow win = new ItemsWindow();
+                win.Content = new CheckPage();
+                win.Title = "设备检测";
+                win.Show();
+                this.Close();
+            }
         }
-        private void to_ItemBinding_Click(object sender, MouseButtonEventArgs e)
-        {
-            Project project = this.UniformGrid.SelectedItem as Project;
-            UserSession.GetInstance().CurrentProject = project;
+        //private void to_ItemBinding_Click(object sender, MouseButtonEventArgs e)
+        //{
+        //    Project project = this.UniformGrid.SelectedItem as Project;
+        //    UserSession.GetInstance().CurrentProject = project;
 
-            ItemBindingWindow win = new ItemBindingWindow();
-            win.ShowDialog();
-        }
+        //    ItemBindingWindow win = new ItemBindingWindow();
+        //    win.ShowDialog();
+        //}
          
     }
 }

@@ -24,21 +24,14 @@ namespace IEClient
     {
         public Node node { get; set; }
         ClearInsightAPI ci;
+
+        public double PositionX { get; set; }
+        public double PositionY { get; set; }
+
         public BindingWindow()
         {
             InitializeComponent();
-            double screenHeight = SystemParameters.FullPrimaryScreenHeight;
-            double screenWidth = SystemParameters.FullPrimaryScreenWidth;
-            this.Top = ItemBindingWindow.position_y;
-            this.Left = ItemBindingWindow.position_x;
-            if (screenWidth - ItemBindingWindow.position_x < this.Width)
-            {
-                this.Left = (ItemBindingWindow.position_x - this.Width);
-            }
-            if (screenHeight - ItemBindingWindow.position_y < this.Height)
-            {
-                this.Top = (ItemBindingWindow.position_y - this.Height);
-            }
+           
             
         }
 
@@ -87,6 +80,19 @@ namespace IEClient
             this.deviceID.Text = this.node.devise_code;
             this.deviceID.Focus();
             this.deviceID.SelectAll();
+
+            double screenHeight = SystemParameters.FullPrimaryScreenHeight;
+            double screenWidth = SystemParameters.FullPrimaryScreenWidth;
+            this.Top = this.PositionY;
+            this.Left = this.PositionX;
+            if (screenWidth - this.PositionX < this.Width)
+            {
+                this.Left = (this.PositionX - this.Width);
+            }
+            if (screenHeight - this.PositionY < this.Height)
+            {
+                this.Top = (this.PositionY - this.Height);
+            }
         }
     }
 }

@@ -95,7 +95,7 @@
                  Background="Transparent">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Columns="5"></UniformGrid>
+                    <UniformGrid Columns="5" VerticalAlignment="Top"></UniformGrid>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>

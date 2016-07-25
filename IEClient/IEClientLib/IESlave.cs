@@ -4,14 +4,30 @@ using System.Linq;
 using System.Text;
 using IEClientLib.Enums;
 using IEClientLib.Helper;
+using System.ComponentModel;
 
 namespace IEClientLib
 {
     /// <summary>
     /// 从机
     /// </summary>
-    public class IESlave
+    public class IESlave : INotifyPropertyChanged
     {
+        public IESlave()
+        {
+            this.selected = false;
+            this.Status = SlaveStatus.OFF_LINE;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, e);
+            }
+        }
+
         /// event
         // 状态改变事件
         public delegate void StatusChangedEventHandler(IESlave slave);
@@ -23,6 +39,7 @@ namespace IEClientLib
         private string code;
         private SlaveStatus status;
         private List<IEData> dataList = new List<IEData>();
+        private bool selected;
         /// <summary>
         /// Id
         /// </summary>
@@ -43,14 +60,17 @@ namespace IEClientLib
             set
             {
                 code = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("code"));
+
                 this.BCode = ScaleHelper.HexStringToHexByte(code);
             }
         }
         /// <summary>
         /// 外部编码
         /// </summary>
-        public int ExtCode { get; set; }
+        public string ExtCode { get; set; }
 
+        public string Name { get; set; }
         
         /// <summary>
         /// 编码为字符数组,在赋值Code时同时自动转换为BCode
@@ -72,6 +92,8 @@ namespace IEClientLib
                 {
                     status = value;
 
+                    OnPropertyChanged(new PropertyChangedEventArgs("Status"));
+
                     if (this.StatusChanged != null)
                     {
                         this.StatusChanged(this);
@@ -80,15 +102,21 @@ namespace IEClientLib
             }
         }
 
+        public bool Selected
+        {
+            get { return selected; }
+            set
+            {
+                selected = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("Selected"));
+            }
+        }
+
         /// <summary>
         /// IEData 列表
         /// </summary>
         public List<IEData> DataList { get { return dataList; } set { this.dataList = value; } }
-
-        public IESlave()
-        {
-            this.Status = SlaveStatus.OFF_LINE;
-        }
+         
         
         public void AddDatasToList(List<IEData> datas)
         {

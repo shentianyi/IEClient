@@ -16,6 +16,8 @@ using System.Windows.Shapes;
 using ClearInsight.Model;
 using ClearInsight;
 using IEClient.Properties;
+using IEClient.Config;
+using IEClientLib;
 
 namespace IEClient
 {
@@ -40,15 +42,15 @@ namespace IEClient
             Point positionToscreen = (e.Source as FrameworkElement).PointToScreen(mouse_position);
             position_x = positionToscreen.X;
             position_y = positionToscreen.Y;
-            Node node = this.UniformGrid.SelectedItem as Node;
+            IESlave slave = this.UniformGrid.SelectedItem as IESlave;
 
-            BindingWindow win = new BindingWindow() { node=node};
+            BindingWindow win = new BindingWindow() { slave= slave };
             win.ShowDialog();
         }
 
         private void LoadData()
         {
-            ClearInsightAPI ci = new ClearInsightAPI(Settings.Default.BaseUrl, UserSession.GetInstance().CurrentUser.token);
+            ClearInsightAPI ci = new ClearInsightAPI(BaseConfig.Server, UserSession.GetInstance().CurrentUser.token);
             List<Node> nodes = ci.GetWorkUnitNodes(UserSession.GetInstance().CurrentProject.id);
             this.UniformGrid.DataContext =nodes;
         } 

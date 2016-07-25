@@ -7,7 +7,7 @@
       xmlns:local="clr-namespace:IEClient"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="800"
-      Title="测试管理">
+      Title="测试管理" Loaded="MetroWindow_Loaded">
     <Window.Resources>
         <Style x:Key="menuButton">
             <Setter Property="Button.Cursor" Value="Hand"/>
@@ -34,9 +34,10 @@
                         <CheckBox IsChecked="{Binding Path=Gender}" Margin="5" HorizontalAlignment="Left"/>
                         <TextBlock Text="当前电量：" Margin="5" HorizontalAlignment="Right" Foreground="Black" FontWeight="Bold" FontSize="14"/>
                         <TextBlock Text="{Binding Path=Electricity}" Margin="5" HorizontalAlignment="Center" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="14"/>
+                        <TextBlock Text="{Binding Path=Status}" Margin="5" HorizontalAlignment="Center" Foreground="Blue" FontWeight="Bold" FontSize="14"/>
                     </UniformGrid>
-                    <TextBlock Text="{Binding Path=name}" Margin="5" FontWeight="Bold" HorizontalAlignment="Center" FontSize="20"/>
-                    <TextBlock Text="{Binding Path=devise_code}" Margin="5" HorizontalAlignment="Center" FontSize="15"/>
+                    <TextBlock Text="{Binding Path=Name}" Margin="5" FontWeight="Bold" HorizontalAlignment="Center" FontSize="20"/>
+                    <TextBlock Text="{Binding Path=Code}" Margin="5" HorizontalAlignment="Center" FontSize="15"/>
                 </StackPanel>
             </Border>
         </DataTemplate>
@@ -85,7 +86,7 @@
 
         <GridSplitter  Height="2" Background="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="1"/>
         <DockPanel Grid.Row="2">
-            <CheckBox x:Name="checkBox"  Content="   全  选" Height="30" Margin="30,5" Foreground="BlanchedAlmond" Checked="checkBox_Click"/>
+            <CheckBox x:Name="allCheckBox"  Content="全  选" Height="30" Margin="30,5" Foreground="BlanchedAlmond" Checked="allCheckBox_Click"/>
             <Button  HorizontalAlignment="Left" Height="Auto" Width="80" Margin="30,5" FontSize="13" Cursor="Hand" BorderBrush="White" Click="range_set_Click">范围设置</Button>
         </DockPanel>
 
@@ -108,8 +109,8 @@
         </StackPanel>
         <UniformGrid Grid.Row="4" Columns="3">
             <Button x:Name="detail" Content="查看数据" Style="{StaticResource taskButton}" Click="detail_Click"/>
-            <Button x:Name="begin" Content="开始测试" Style="{StaticResource taskButton}"/>
-            <Button x:Name="finish" Content="结束测试" Style="{StaticResource taskButton}" Click="finish_Click"/>
+            <Button x:Name="begin" Content="开始测试" Style="{StaticResource taskButton}" Click="begin_Click"/>
+            <Button x:Name="finish" Content="结束测试" Style="{StaticResource taskButton}" Click="finish_Click" IsEnabled="False"/>
         </UniformGrid>
 
 

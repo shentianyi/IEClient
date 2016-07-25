@@ -10,7 +10,7 @@
         AllowsTransparency="True"
         ResizeMode="NoResize"
         MouseDown="Window_MouseDown"
-        Background="#0078C1">
+        Background="#0078C1" WindowStartupLocation="CenterScreen">
 
     <Grid>
         <TextBlock x:Name="IE"  Text="IE" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="50" FontWeight="ExtraLight" Foreground="WhiteSmoke">

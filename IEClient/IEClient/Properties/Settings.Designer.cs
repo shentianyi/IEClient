@@ -22,17 +22,5 @@ namespace IEClient.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.11:3000/")]
-        public string BaseUrl {
-            get {
-                return ((string)(this["BaseUrl"]));
-            }
-            set {
-                this["BaseUrl"] = value;
-            }
-        }
     }
 }

@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using ClearInsight;
 using ClearInsight.Model;
 using IEClient.Properties;
+using IEClient.Config;
 
 namespace IEClient
 {
@@ -31,7 +32,7 @@ namespace IEClient
             double screenWidth = SystemParameters.FullPrimaryScreenWidth;
             this.Top = (screenHeight - this.Height) / 2;
             this.Left = (screenWidth - this.Width) / 2;
-
+             
             // preset
             email.Text = "admin@ci.com";
             password.Password = "123456@";
@@ -40,7 +41,7 @@ namespace IEClient
 
         private void login_Click(object sender, RoutedEventArgs e)
         {
-            ClearInsightAPI ci = new ClearInsightAPI(Settings.Default.BaseUrl);
+            ClearInsightAPI ci = new ClearInsightAPI(BaseConfig.Server);
             Msg<User> msg = ci.UserLogin(email.Text.Trim(), password.Password.Trim());
             if (msg.result)
             {

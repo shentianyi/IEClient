@@ -14,6 +14,8 @@ using System.Windows.Shapes;
 using ClearInsight;
 using ClearInsight.Model;
 using IEClient.Properties;
+using IEClient.Config;
+using IEClientLib;
 
 namespace IEClient
 {
@@ -22,7 +24,7 @@ namespace IEClient
     /// </summary>
     public partial class BindingWindow : Window
     {
-        public Node node { get; set; }
+        public IESlave slave { get; set; }
         ClearInsightAPI ci;
 
         public double PositionX { get; set; }
@@ -61,7 +63,7 @@ namespace IEClient
 
         private void bindDevice()
         {
-            ClearInsightAPI ci = new ClearInsightAPI(Settings.Default.BaseUrl, UserSession.GetInstance().CurrentUser.token);
+            ClearInsightAPI ci = new ClearInsightAPI(BaseConfig.Server, UserSession.GetInstance().CurrentUser.token);
 
             if (string.IsNullOrWhiteSpace(deviceID.Text.Trim()))
             {
@@ -69,15 +71,15 @@ namespace IEClient
             }
             else
             {
-                this.node.devise_code = deviceID.Text.Trim();
-                ci.BindNodeDevise(this.node.id, this.node.devise_code);
+                this.slave.Code = deviceID.Text.Trim();
+                ci.BindNodeDevise(this.slave.Id, this.slave.Code);
                 this.Close();
             }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            this.deviceID.Text = this.node.devise_code;
+            this.deviceID.Text = this.slave.Code;
             this.deviceID.Focus();
             this.deviceID.SelectAll();
 

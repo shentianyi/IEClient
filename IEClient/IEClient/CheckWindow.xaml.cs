@@ -1,4 +1,10 @@
-﻿using MahApps.Metro.Controls;
+﻿using Brilliantech.Framwork.Utils.LogUtil;
+using ClearInsight;
+using ClearInsight.Model;
+using IEClient.Config;
+using IEClient.Properties;
+using IEClientLib;
+using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,49 +28,44 @@ namespace IEClient
     /// </summary>
     public partial class CheckWindow : MetroWindow
     {
-
+        IEHost ieHost;
+        List<IESlave> ieSlaves;
         public CheckWindow()
         {
             InitializeComponent();
-
+        }
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
             LoadData();
         }
+        /// <summary>
+        /// 加载数据
+        /// </summary>
         private void LoadData()
         {
-            List<Student> students = new List<Student>
+            ClearInsightAPI ci = new ClearInsightAPI(BaseConfig.Server, UserSession.GetInstance().CurrentUser.token);
+            List<Node> nodes = ci.GetWorkUnitNodes(UserSession.GetInstance().CurrentProject.id);
+            ieSlaves = new List<IESlave>();
+            foreach (Node node in nodes)
             {
-                new Student { Device="设备1", Station=80, Gender=true, Electricity=75},
-                new Student { Device="设备2", Station=80, Gender=false, Electricity=75},
-                new Student { Device="设备3", Station=80, Gender=true, Electricity=75},
-                new Student { Device="设备4", Station=80, Gender=true, Electricity=80},
-                new Student { Device="设备5", Station=80, Gender=false, Electricity=75},
-                new Student { Device="设备6", Station=80, Gender=true, Electricity=75},
-                new Student { Device="设备7", Station=80, Gender=true, Electricity=100},
-                new Student { Device="设备8", Station=80, Gender=true, Electricity=75},
-                new Student { Device="设备9", Station=80, Gender=true, Electricity=23},
-                new Student { Device="设备10", Station=80, Gender=true, Electricity=75},
-                new Student { Device="设备11", Station=80, Gender=true, Electricity=100},
-                new Student { Device="设备12", Station=80, Gender=true, Electricity=75},
-                new Student { Device="设备13", Station=80, Gender=true, Electricity=68},
-                new Student { Device="设备14", Station=80, Gender=true, Electricity=100},
-                new Student { Device="设备15", Station=80, Gender=true, Electricity=74},
-                new Student { Device="设备16", Station=80, Gender=true, Electricity=100},
-                new Student { Device="设备17", Station=80, Gender=true, Electricity=75},
-                new Student { Device="设备18", Station=80, Gender=true, Electricity=100},
-            };
-            this.UniformGrid.DataContext = students;
+                ieSlaves.Add(
+                    new IESlave()
+                    {
+                        Id = node.id,
+                        ExtId = node.id,
+                        ExtCode = node.code,
+                        Name = node.name,
+                        Code = node.devise_code
+                    });
+            }
+            this.UniformGrid.DataContext = ieSlaves;
+            ieHost = new IEHost(BaseConfig.Com);
+            ieHost.Slaves = ieSlaves;
         }
-        public class Student
-        {
-            public string Device { get; set; }
-            public int Station { get; set; }
-            public bool Gender { get; set; }
-            public int Electricity { get; set; }
-        }
+       
 
         private void to_Item_Click(object sender, RoutedEventArgs e)
         {
-            //page 转 window
             ItemsWindow win = new ItemsWindow();
             win.Show();
             this.Close();
@@ -81,24 +82,63 @@ namespace IEClient
         private void range_set_Click(object sender, RoutedEventArgs e)
         {
             SettingBoxWindow win = new SettingBoxWindow();
-            //win.Show();
-            win.ShowDialog();
-            
-            //Window page = (Window)this.Parent;
-           // page.Close();
+            win.ShowDialog(); 
         }
+
         private void finish_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("确定退出？");
         }
-        private void checkBox_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("queding");
+
+        /// <summary>
+        /// 全选
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void allCheckBox_Click(object sender, RoutedEventArgs e)
+        { 
+
         }
 
+        /// <summary>
+        /// 绑定设备
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void binding_Click(object sender, MouseButtonEventArgs e)
         {
+            Point mouse_position = Mouse.GetPosition(e.Source as FrameworkElement);
+            Point positionToscreen = (e.Source as FrameworkElement).PointToScreen(mouse_position);
 
+            IESlave slave = this.UniformGrid.SelectedItem as IESlave;
+
+            BindingWindow win = new BindingWindow() { slave = slave, PositionX = positionToscreen.X, PositionY=positionToscreen.Y};
+            win.ShowDialog();
+        }
+
+        /// <summary>
+        /// 开始测试
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void begin_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                begin.IsEnabled = false;
+                finish.IsEnabled = true;
+                /// 开始测试
+                ieHost.StartTest();
+                ieHost.PollData();
+            }
+            catch (Exception ex)
+            {
+                LogUtil.Logger.Error(ex.Message);
+                LogUtil.Logger.Error(ex.Source);
+                begin.IsEnabled = true;
+                finish.IsEnabled = false;
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

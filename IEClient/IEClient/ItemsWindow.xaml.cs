@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using ClearInsight;
 using ClearInsight.Model;
 using IEClient.Properties;
+using IEClient.Config;
 
 namespace IEClient
 {
@@ -35,9 +36,8 @@ namespace IEClient
 
         private void LoadData()
         {
-            ClearInsightAPI ci = new ClearInsightAPI(Settings.Default.BaseUrl,UserSession.GetInstance().CurrentUser.token);
+            ClearInsightAPI ci = new ClearInsightAPI(BaseConfig.Server, UserSession.GetInstance().CurrentUser.token);
             List<Project> projects = ci.GetProjects();
-            
             this.UniformGrid.DataContext = projects;
         }
        
@@ -52,14 +52,5 @@ namespace IEClient
                 this.Close();
             }
         }
-        //private void to_ItemBinding_Click(object sender, MouseButtonEventArgs e)
-        //{
-        //    Project project = this.UniformGrid.SelectedItem as Project;
-        //    UserSession.GetInstance().CurrentProject = project;
-
-        //    ItemBindingWindow win = new ItemBindingWindow();
-        //    win.ShowDialog();
-        //}
-         
     }
 }

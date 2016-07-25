@@ -40,7 +40,7 @@
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                  ItemsSource="{Binding}"
                  Background="Transparent"
-                 SelectionChanged="binding_Click"
+                 MouseDoubleClick="binding_Click"
                  >
             <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>

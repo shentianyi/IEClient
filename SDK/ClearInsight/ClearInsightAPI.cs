@@ -160,16 +160,7 @@ namespace ClearInsight
 
             return JsonHelper.JsonDeserialize<List<Project>>(Execute(request).Content);
         }
-
-        public List<Project> GetMProjects(ProjectStatus Status = ProjectStatus.ON_GOING)
-        {
-            var request = new RestRequest(Method.GET);
-            request.Resource = "/api/v1/projects";
-            request.AddParameter("status", (int)Status);
-
-            return JsonHelper.JsonDeserialize<List<Project>>(Execute(request).Content);
-        }
-
+         
         public List<Node> GetWorkUnitNodes(int id)
         {
             var request = new RestRequest(Method.GET);
@@ -177,6 +168,17 @@ namespace ClearInsight
             request.AddParameter("project_id", id);
 
             return JsonHelper.JsonDeserialize<List<Node>>(Execute(request).Content);
+        }
+
+        public Msg<string> BindNodeDevise(int id,string deviseCode)
+        {
+            var request = new RestRequest(Method.PUT);
+            request.Resource = "/api/v1/nodes/bind_devise";
+            request.AddParameter("id", id);
+            request.AddParameter("devise_code",deviseCode);
+
+            return JsonHelper.JsonDeserialize<Msg<string>>(Execute(request).Content);
+
         }
 
         /// <summary>

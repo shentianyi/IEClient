@@ -21,13 +21,19 @@ namespace IEClientLib
         public event TimeTickedEventHandler TimeTicked;
         
         private string code;
-        private string extCode;
         private SlaveStatus status;
         private List<IEData> dataList = new List<IEData>();
         /// <summary>
-        /// 序号，从0开始
+        /// Id
         /// </summary>
-        public int Index { get; set; }
+        public int Id { get; set; }
+
+        /// <summary>
+        /// 外部Id
+        /// </summary>
+        public int ExtId { get; set; }
+
+        
         /// <summary>
         /// 编码
         /// </summary>
@@ -40,16 +46,12 @@ namespace IEClientLib
                 this.BCode = ScaleHelper.HexStringToHexByte(code);
             }
         }
-
         /// <summary>
         /// 外部编码
         /// </summary>
-        public string ExtCode
-        {
-            get { return extCode; }
-            set { extCode = value; }
-        }
+        public int ExtCode { get; set; }
 
+        
         /// <summary>
         /// 编码为字符数组,在赋值Code时同时自动转换为BCode
         /// </summary>

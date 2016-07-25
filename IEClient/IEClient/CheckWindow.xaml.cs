@@ -26,6 +26,7 @@ namespace IEClient
         public CheckWindow()
         {
             InitializeComponent();
+
             LoadData();
         }
         private void LoadData()
@@ -95,5 +96,9 @@ namespace IEClient
             MessageBox.Show("queding");
         }
 
+        private void binding_Click(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }

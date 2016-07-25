@@ -42,11 +42,10 @@ namespace IEClient
         }
        
         private void to_Check_Cleck(object sender, RoutedEventArgs e)
-        {
-            ItemsWindow win = new ItemsWindow();
-            win.Content = new CheckPage();
-            win.Title = "设备检测";                      
-            win.Show();
+        { 
+            CheckWindow checkWin = new CheckWindow();
+
+            checkWin.Show();
             this.Close();
         }
         private void to_ItemBinding_Click(object sender, RoutedEventArgs e)

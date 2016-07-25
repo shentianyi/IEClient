@@ -65,10 +65,8 @@ namespace IEClient
         {
             //page 转 window
             ItemsWindow win = new ItemsWindow();
-            win.Title = "所有项目";
             win.Show();
-            Window page = (Window)this.Parent;
-            page.Close();
+            this.Close();
         }
         private void detail_Click(object sender, RoutedEventArgs e)
         {

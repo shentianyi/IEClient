@@ -66,6 +66,9 @@
     <Compile Include="BindingWindow.xaml.cs">
       <DependentUpon>BindingWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CheckWindow.xaml.cs">
+      <DependentUpon>CheckWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ItemBindingWindow.xaml.cs">
       <DependentUpon>ItemBindingWindow.xaml</DependentUpon>
     </Compile>
@@ -76,7 +79,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CheckPage.xaml">
+    <Page Include="CheckWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -99,9 +102,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CheckPage.xaml.cs">
-      <DependentUpon>CheckPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="DetailPage.xaml.cs">
       <DependentUpon>DetailPage.xaml</DependentUpon>

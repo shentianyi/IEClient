@@ -47,9 +47,7 @@ namespace IEClient
             {
                 Project project = this.UniformGrid.SelectedItem as Project;
                 UserSession.GetInstance().CurrentProject = project;
-                ItemsWindow win = new ItemsWindow();
-                win.Content = new CheckPage();
-                win.Title = "设备检测";
+                CheckWindow win = new CheckWindow();
                 win.Show();
                 this.Close();
             }

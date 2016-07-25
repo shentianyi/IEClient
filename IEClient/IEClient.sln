@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{F5E13216-A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCon", "TestCon\TestCon.csproj", "{9C7F4204-0EB3-45E5-90E6-B6FA68FD45AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClearInsight", "..\SDK\ClearInsight\ClearInsight.csproj", "{FBB9C5AF-0EC8-4A56-89B3-87358CB0EF46}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{9C7F4204-0EB3-45E5-90E6-B6FA68FD45AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C7F4204-0EB3-45E5-90E6-B6FA68FD45AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C7F4204-0EB3-45E5-90E6-B6FA68FD45AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBB9C5AF-0EC8-4A56-89B3-87358CB0EF46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBB9C5AF-0EC8-4A56-89B3-87358CB0EF46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBB9C5AF-0EC8-4A56-89B3-87358CB0EF46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBB9C5AF-0EC8-4A56-89B3-87358CB0EF46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

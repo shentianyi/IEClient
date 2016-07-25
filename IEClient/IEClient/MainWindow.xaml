@@ -1,12 +1,83 @@
-﻿<Window x:Class="IEClient.MainWindow"
+﻿<controls:MetroWindow x:Class="IEClient.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IEClient"
+        xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="IE" MaxHeight="333" MaxWidth="500"
+        AllowsTransparency="True"
+        ResizeMode="NoResize"
+        MouseDown="Window_MouseDown">
+    <Window.Background>
+        <ImageBrush ImageSource="image/login1.jpg"/>
+    </Window.Background>
+
     <Grid>
-        
+        <TextBlock x:Name="IE"  Text="IE" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="50" FontWeight="ExtraLight" Foreground="WhiteSmoke">
+            <TextBlock.Effect>
+                <DropShadowEffect Color="Blue" Direction="1" ShadowDepth="8" Opacity="1"  />
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock x:Name="ie" Text="用户登录   LOGIN" HorizontalAlignment="Center" Margin="0,90,0,0" VerticalAlignment="Top" FontWeight="ExtraLight" Foreground="Black" FontSize="15">
+            <TextBlock.Effect>
+                <DropShadowEffect Color="Black" Direction="110" ShadowDepth="3" Opacity="1" />
+            </TextBlock.Effect>
+        </TextBlock>
+
+        <TextBox FontSize="17" Width="200" Height="Auto" Margin="0,135,0,0" Name="email"  HorizontalAlignment="Center"  VerticalAlignment="Top" Foreground="Indigo" TabIndex="0" BorderThickness="1">
+            <TextBox.Resources>
+                <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="1" Stretch="None" AlignmentX="Left">
+                    <VisualBrush.Visual>
+                        <TextBlock FontStyle="Normal" Text="邮箱" Foreground="Black"/>
+                    </VisualBrush.Visual>
+                </VisualBrush>
+            </TextBox.Resources>
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Style.Triggers>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                        </Trigger>
+                        <Trigger Property="Text" Value="">
+                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+
+        <TextBox FontSize="17"   Width="200" Height="Auto" Margin="0,175,0,0" Name="password"  HorizontalAlignment="Center"  TextWrapping="Wrap" VerticalAlignment="Top" Foreground="Indigo" TabIndex="0" BorderThickness="1">
+            <TextBox.Resources>
+                <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="1" Stretch="None" AlignmentX="Left">
+                    <VisualBrush.Visual>
+                        <TextBlock FontStyle="Normal" Text="密码"/>
+                    </VisualBrush.Visual>
+                </VisualBrush>
+            </TextBox.Resources>
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Style.Triggers>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                        </Trigger>
+                        <Trigger Property="Text" Value="">
+                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <Button x:Name="login" Content="登       录" 
+                HorizontalAlignment="Center" 
+                Margin="0,220,0,0" 
+                VerticalAlignment="Top" 
+                Width="Auto" Padding="20,4" 
+                Background="#1782fb" 
+                Foreground="White" FontSize="18" FontStyle="Normal" 
+                Cursor="Hand" 
+                Click="login_Click"/>
     </Grid>
-</Window>
+
+</controls:MetroWindow>

@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,38 +10,23 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace IEClient
 {
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    /// SettingBoxWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class SettingBoxWindow : Window
     {
-        public MainWindow()
+        public SettingBoxWindow()
         {
             InitializeComponent();
+            //this.Topmost = true;
             double screenHeight = SystemParameters.FullPrimaryScreenHeight;
             double screenWidth = SystemParameters.FullPrimaryScreenWidth;
             this.Top = (screenHeight - this.Height) / 2;
             this.Left = (screenWidth - this.Width) / 2;
-            getData();
-        }
-        void getData()
-        {
-        }
-
-        private void login_Click(object sender, RoutedEventArgs e)
-        {
-            getData();
-            // MessageBox.Show("hh");
-            // Application.Current.Shutdown();
-            ItemsWindow win = new ItemsWindow();
-            //win.Content = new ResPage();
-            win.Show();
-            this.Close();
         }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -51,9 +35,14 @@ namespace IEClient
                 DragMove();
             }
         }
-        private void mouseenter(object enter, RoutedEventArgs e)
+        private void cancel_Setting_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(email.Text);
+            this.Close();
         }
+        private void save_Setting_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
     }
 }

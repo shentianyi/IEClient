@@ -18,7 +18,7 @@
                 <GradientBrush.GradientStops>
                     <GradientStopCollection>
                         <GradientStop Color="Blue" Offset="0.0"/>
-                        <GradientStop Color="AliceBlue" Offset="0.9"/>
+                        <GradientStop Color="AliceBlue" Offset="1.6"/>
                     </GradientStopCollection>
                 </GradientBrush.GradientStops>
             </LinearGradientBrush>

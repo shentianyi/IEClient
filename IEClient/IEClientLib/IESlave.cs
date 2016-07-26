@@ -61,8 +61,10 @@ namespace IEClientLib
             {
                 code = value;
                 OnPropertyChanged(new PropertyChangedEventArgs("code"));
-
-                this.BCode = ScaleHelper.HexStringToHexByte(code);
+                if (!string.IsNullOrWhiteSpace(code))
+                {
+                    this.BCode = ScaleHelper.HexStringToHexByte(code);
+                }
             }
         }
         /// <summary>

@@ -39,6 +39,7 @@ namespace IEClientLib
         private CmdType currentCmdType; //命令类型
         private byte currentSN = 0x00; //数据帧编号0-255
         private byte currentTaskId = 0x01; //任务ID
+        private bool started = false;
 
         /// <summary>
         /// pulldata定时器
@@ -76,6 +77,9 @@ namespace IEClientLib
         public void StartTest()
         {
             StartOrStopTest(CmdType.START_TEST);
+            this.started = true;
+            this.pollDataTimer.Enabled = true;
+            
         }
 
         /// <summary>
@@ -91,8 +95,10 @@ namespace IEClientLib
         /// </summary>
         public void StopTest()
         {
-            StartOrStopTest(CmdType.STOP_TEST);
+            started = false;
             this.pollDataTimer.Stop();
+            this.pollDataTimer.Enabled = false;
+            StartOrStopTest(CmdType.STOP_TEST);
         }
 
         /// <summary>
@@ -194,6 +200,7 @@ namespace IEClientLib
                     break;
             }
 
+            LogUtil.Logger.Debug(string.Format("{0} send {1}: {2}",slaveCode,currentCmdType,   ScaleHelper.HexBytesToString(cmd)));
             sp.Write(cmd, 0, cmd.Length);
             if (needAK)
             {
@@ -275,6 +282,7 @@ namespace IEClientLib
                                 List<IEData> datas = new List<IEData>();
                                 foreach (int t in times) {
                                     datas.Add(new IEData() { Time = t });
+                                    LogUtil.Logger.Info(slave.Code+"数据："+t);
                                 }
                                 slave.AddDatasToList(datas);
                                 /// 给从机反馈，主机收到了数据
@@ -418,7 +426,10 @@ namespace IEClientLib
             // 先停止timer
             pollDataTimer.Stop();
             // 获取数据
-            DoPollData();
+            if (started)
+            {
+                DoPollData();
+            }
         }
 
         /// <summary>
@@ -429,19 +440,23 @@ namespace IEClientLib
             this.CheckSlaves();
             for (int i = 0; i < this.Slaves.Count; i++)
             {
-                currentSlaveIndex = i;
-                try
+                if (started)
                 {
-                    currentCmdType = CmdType.POLL_DATA;
-                    bool r = SendCmd(currentCmdType, this.Slaves[currentSlaveIndex].Code);
-                }
-                catch (SlaveReponseTimeOutException ex)
-                {
-                    LogUtil.Logger.Error(ex.Message + ":" + this.Slaves[currentSlaveIndex].Code);
-                }
-                catch (Exception ex)
-                {
-                    LogUtil.Logger.Error(ex.Message + ":" + this.Slaves[currentSlaveIndex].Code);
+                    currentSlaveIndex = i;
+                    try
+                    {
+                        currentCmdType = CmdType.POLL_DATA;
+                        bool r = SendCmd(currentCmdType, this.Slaves[currentSlaveIndex].Code);
+
+                    }
+                    catch (SlaveReponseTimeOutException ex)
+                    {
+                        LogUtil.Logger.Error(ex.Message + ":" + this.Slaves[currentSlaveIndex].Code);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogUtil.Logger.Error(ex.Message + ":" + this.Slaves[currentSlaveIndex].Code);
+                    }
                 }
             }
             currentSlaveIndex = 0;

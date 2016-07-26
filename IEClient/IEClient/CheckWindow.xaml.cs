@@ -87,7 +87,27 @@ namespace IEClient
 
         private void finish_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("确定退出？");
+            if (MessageBox.Show("确定结束测试？", "确定结束测试？", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    if (ieHost != null)
+                    {
+                        ieHost.StopTest();
+
+                        begin.IsEnabled = true;
+                        finish.IsEnabled = false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogUtil.Logger.Error(ex.Message);
+                    LogUtil.Logger.Error(ex.Source);
+                    begin.IsEnabled = false;
+                    finish.IsEnabled = true;
+                    MessageBox.Show(ex.Message);
+                }
+            }
         }
 
         /// <summary>

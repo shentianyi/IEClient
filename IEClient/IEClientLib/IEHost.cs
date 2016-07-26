@@ -139,6 +139,8 @@ namespace IEClientLib
         /// <returns></returns>
         private bool SendCmd(CmdType cmdType, string slaveCode,bool reSend=false,bool needAK=true)
         {
+            Thread.Sleep(10);
+
             if (string.IsNullOrWhiteSpace(slaveCode)) {
                 return false;
             }
@@ -227,6 +229,8 @@ namespace IEClientLib
                 string ss = ScaleHelper.HexBytesToString(bytesData);
 
                 this.resendCount = 0;
+                LogUtil.Logger.Debug("接收到数据："+ScaleHelper.HexBytesToString(bytesData));
+
                 // 解析返回
                 if (this.currentCmdType == CmdType.START_TEST || this.currentCmdType==CmdType.STOP_TEST)
                 {
@@ -259,7 +263,7 @@ namespace IEClientLib
                         IESlave slave = FindSalveByBCode(bcode);
 
                         byte ack_nak = bytesData[4];
-                        if (ack_nak == 0xB0)
+                        if (ack_nak == 0xD0)
                         {
                             // 存在数据返回
                             int dataCount = ScaleHelper.HexByteToDecimal(bytesData[6]);
@@ -274,19 +278,23 @@ namespace IEClientLib
                                 }
                                 if (times.Contains(0))
                                 {
-                                    slave.Status = SlaveStatus.ON_TESTING;
+                                    slave.Status = SlaveStatus.ON_CLOCKING;
                                 }
-                                else{
-                                    slave.Status = SlaveStatus.OUT_TEST;
+                                else {
+                                    slave.Status = SlaveStatus.OUT_CLOCKING;
                                 }
                                 List<IEData> datas = new List<IEData>();
-                                foreach (int t in times) {
+                                foreach (int t in times)
+                                {
+                                    LogUtil.Logger.Info(slave.Code + "数据：" + t);
                                     datas.Add(new IEData() { Time = t });
-                                    LogUtil.Logger.Info(slave.Code+"数据："+t);
                                 }
                                 slave.AddDatasToList(datas);
                                 /// 给从机反馈，主机收到了数据
                                 SendCmd(CmdType.ACK, slave.Code, false, false);
+                            }
+                            else {
+                                slave.Status = SlaveStatus.OUT_CLOCKING;
                             }
                         }else if (ack_nak == 0xB1)
                         {
@@ -298,7 +306,7 @@ namespace IEClientLib
             }
             catch (Exception ex)
             {
-                ReSendCmd();
+               // ReSendCmd();
             }
 
         }
@@ -478,7 +486,7 @@ namespace IEClientLib
                 case 0x01:
                     return SlaveStatus.ID_NOT_MATCH;
                 case 0x02:
-                    return SlaveStatus.OUT_TEST;
+                    return SlaveStatus.OUT_CLOCKING;
                 default:
                     return SlaveStatus.NOK_TO_TEST;
             }

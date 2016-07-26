@@ -36,13 +36,13 @@ namespace IEClientLib.Enums
         ID_NOT_MATCH = 400,
 
         /// <summary>
-        /// 测试中
+        /// 计时中
         /// </summary>
-        ON_TESTING = 500,
+        ON_CLOCKING = 500,
 
         /// <summary>
-        /// 未在测试
+        /// 在线，但未在计时
         /// </summary>
-        OUT_TEST = 600
+        OUT_CLOCKING = 600
     }
 }

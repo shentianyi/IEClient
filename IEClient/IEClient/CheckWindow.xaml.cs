@@ -20,6 +20,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace IEClient
 {
@@ -59,7 +60,7 @@ namespace IEClient
                     });
             }
             this.UniformGrid.DataContext = ieSlaves;
-            ieHost = new IEHost(BaseConfig.Com);
+            ieHost = new IEHost(BaseConfig.Com,BaseConfig.BaundRate,BaseConfig.Parity,BaseConfig.TimeOut);
             ieHost.Slaves = ieSlaves;
         }
        
@@ -148,8 +149,11 @@ namespace IEClient
                 begin.IsEnabled = false;
                 finish.IsEnabled = true;
                 /// 开始测试
-                ieHost.StartTest();
-                ieHost.PollData();
+                this.Dispatcher.Invoke(DispatcherPriority.Normal, (System.Windows.Forms.MethodInvoker)delegate ()
+                   { 
+                       ieHost.StartTest();
+                   });
+              //  ieHost.PollData();
             }
             catch (Exception ex)
             {

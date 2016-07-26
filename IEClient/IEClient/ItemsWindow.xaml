@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IEClient"
         mc:Ignorable="d"
-        Title="项目管理" Height="600" Width="800" MinWidth="400" MinHeight="300" Background="#0078C1">
+        Title="项目管理" Height="400" Width="600" MinWidth="400" MinHeight="300" Background="#0078C1" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="menuButton">
             <Setter Property="Button.Margin" Value="15,5"/>

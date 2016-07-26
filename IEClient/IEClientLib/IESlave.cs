@@ -16,7 +16,7 @@ namespace IEClientLib
         public IESlave()
         {
             this.selected = false;
-            this.Status = SlaveStatus.OFF_LINE;
+            this.Status = SlaveStatus.OFF;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -29,8 +29,8 @@ namespace IEClient
         public ItemsWindow()
         {
             InitializeComponent();
-            this.WindowState = System.Windows.WindowState.Maximized;
-            this.WindowStyle = System.Windows.WindowStyle.None;
+            //this.WindowState = System.Windows.WindowState.Maximized;
+            //this.WindowStyle = System.Windows.WindowStyle.None;
             LoadData();
         }
 

@@ -78,9 +78,7 @@ namespace IEClientLib
         {
             StartOrStopTest(CmdType.START_TEST);
             this.started = true;
-            this.pollDataTimer.Enabled = true;
-            
-        }
+           }
 
         /// <summary>
         /// 获取数据
@@ -144,8 +142,7 @@ namespace IEClientLib
         /// <returns></returns>
         private bool SendCmd(CmdType cmdType, string slaveCode,bool reSend=false,bool needAK=true)
         {
-            Thread.Sleep(1000);
-
+          Thread.Sleep(500);
             if (string.IsNullOrWhiteSpace(slaveCode)) {
                 return false;
             }
@@ -211,17 +208,27 @@ namespace IEClientLib
             sp.Write(cmd, 0, cmd.Length);
             if (needAK)
             {
-                SynReceiveData();
+               // SynReceiveData();
+                //ReceiveDataThread(this.sp);
             }
             return true;
         }
 
+        /// <summary>
+        /// 接收数据线程
+        /// </summary>
+        //private void ReceiveDataThread(SerialPort _sp) {
+        //    Thread receiveThread = new Thread(new ParameterizedThreadStart(SynReceiveData));
+        //    receiveThread.Start(_sp);
+        //}
        
         //同步阻塞读取    
         private void SynReceiveData()
         {
             try
             {
+                LogUtil.Logger.Debug(">>接收到数据：" + this.sp.BytesToRead);
+
                 byte firstByte = Convert.ToByte(this.sp.ReadByte());
 
                 int bytesRead = this.sp.BytesToRead;
@@ -249,7 +256,7 @@ namespace IEClientLib
                         {
                             if (ack_nak == 0xB0)
                             {
-                                slave.Status =this.currentCmdType==CmdType.START_TEST ? SlaveStatus.OK_TO_TEST : SlaveStatus.OFF_LINE;
+                                slave.Status =this.currentCmdType==CmdType.START_TEST ? SlaveStatus.OK_TO_TEST : SlaveStatus.OFF;
                             }
                             else if (ack_nak == 0xB1)
                             {
@@ -357,7 +364,7 @@ namespace IEClientLib
                 {
                     this.sp = new SerialPort(this.Com, this.BaudRate);
                     this.sp.ReadTimeout = this.timeout;
-                    //this.sp.DataReceived += Sp_DataReceived;
+                   this.sp.DataReceived += Sp_DataReceived;
                 }
                 this.sp.Open();
                 return true;
@@ -371,10 +378,11 @@ namespace IEClientLib
 
         private void Sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
+            Thread.Sleep(200);
             byte[] data_all = new byte[sp.BytesToRead];
             sp.Read(data_all, 0, data_all.Length);
-
-            LogUtil.Logger.Error(ScaleHelper.HexBytesToString(data_all));
+            //LogUtil.Logger.Error(sp.ReadLine());
+             LogUtil.Logger.Error(ScaleHelper.HexBytesToString(data_all));
         }
 
         /// <summary>

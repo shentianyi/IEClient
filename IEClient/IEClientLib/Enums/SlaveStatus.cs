@@ -13,7 +13,7 @@ namespace IEClientLib.Enums
         /// <summary>
         /// 未在线
         /// </summary>
-        OFF_LINE = 100,
+        OFF = 100,
 
         /// <summary>
         /// 刚获取到任务后的状态, 可以开始测试

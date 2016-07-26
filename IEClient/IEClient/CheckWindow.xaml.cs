@@ -152,8 +152,8 @@ namespace IEClient
                 this.Dispatcher.Invoke(DispatcherPriority.Normal, (System.Windows.Forms.MethodInvoker)delegate ()
                    { 
                        ieHost.StartTest();
+                       ieHost.PollData();
                    });
-              //  ieHost.PollData();
             }
             catch (Exception ex)
             {

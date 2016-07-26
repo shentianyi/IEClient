@@ -125,7 +125,10 @@ namespace IEClientLib
             foreach (IEData data in datas)
             {
                 this.dataList.Add(data);
-                this.TimeTicked(this, data);
+                if (this.TimeTicked != null)
+                {
+                    this.TimeTicked(this, data);
+                }
             }
         }
     }

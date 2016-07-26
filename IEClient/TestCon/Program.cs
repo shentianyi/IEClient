@@ -36,16 +36,9 @@ namespace TestCon
 
             //Console.WriteLine(ScaleHelper.HexByteToDecimal(0xff));
             //Console.WriteLine(ScaleHelper.HexBytesToDecimal(new byte[3] { 0xFF,0x00,0xFF}));
-            ClearInsightAPI ci = new ClearInsightAPI(url);
-            var u = ci.UserLogin("", "");
-            if (u.result)
-            {
-                Console.WriteLine("hhhhh");
-            }
-            else
-            {
-                Console.WriteLine("nnnnnn");
-            }
+
+            new SerialPortReadTimeout().Test();
+
             Console.Read();
         }
 

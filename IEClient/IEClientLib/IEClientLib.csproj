@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\CmdType.cs" />
+    <Compile Include="Exceptions\OpenComException.cs" />
     <Compile Include="Exceptions\SlaveReponseTimeOutException.cs" />
     <Compile Include="Helper\ScaleHelper.cs" />
     <Compile Include="IEData.cs" />

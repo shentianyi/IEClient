@@ -6,8 +6,7 @@ using System.Text;
 namespace IEClientLib.Exceptions
 {
     public class SlaveReponseTimeOutException:Exception
-    {
-        public SlaveReponseTimeOutException() { }
-        public SlaveReponseTimeOutException(string exMsg) : base(exMsg) { }
+    { 
+        public SlaveReponseTimeOutException(Exception innEX) : base("从机响应超时",innEX) { }
     }
 }

@@ -120,9 +120,14 @@ namespace IEClientLib
                 {
                     LogUtil.Logger.Error(ex.Message + ":" + this.Slaves[currentSlaveIndex].Code);
                 }
+                catch (OpenComException ex)
+                {
+                    throw ex;
+                }
                 catch (Exception ex)
                 {
-                    LogUtil.Logger.Error(ex.Message + ":" + this.Slaves[currentSlaveIndex].Code);
+                    throw ex;
+                   // LogUtil.Logger.Error(ex.Message + ":" + this.Slaves[currentSlaveIndex].Code);
                 }
             }
             currentSlaveIndex = 0;
@@ -139,7 +144,7 @@ namespace IEClientLib
         /// <returns></returns>
         private bool SendCmd(CmdType cmdType, string slaveCode,bool reSend=false,bool needAK=true)
         {
-            Thread.Sleep(10);
+            Thread.Sleep(1000);
 
             if (string.IsNullOrWhiteSpace(slaveCode)) {
                 return false;
@@ -244,7 +249,7 @@ namespace IEClientLib
                         {
                             if (ack_nak == 0xB0)
                             {
-                                slave.Status = SlaveStatus.OK_TO_TEST;
+                                slave.Status =this.currentCmdType==CmdType.START_TEST ? SlaveStatus.OK_TO_TEST : SlaveStatus.OFF_LINE;
                             }
                             else if (ack_nak == 0xB1)
                             {
@@ -306,7 +311,8 @@ namespace IEClientLib
             }
             catch (Exception ex)
             {
-               // ReSendCmd();
+                LogUtil.Logger.Error(ex.Message + ":" + this.Slaves[currentSlaveIndex].Code);
+                // ReSendCmd();
             }
 
         }
@@ -326,7 +332,7 @@ namespace IEClientLib
             else
             {
                 resendCount = 0;
-                throw new SlaveReponseTimeOutException("从机响应超时");
+                throw new SlaveReponseTimeOutException(new Exception());
             }
         }
        
@@ -351,6 +357,7 @@ namespace IEClientLib
                 {
                     this.sp = new SerialPort(this.Com, this.BaudRate);
                     this.sp.ReadTimeout = this.timeout;
+                    //this.sp.DataReceived += Sp_DataReceived;
                 }
                 this.sp.Open();
                 return true;
@@ -358,10 +365,18 @@ namespace IEClientLib
             catch (Exception ex)
             {
                 LogUtil.Logger.Error(ex.Message);
-                throw ex;
+                throw new OpenComException(ex);
             }
         }
-     
+
+        private void Sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            byte[] data_all = new byte[sp.BytesToRead];
+            sp.Read(data_all, 0, data_all.Length);
+
+            LogUtil.Logger.Error(ScaleHelper.HexBytesToString(data_all));
+        }
+
         /// <summary>
         /// 关闭串口
         /// </summary>

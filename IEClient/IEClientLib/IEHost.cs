@@ -79,8 +79,9 @@ namespace IEClientLib
         /// </summary>
         public void StartTest()
         {
-            StartOrStopTest(CmdType.START_TEST);
             this.started = true;
+            StartOrStopTest(CmdType.START_TEST);
+           
         }
 
         /// <summary>
@@ -331,7 +332,7 @@ namespace IEClientLib
 
         private void Sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            if (started && sp.IsOpen)
+            if ( sp.IsOpen)
             {
                 Thread.Sleep(100);
                 byte[] bytesData = new byte[sp.BytesToRead];

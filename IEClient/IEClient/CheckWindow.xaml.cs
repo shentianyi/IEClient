@@ -6,10 +6,12 @@ using IEClient.Properties;
 using IEClientLib;
 using MahApps.Metro.Controls;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,8 +31,14 @@ namespace IEClient
     /// </summary>
     public partial class CheckWindow : MetroWindow
     {
-        IEHost ieHost;
-        List<IESlave> ieSlaves;
+        IEHost<Node> ieHost;
+        List<IESlave<Node>> ieSlaves;
+
+        Queue slaveDataSyncQueue;
+        Queue slaveDataQueue;
+        Thread slaveDataHandlerThread;
+        ManualResetEvent slaveDataEvent;
+
         public CheckWindow()
         {
             InitializeComponent();
@@ -46,24 +54,24 @@ namespace IEClient
         {
             ClearInsightAPI ci = new ClearInsightAPI(BaseConfig.Server, UserSession.GetInstance().CurrentUser.token);
             List<Node> nodes = ci.GetWorkUnitNodes(UserSession.GetInstance().CurrentProject.id);
-            ieSlaves = new List<IESlave>();
+            ieSlaves = new List<IESlave<Node>>();
             foreach (Node node in nodes)
             {
-                ieSlaves.Add(
-                    new IESlave()
-                    {
-                        Id = node.id,
-                        ExtId = node.id,
-                        ExtCode = node.code,
-                        Name = node.name,
-                        Code = node.devise_code
-                    });
+                IESlave<Node> slave = new IESlave<Node>()
+                {
+                    Id = node.id,
+                    ExtItem = node,
+                    Name = node.name,
+                    Code = node.devise_code
+                };
+                slave.TimeTicked += new IESlave<Node>.TimeTickedEventHandler(Slave_TimeTicked);
+                ieSlaves.Add(slave);
             }
             this.UniformGrid.DataContext = ieSlaves;
-            ieHost = new IEHost(BaseConfig.Com,BaseConfig.BaundRate,BaseConfig.Parity,BaseConfig.TimeOut);
+            ieHost = new IEHost<Node>(BaseConfig.Com,BaseConfig.BaundRate,BaseConfig.Parity,BaseConfig.TimeOut);
             ieHost.Slaves = ieSlaves;
         }
-       
+
 
         private void to_Item_Click(object sender, RoutedEventArgs e)
         {
@@ -131,7 +139,7 @@ namespace IEClient
             Point mouse_position = Mouse.GetPosition(e.Source as FrameworkElement);
             Point positionToscreen = (e.Source as FrameworkElement).PointToScreen(mouse_position);
 
-            IESlave slave = this.UniformGrid.SelectedItem as IESlave;
+            IESlave<Node> slave = this.UniformGrid.SelectedItem as IESlave<Node>;
 
             BindingWindow win = new BindingWindow() { slave = slave, PositionX = positionToscreen.X, PositionY=positionToscreen.Y};
             win.ShowDialog();
@@ -162,6 +170,81 @@ namespace IEClient
                 begin.IsEnabled = true;
                 finish.IsEnabled = false;
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// 从机开始计时了
+        /// </summary>
+        /// <param name="slave"></param>
+        /// <param name="data"></param>
+        private void Slave_TimeTicked(IESlave<Node> slave, IEData data)
+        {
+            if (slaveDataSyncQueue == null)
+            {
+                slaveDataSyncQueue = new Queue();
+                slaveDataHandlerThread = new Thread(this.SlaveDataThreadHandler);
+                slaveDataQueue = Queue.Synchronized(slaveDataSyncQueue);
+
+                slaveDataEvent=new ManualResetEvent(false);
+                slaveDataHandlerThread.Start();
+            }
+            Dictionary<string, object> dic = new Dictionary<string, object>();
+
+            dic.Add("slave", slave);
+            dic.Add("data", data);
+
+            slaveDataQueue.Enqueue(dic);
+            slaveDataEvent.Set();
+        }
+
+        private void SlaveDataThreadHandler()
+        {
+            while (true)
+            {
+                while (slaveDataQueue.Count > 0)
+                {
+                    SlaveDataHandler((Dictionary<string,object>)slaveDataQueue.Dequeue());
+                }
+                slaveDataEvent.WaitOne();
+                slaveDataEvent.Reset();
+            }
+        }
+
+        private void SlaveDataHandler(Dictionary<string, object> dic) {
+            IESlave<Node> slave = dic["slave"] as IESlave<Node>;
+            IEData data = dic["data"] as IEData;
+
+            ClearInsightAPI api = new ClearInsightAPI(BaseConfig.Server, UserSession.GetInstance().CurrentUser.token);
+
+            KpiEntry entry = new KpiEntry()
+            {
+                kpi_code = BaseConfig.CycleTimeKpiCode,
+                entry_at = DateTime.Now,
+                project_item_id = slave.ExtItem.project_item_id,
+                tenant_id = slave.ExtItem.tenant_id,
+                node_id = slave.ExtItem.id,
+                node_code = slave.ExtItem.code,
+                node_uuid = slave.ExtItem.uuid,
+                value = data.Time
+            };
+
+            KpiEntry back = api.UploadKpiEntry(entry);
+        }
+
+        private void MetroWindow_Closing(object sender, CancelEventArgs e)
+        {
+            if (slaveDataHandlerThread != null)
+            {
+                int count = slaveDataQueue.Count;
+                if (count>0) {
+                    e.Cancel=true;
+                    MessageBox.Show(string.Format("仍有{0}条数据在处理中，请稍候...", count),"数据处理提醒",MessageBoxButton.OK,MessageBoxImage.Warning);
+                }
+                else {
+                    slaveDataHandlerThread.Abort();
+                }
             }
         }
     }

@@ -15,7 +15,7 @@ namespace IEClientLib
     /// <summary>
     /// 主机
     /// </summary>
-    public class IEHost
+    public class IEHost<T>
     {
         /// <summary>
         /// 串口参数
@@ -34,7 +34,7 @@ namespace IEClientLib
         /// <summary>
         /// 从机及当前的变量
         /// </summary>
-        public List<IESlave> Slaves { get; set; }//从机列表
+        public List<IESlave<T>> Slaves { get; set; }//从机列表
         private int currentSlaveIndex = 0;//从机序号
         private CmdType currentCmdType; //命令类型
         private byte currentSN = 0x00; //数据帧编号0-255
@@ -241,41 +241,41 @@ namespace IEClientLib
         //    receiveThread.Start(_sp);
         //}
 
-        //同步阻塞读取    
-        private void SynReceiveData()
-        {
-            try
-            {
-                System.Threading.Thread.Sleep(500);
+        ////同步阻塞读取    
+        //private void SynReceiveData()
+        //{
+        //    try
+        //    {
+        //        System.Threading.Thread.Sleep(500);
 
-               LogUtil.Logger.Debug(">>接收到数据：" + this.sp.ReadBufferSize);
-                LogUtil.Logger.Debug(">>接收到数据：" + this.sp.BytesToRead);
-                byte[] d = new byte[4096];
-                this.sp.Read(d, 0, 4096);
-                LogUtil.Logger.Debug(d);
-                //byte firstByte = Convert.ToByte(this.sp.ReadByte());
+        //       LogUtil.Logger.Debug(">>接收到数据：" + this.sp.ReadBufferSize);
+        //        LogUtil.Logger.Debug(">>接收到数据：" + this.sp.BytesToRead);
+        //        byte[] d = new byte[4096];
+        //        this.sp.Read(d, 0, 4096);
+        //        LogUtil.Logger.Debug(d);
+        //        //byte firstByte = Convert.ToByte(this.sp.ReadByte());
 
-                //int bytesRead = this.sp.BytesToRead;
-                //byte[] bytesData = new byte[bytesRead + 1];
-                //bytesData[0] = firstByte;
-                //for (int i = 1; i <= bytesRead; i++)
-                //{
-                //    bytesData[i] = Convert.ToByte(this.sp.ReadByte());
-                //}
-                //string ss = ScaleHelper.HexBytesToString(bytesData);
+        //        //int bytesRead = this.sp.BytesToRead;
+        //        //byte[] bytesData = new byte[bytesRead + 1];
+        //        //bytesData[0] = firstByte;
+        //        //for (int i = 1; i <= bytesRead; i++)
+        //        //{
+        //        //    bytesData[i] = Convert.ToByte(this.sp.ReadByte());
+        //        //}
+        //        //string ss = ScaleHelper.HexBytesToString(bytesData);
 
-                //this.resendCount = 0;
-                //LogUtil.Logger.Debug("接收到数据：" + ScaleHelper.HexBytesToString(bytesData));
+        //        //this.resendCount = 0;
+        //        //LogUtil.Logger.Debug("接收到数据：" + ScaleHelper.HexBytesToString(bytesData));
 
-                //  Parse(bytesData);
-            }
-            catch (Exception ex)
-            {
-                LogUtil.Logger.Error(ex.Message + ":" + this.Slaves[currentSlaveIndex].Code);
-                // ReSendCmd();
-            }
+        //        //  Parse(bytesData);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        LogUtil.Logger.Error(ex.Message + ":" + this.Slaves[currentSlaveIndex].Code);
+        //        // ReSendCmd();
+        //    }
 
-        }
+        //}
 
         /// <summary>
         /// 重新发送
@@ -331,22 +331,25 @@ namespace IEClientLib
 
         private void Sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            Thread.Sleep(100);
-            byte[] bytesData = new byte[sp.BytesToRead];
-            sp.Read(bytesData, 0, bytesData.Length);
-            if (firstByte !=0x00)
+            if (started && sp.IsOpen)
             {
-                byte[] tmp = new byte[1 + bytesData.Length];
-                tmp[0] = firstByte;
-                for(int i = 0; i < bytesData.Length; i++)
+                Thread.Sleep(100);
+                byte[] bytesData = new byte[sp.BytesToRead];
+                sp.Read(bytesData, 0, bytesData.Length);
+                if (firstByte != 0x00)
                 {
-                    tmp[i + 1] = bytesData[i];
+                    byte[] tmp = new byte[1 + bytesData.Length];
+                    tmp[0] = firstByte;
+                    for (int i = 0; i < bytesData.Length; i++)
+                    {
+                        tmp[i + 1] = bytesData[i];
+                    }
+                    bytesData = tmp;
                 }
-                bytesData = tmp;
+                LogUtil.Logger.Error(ScaleHelper.HexBytesToString(bytesData));
+                Parse(bytesData);
+                res = true;
             }
-            LogUtil.Logger.Error(ScaleHelper.HexBytesToString(bytesData));
-            Parse(bytesData);
-            res = true;
         }
 
         /// <summary>
@@ -393,7 +396,7 @@ namespace IEClientLib
         /// </summary>
         /// <param name="bcode"></param>
         /// <returns></returns>
-        private IESlave FindSalveByBCode(byte[] bcode)
+        private IESlave<T> FindSalveByBCode(byte[] bcode)
         {
             return this.Slaves.SingleOrDefault(s => s.Code.Equals(ScaleHelper.HexBytesToString(bcode, false)));
         }
@@ -493,7 +496,7 @@ namespace IEClientLib
                     byte[] bcode = bytesData.Take(2).ToArray();
                     byte ack_nak = bytesData[4];
 
-                    IESlave slave = FindSalveByBCode(bcode);
+                    IESlave<T> slave = FindSalveByBCode(bcode);
                     if (slave != null)
                     {
                         if (ack_nak == 0xB0)
@@ -506,9 +509,11 @@ namespace IEClientLib
                             slave.Status = GetNakSlaveStatus(error);
                         }
                         else if (ack_nak == 0xD0)
-                        {    
+                        {
                             /// 给从机反馈，主机收到了数据 TODO ACK
-                           // SendCmd(CmdType.ACK, slave.Code, false, false);
+                            // SendCmd(CmdType.ACK, slave.Code, false, false);
+
+                            ParsePollData(bytesData, slave);
                         }
                     }
 
@@ -520,44 +525,15 @@ namespace IEClientLib
                 {
                     byte[] bcode = bytesData.Take(2).ToArray();
 
-                    IESlave slave = FindSalveByBCode(bcode);
+                    IESlave<T> slave = FindSalveByBCode(bcode);
 
                     byte ack_nak = bytesData[4];
                     if (ack_nak == 0xD0)
                     {
-                        // 存在数据返回
-                        int dataCount = ScaleHelper.HexByteToDecimal(bytesData[6]);
-                        if (dataCount > 0)
-                        {
-                            List<int> times = new List<int>();
-                            /// 每三字节为一个数据, 从第8个字节开始
-                            for (int i = 0; i < dataCount; i++)
-                            {
-                                byte[] data = bytesData.Skip(7 + 3 * i).Take(3).ToArray();
-                                times.Add(ScaleHelper.HexBytesToDecimal(data));
-                            }
-                            if (times.Contains(0))
-                            {
-                                slave.Status = SlaveStatus.ON_CLOCKING;
-                            }
-                            else
-                            {
-                                slave.Status = SlaveStatus.OUT_CLOCKING;
-                            }
-                            List<IEData> datas = new List<IEData>();
-                            foreach (int t in times)
-                            {
-                                LogUtil.Logger.Info(slave.Code + "数据：" + t);
-                                datas.Add(new IEData() { Time = t });
-                            }
-                            slave.AddDatasToList(datas);
-                            /// 给从机反馈，主机收到了数据 TODO ACK
-                           // SendCmd(CmdType.ACK, slave.Code, false, false);
-                        }
-                        else
-                        {
-                            slave.Status = SlaveStatus.OUT_CLOCKING;
-                        }
+                        ParsePollData(bytesData, slave);
+                        /// 给从机反馈，主机收到了数据 TODO ACK
+                            // SendCmd(CmdType.ACK, slave.Code, false, false);
+
                     }
                     else if (ack_nak == 0xB1)
                     {
@@ -565,6 +541,44 @@ namespace IEClientLib
                         slave.Status = GetNakSlaveStatus(error);
                     }
                 }
+            }
+
+        }
+
+        private void ParsePollData(byte[] bytesData,IESlave<T> slave)
+        {
+            // 存在数据返回
+            int dataCount = ScaleHelper.HexByteToDecimal(bytesData[6]);
+            if (dataCount > 0)
+            {
+                List<int> times = new List<int>();
+                /// 每三字节为一个数据, 从第8个字节开始
+                for (int i = 0; i < dataCount; i++)
+                {
+                    byte[] data = bytesData.Skip(7 + 3 * i).Take(3).ToArray();
+                    times.Add(ScaleHelper.HexBytesToDecimal(data));
+                }
+                if (times.Contains(0))
+                {
+                    slave.Status = SlaveStatus.ON_CLOCKING;
+                }
+                else
+                {
+                    slave.Status = SlaveStatus.OUT_CLOCKING;
+                }
+                List<IEData> datas = new List<IEData>();
+                foreach (int t in times)
+                {
+                    LogUtil.Logger.Info(slave.Code + "数据：" + t);
+                    datas.Add(new IEData() { Time = t });
+                }
+                slave.AddDatasToList(datas);
+                /// 给从机反馈，主机收到了数据 TODO ACK
+                // SendCmd(CmdType.ACK, slave.Code, false, false);
+            }
+            else
+            {
+                slave.Status = this.currentCmdType==CmdType.STOP_TEST ? SlaveStatus.OFF : SlaveStatus.OUT_CLOCKING;
             }
 
         }

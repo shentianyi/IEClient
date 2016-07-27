@@ -11,7 +11,7 @@ namespace IEClientLib
     /// <summary>
     /// 从机
     /// </summary>
-    public class IESlave : INotifyPropertyChanged
+    public class IESlave<T> : INotifyPropertyChanged
     {
         public IESlave()
         {
@@ -30,10 +30,10 @@ namespace IEClientLib
 
         /// event
         // 状态改变事件
-        public delegate void StatusChangedEventHandler(IESlave slave);
+        public delegate void StatusChangedEventHandler(IESlave<T> slave);
         public event StatusChangedEventHandler StatusChanged;
         // 计时事件
-        public delegate void TimeTickedEventHandler(IESlave slave, IEData data);
+        public delegate void TimeTickedEventHandler(IESlave<T> slave, IEData data);
         public event TimeTickedEventHandler TimeTicked;
         
         private string code;
@@ -45,11 +45,15 @@ namespace IEClientLib
         /// </summary>
         public int Id { get; set; }
 
-        /// <summary>
-        /// 外部Id
-        /// </summary>
-        public int ExtId { get; set; }
+        ///// <summary>
+        ///// 外部Id
+        ///// </summary>
+        //public int ExtId { get; set; }
 
+        /// <summary>
+        /// 外部实例
+        /// </summary>
+        public T ExtItem { get; set; }
         
         /// <summary>
         /// 编码
@@ -67,10 +71,10 @@ namespace IEClientLib
                 }
             }
         }
-        /// <summary>
-        /// 外部编码
-        /// </summary>
-        public string ExtCode { get; set; }
+        ///// <summary>
+        ///// 外部编码
+        ///// </summary>
+        //public string ExtCode { get; set; }
 
         public string Name { get; set; }
         
@@ -124,10 +128,13 @@ namespace IEClientLib
         {
             foreach (IEData data in datas)
             {
-                this.dataList.Add(data);
-                if (this.TimeTicked != null)
+                if (data.Time != 0)
                 {
-                    this.TimeTicked(this, data);
+                    this.dataList.Add(data);
+                    if (this.TimeTicked != null)
+                    {
+                        this.TimeTicked(this, data);
+                    }
                 }
             }
         }

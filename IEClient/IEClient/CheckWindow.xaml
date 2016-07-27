@@ -7,7 +7,7 @@
       xmlns:local="clr-namespace:IEClient"
       mc:Ignorable="d" 
       d:DesignHeight="400" d:DesignWidth="600"
-      Title="测试管理" Loaded="MetroWindow_Loaded" WindowStartupLocation="CenterScreen">
+      Title="测试管理" Loaded="MetroWindow_Loaded" WindowStartupLocation="CenterScreen" Closing="MetroWindow_Closing">
     <Window.Resources>
         <Style x:Key="menuButton">
             <Setter Property="Button.Cursor" Value="Hand"/>

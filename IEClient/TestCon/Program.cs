@@ -42,12 +42,12 @@ namespace TestCon
             Console.Read();
         }
 
-        private static void S_TimeTicked(IESlave slave, IEData data)
+        private static void S_TimeTicked(IESlave<String> slave, IEData data)
         {
             Console.WriteLine("=======================:" + slave.Code + " :" + data.Time);
         }
 
-        private static void Status_QtyChanged(IESlave slave)
+        private static void Status_QtyChanged(IESlave<String> slave)
         {
             Console.WriteLine("================================status changed:" + slave.Code + "=======" + slave.Status);
         }

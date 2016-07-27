@@ -23,6 +23,7 @@ namespace ClearInsight.Model
         public int type { get; set; }
         public int node_set_id { get; set; }
         public int tenant_id { get; set; }
+        public int project_item_id { get; set; }
 
         public string name { get; set; }
         public string code { get; set; }

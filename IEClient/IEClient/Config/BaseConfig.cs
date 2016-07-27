@@ -16,8 +16,9 @@ namespace IEClient.Config
         private static int baundRate;
         private static Parity parity;
         private static int timeOut;
+        private static string cycleTimeKpiCode;
 
-      
+
 
         static BaseConfig()
         {
@@ -28,6 +29,7 @@ namespace IEClient.Config
             baundRate = int.Parse(config.Get("BaundRate"));
             parity = (Parity)int.Parse(config.Get("Parity"));
             timeOut = int.Parse(config.Get("TimeOut"));
+            cycleTimeKpiCode = config.Get("CycleTimeKpiCode");
 
         }
         public static string Server
@@ -104,6 +106,10 @@ namespace IEClient.Config
                 config.Set("timeOut", value);
                 config.Save();
             }
+        }
+
+        public static string CycleTimeKpiCode {
+            get { return cycleTimeKpiCode; }
         }
     }
 }

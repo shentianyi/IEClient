@@ -20,6 +20,11 @@ namespace ClearInsight.Model
         public int kpi_id { get; set; }
 
         /// <summary>
+        /// kpi code
+        /// </summary>
+        public string kpi_code { get; set; }
+
+        /// <summary>
         /// Property <c>Project Item ID</c>
         /// id of project item
         /// <remarks>should not be empty</remarks>
@@ -59,14 +64,14 @@ namespace ClearInsight.Model
         /// value of kpi entry
         /// <remarks>should not be empty</remarks>
         /// </summary>
-        public string value { get; set; }
+        public float value { get; set; }
 
         /// <summary>
         /// Property <c>Entry</c>
         /// entry of kpi entry
         /// <remarks>should not be empty</remarks>
         /// </summary>
-        public DateTime entry { get; set; }
+        public DateTime entry_at { get; set; }
 
         public string id { get; set; }
         public DateTime created_at { get; set; }
@@ -91,13 +96,14 @@ namespace ClearInsight.Model
             JObject o = new JObject();
 
             o["kpi_id"] = this.kpi_id;
+            o["kpi_code"] = this.kpi_code;
             o["project_item_id"] = this.project_item_id;
             o["tenant_id"] = this.tenant_id;
             o["node_id"] = this.node_id;
             o["node_code"] = this.node_code;
             o["node_uuid"] = this.node_uuid;
             o["value"] = this.value;
-            o["entry"] = this.entry;
+            o["entry_at"] = this.entry_at;
 
             return o;
         }

@@ -42,7 +42,7 @@ namespace IEClient
             Point positionToscreen = (e.Source as FrameworkElement).PointToScreen(mouse_position);
             position_x = positionToscreen.X;
             position_y = positionToscreen.Y;
-            IESlave slave = this.UniformGrid.SelectedItem as IESlave;
+            IESlave<Node> slave = this.UniformGrid.SelectedItem as IESlave<Node>;
 
             BindingWindow win = new BindingWindow() { slave= slave };
             win.ShowDialog();

@@ -24,7 +24,7 @@ namespace IEClient
     /// </summary>
     public partial class BindingWindow : Window
     {
-        public IESlave slave { get; set; }
+        public IESlave<Node> slave { get; set; }
         ClearInsightAPI ci;
 
         public double PositionX { get; set; }

@@ -227,7 +227,7 @@ namespace IEClient
                 node_id = slave.ExtItem.id,
                 node_code = slave.ExtItem.code,
                 node_uuid = slave.ExtItem.uuid,
-                value = data.Time
+                value = data.Time/10
             };
 
             KpiEntry back = api.UploadKpiEntry(entry);

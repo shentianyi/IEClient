@@ -26,21 +26,22 @@ namespace IEClient
     /// </summary>
     public partial class ItemsWindow : MetroWindow
     {
+        List<Project> Project;
         public ItemsWindow()
         {
-            InitializeComponent();
+            InitializeComponent();            
             //this.WindowState = System.Windows.WindowState.Maximized;
             //this.WindowStyle = System.Windows.WindowStyle.None;
             LoadData();
         }
 
-        private void LoadData()
+        public void LoadData()
         {
             ClearInsightAPI ci = new ClearInsightAPI(BaseConfig.Server, UserSession.GetInstance().CurrentUser.token);
-            List<Project> projects = ci.GetProjects();
-            this.UniformGrid.DataContext = projects;
+            Project = ci.GetProjects();
+            this.UniformGrid.DataContext = Project;
         }
-       
+
         private void to_Check_Click(object sender, RoutedEventArgs e)
         {
             if (this.UniformGrid.SelectedIndex > -1)
@@ -50,6 +51,30 @@ namespace IEClient
                 CheckWindow win = new CheckWindow();
                 win.Show();
                 this.Close();
+            }
+        }
+
+        private void Search_Click(object sender, RoutedEventArgs e)
+        {
+            Searcher();       
+        }
+
+        private void Enter_Down(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Searcher();
+            }
+        }
+        public void Searcher() {
+            if (searchText.Text != "")
+            {
+                Project = Project.Where(p => p.name.ToLower().Contains(searchText.Text.ToLower())).ToList();
+                this.UniformGrid.DataContext = Project;
+            }
+            else
+            {
+                LoadData();
             }
         }
     }

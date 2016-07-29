@@ -10,8 +10,10 @@
         Title="项目管理"  Background="#115292" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="menuButton">
-            <Setter Property="Button.Margin" Value="15,5"/>
-            <Setter Property="Button.Cursor" Value="Hand"/>
+            <Setter Property="Button.Margin" Value="10,5"/>
+            <Setter Property="Button.Cursor" Value="Hand"/> 
+            <Setter Property="Button.Background" Value="Transparent"/>
+            <Setter Property="Button.BorderBrush" Value="Transparent"/>
         </Style>
         <Style x:Key="itemButton">
             <Setter Property="Button.FontSize" Value="16"></Setter>
@@ -44,11 +46,11 @@
                 <ColumnDefinition Width="1.3*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.Column="2">
-                <TextBox x:Name="searchText1"  Height="23" TextWrapping="Wrap" Text="请输入项目名称" MinWidth="110" MaxWidth="200" Grid.Row="1"/>
-                <Button x:Name="searchButton1" Content="搜索" Width="75" Height="25" Margin="5,0,5,0" Cursor="Hand"/>
+                <TextBox x:Name="searchText" Height="23" TextWrapping="Wrap"  MinWidth="110" MaxWidth="200" Grid.Row="1" Keyboard.KeyDown="Enter_Down" />
+                <Button x:Name="searchButton" Content="搜索" Width="75" Height="25" Margin="5,0,5,0" Cursor="Hand" Click="Search_Click"/>
             </StackPanel>
             <UniformGrid Columns="3" Grid.Row="0" Grid.Column="1">
-                <Button x:Name="itemWindow" Style="{StaticResource menuButton}">
+                <Button x:Name="itemWindow">
                     <StackPanel>
                         <Image Source="image/item.png" Height="64" Width="86" ></Image>
                         <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">项目管理</TextBlock>

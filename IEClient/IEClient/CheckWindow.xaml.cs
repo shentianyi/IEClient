@@ -272,7 +272,6 @@ namespace IEClient
 
         private void settingWindow_Click(object sender, RoutedEventArgs e)
         {
-            this.ieSlaves[1].Status = SlaveStatus.ON_CLOCKING;
         }
     }
 }

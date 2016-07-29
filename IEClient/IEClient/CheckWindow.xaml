@@ -13,6 +13,7 @@
         <Style x:Key="menuButton">
             <Setter Property="Button.Cursor" Value="Hand"/>
             <Setter Property="Button.Margin" Value="15,5"></Setter>
+            <Setter Property="Button.BorderThickness" Value="3"/>
         </Style>
         <Style x:Key="itemButton">
             <Setter Property="Button.FontSize" Value="16"></Setter>
@@ -25,7 +26,7 @@
             <Setter Property="Button.FontSize" Value="17"></Setter>
             <Setter Property="Button.Cursor" Value="Hand"/>
             <Setter Property="Button.Background" Value="White"/>
-            <Setter Property="Button.Margin" Value="7,1"></Setter>
+            <Setter Property="Button.Margin" Value="7,1,5,5"></Setter>
             <Setter Property="Button.BorderThickness" Value="3"/>
         </Style>
 
@@ -65,10 +66,10 @@
     <Grid ShowGridLines="False">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="4"/>
+            <RowDefinition Height="2"/>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="4"/>
+            <RowDefinition Height="3"/>
             <RowDefinition Height="40"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Background="#164E80">
@@ -100,8 +101,8 @@
             <Image Source="image/logo.png" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Height="70"></Image>
         </Grid>
 
-        <GridSplitter  Height="2" Background="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="1"/>
-        <GridSplitter  Height="2" Background="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="4"/>
+        <GridSplitter   Background="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1"/>
+        <GridSplitter   Background="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4"/>
         <DockPanel Grid.Row="2">
             <CheckBox x:Name="allCheckBox"  Content="全  选" Height="30" Margin="30,5" Foreground="Black" Checked="allCheckBox_Click" Unchecked="allCheckBox_Uncheck"/>
             <Button  HorizontalAlignment="Left" Height="Auto" Width="80" Margin="30,5" FontSize="13" Cursor="Hand" BorderBrush="White" Click="range_set_Click">范围设置</Button>
@@ -122,8 +123,7 @@
 
 
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="0" Margin="20,0">
-        </StackPanel>
+
         <Grid Grid.Row="5" Background="#164E80">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

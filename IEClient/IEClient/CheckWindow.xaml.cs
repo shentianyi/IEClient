@@ -84,7 +84,7 @@ namespace IEClient
                 }
             this.UniformGrid.DataContext = ieSlaves;
             ieHost = new IEHost<Node>(BaseConfig.Com,BaseConfig.BaundRate,BaseConfig.Parity,BaseConfig.TimeOut);
-            ieHost.Slaves = ieSlaves;
+            //ieHost.Slaves = ieSlaves;
         }
 
 
@@ -118,7 +118,6 @@ namespace IEClient
                     if (ieHost != null)
                     {
                         ieHost.StopTest();
-
                         begin.IsEnabled = true;
                         finish.IsEnabled = false;
                     }
@@ -182,18 +181,16 @@ namespace IEClient
             {
                 begin.IsEnabled = false;
                 finish.IsEnabled = true;
-                foreach (IESlave<Node> slave in ieSlaves)
-                {
-                    if (slave.Selected == true) {
-                        /// 开始测试
-                        this.Dispatcher.Invoke(DispatcherPriority.Normal, (System.Windows.Forms.MethodInvoker)delegate ()
-                        {
-                            ieHost.StartTest();
-                            ieHost.PollData();
-                        });
-                    };
-                }
-        
+
+                ieHost.Slaves = GetSelectedSlaves();
+                /// 开始测试
+              //  this.Dispatcher.Invoke(DispatcherPriority.Normal, (System.Windows.Forms.MethodInvoker)delegate ()
+               // {
+                    ieHost.StartTest();
+                    ieHost.PollData();
+              //  });
+
+
             }
             catch (Exception ex)
             {
@@ -203,6 +200,10 @@ namespace IEClient
                 finish.IsEnabled = false;
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private List<IESlave<Node>> GetSelectedSlaves() {
+            return this.ieSlaves.Where(s => s.Selected == true).ToList();
         }
 
 

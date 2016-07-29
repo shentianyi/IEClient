@@ -25,6 +25,9 @@ namespace IEClientLib
         private int BaudRate;
         private Parity Parity;
 
+        private bool comIsClosing = false;
+        private bool comIsListening = false;
+
         /// <summary>
         /// 接受超时及重发
         /// </summary>
@@ -81,7 +84,6 @@ namespace IEClientLib
         {
             this.started = true;
             StartOrStopTest(CmdType.START_TEST);
-           
         }
 
         /// <summary>
@@ -332,24 +334,32 @@ namespace IEClientLib
 
         private void Sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            if ( sp.IsOpen)
+            if (comIsClosing) return;
+            try
             {
-                Thread.Sleep(100);
-                byte[] bytesData = new byte[sp.BytesToRead];
-                sp.Read(bytesData, 0, bytesData.Length);
-                if (firstByte != 0x00)
+                comIsListening = true;
+                if (sp.IsOpen)
                 {
-                    byte[] tmp = new byte[1 + bytesData.Length];
-                    tmp[0] = firstByte;
-                    for (int i = 0; i < bytesData.Length; i++)
+                    Thread.Sleep(100);
+                    byte[] bytesData = new byte[sp.BytesToRead];
+                    sp.Read(bytesData, 0, bytesData.Length);
+                    if (firstByte != 0x00)
                     {
-                        tmp[i + 1] = bytesData[i];
+                        byte[] tmp = new byte[1 + bytesData.Length];
+                        tmp[0] = firstByte;
+                        for (int i = 0; i < bytesData.Length; i++)
+                        {
+                            tmp[i + 1] = bytesData[i];
+                        }
+                        bytesData = tmp;
                     }
-                    bytesData = tmp;
+                    LogUtil.Logger.Error(ScaleHelper.HexBytesToString(bytesData));
+                    Parse(bytesData);
+                    res = true;
                 }
-                LogUtil.Logger.Error(ScaleHelper.HexBytesToString(bytesData));
-                Parse(bytesData);
-                res = true;
+            }
+            finally {
+                comIsListening = false;
             }
         }
 
@@ -365,8 +375,11 @@ namespace IEClientLib
                 {
                     if (this.sp.IsOpen)
                     {
+                        comIsClosing = true;
+                        while(comIsListening) { }
                         this.sp.Close();
                         LogUtil.Logger.Info("Close Success");
+                        comIsClosing = false;
                     }
                     return true;
                 }

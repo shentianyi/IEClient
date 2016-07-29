@@ -67,20 +67,6 @@ namespace IEClient
                 };
                 slave.TimeTicked += new IESlave<Node>.TimeTickedEventHandler(Slave_TimeTicked);
                 ieSlaves.Add(slave);
-                //switch (slave.Status)
-                //{
-                //    case IEClientLib.Enums.SlaveStatus.OFF:
-                //        slave.Situation = "#FF0000";//red  OFF = 100
-                //        break;
-                //    case IEClientLib.Enums.SlaveStatus.OK_TO_TEST:
-                //        slave.Situation = "#00CD00";//green  OK_TO_TEST = 200
-                //        break;
-                //    case IEClientLib.Enums.SlaveStatus.NOK_TO_TEST:
-                //        slave.Situation = "#EEEE00";//yellow NOK_TO_TEST = 201,
-                //        break;
-                //    default:
-                //        break;
-                //}
                 }
             this.UniformGrid.DataContext = ieSlaves;
             ieHost = new IEHost<Node>(BaseConfig.Com,BaseConfig.BaundRate,BaseConfig.Parity,BaseConfig.TimeOut);
@@ -121,6 +107,7 @@ namespace IEClient
 
                         begin.IsEnabled = true;
                         finish.IsEnabled = false;
+                        itemWindow.IsEnabled = true;
                     }
                 }
                 catch (Exception ex)
@@ -129,6 +116,7 @@ namespace IEClient
                     LogUtil.Logger.Error(ex.Source);
                     begin.IsEnabled = false;
                     finish.IsEnabled = true;
+                    itemWindow.IsEnabled = false;
                     MessageBox.Show(ex.Message);
                 }
             }
@@ -182,6 +170,7 @@ namespace IEClient
             {
                 begin.IsEnabled = false;
                 finish.IsEnabled = true;
+                itemWindow.IsEnabled = false;
                 foreach (IESlave<Node> slave in ieSlaves)
                 {
                     if (slave.Selected == true) {
@@ -201,6 +190,7 @@ namespace IEClient
                 LogUtil.Logger.Error(ex.Source);
                 begin.IsEnabled = true;
                 finish.IsEnabled = false;
+                itemWindow.IsEnabled = true;
                 MessageBox.Show(ex.Message);
             }
         }

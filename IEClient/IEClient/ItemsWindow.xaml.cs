@@ -41,7 +41,7 @@ namespace IEClient
             this.UniformGrid.DataContext = projects;
         }
        
-        private void to_Check_Cleck(object sender, RoutedEventArgs e)
+        private void to_Check_Click(object sender, RoutedEventArgs e)
         {
             if (this.UniformGrid.SelectedIndex > -1)
             {

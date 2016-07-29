@@ -17,6 +17,7 @@ namespace IEClientLib
         {
             this.selected = false;
             this.Status = SlaveStatus.OFF;
+            this.situation = "#FFFFFF";	
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -40,6 +41,7 @@ namespace IEClientLib
         private SlaveStatus status;
         private List<IEData> dataList = new List<IEData>();
         private bool selected;
+        private string situation;
         /// <summary>
         /// Id
         /// </summary>
@@ -107,7 +109,7 @@ namespace IEClientLib
                 }
             }
         }
-
+        //从机运行状态颜色提示
         public bool Selected
         {
             get { return selected; }
@@ -118,6 +120,13 @@ namespace IEClientLib
             }
         }
 
+        public string Situation
+        {
+            get { return situation; }
+            set { situation = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("Situation"));
+            }
+        }
         /// <summary>
         /// IEData 列表
         /// </summary>

@@ -4,6 +4,7 @@ using ClearInsight.Model;
 using IEClient.Config;
 using IEClient.Properties;
 using IEClientLib;
+using IEClientLib.Enums;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections;
@@ -50,7 +51,7 @@ namespace IEClient
         /// <summary>
         /// 加载数据
         /// </summary>
-        private void LoadData()
+        public void LoadData()
         {
             ClearInsightAPI ci = new ClearInsightAPI(BaseConfig.Server, UserSession.GetInstance().CurrentUser.token);
             List<Node> nodes = ci.GetWorkUnitNodes(UserSession.GetInstance().CurrentProject.id);
@@ -66,7 +67,21 @@ namespace IEClient
                 };
                 slave.TimeTicked += new IESlave<Node>.TimeTickedEventHandler(Slave_TimeTicked);
                 ieSlaves.Add(slave);
-            }
+                //switch (slave.Status)
+                //{
+                //    case IEClientLib.Enums.SlaveStatus.OFF:
+                //        slave.Situation = "#FF0000";//red  OFF = 100
+                //        break;
+                //    case IEClientLib.Enums.SlaveStatus.OK_TO_TEST:
+                //        slave.Situation = "#00CD00";//green  OK_TO_TEST = 200
+                //        break;
+                //    case IEClientLib.Enums.SlaveStatus.NOK_TO_TEST:
+                //        slave.Situation = "#EEEE00";//yellow NOK_TO_TEST = 201,
+                //        break;
+                //    default:
+                //        break;
+                //}
+                }
             this.UniformGrid.DataContext = ieSlaves;
             ieHost = new IEHost<Node>(BaseConfig.Com,BaseConfig.BaundRate,BaseConfig.Parity,BaseConfig.TimeOut);
             ieHost.Slaves = ieSlaves;
@@ -125,8 +140,19 @@ namespace IEClient
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void allCheckBox_Click(object sender, RoutedEventArgs e)
-        { 
+        {
+            foreach (IESlave<Node> slave in ieSlaves)
+            {
+                slave.Selected = true;               
+            }
 
+        }
+        private void allCheckBox_Uncheck(object sender, RoutedEventArgs e)
+        {
+            foreach (IESlave<Node> slave in ieSlaves)
+            {
+                slave.Selected = false;
+            }
         }
 
         /// <summary>
@@ -156,12 +182,18 @@ namespace IEClient
             {
                 begin.IsEnabled = false;
                 finish.IsEnabled = true;
-                /// 开始测试
-                this.Dispatcher.Invoke(DispatcherPriority.Normal, (System.Windows.Forms.MethodInvoker)delegate ()
-                   { 
-                       ieHost.StartTest();
-                       ieHost.PollData();
-                   });
+                foreach (IESlave<Node> slave in ieSlaves)
+                {
+                    if (slave.Selected == true) {
+                        /// 开始测试
+                        this.Dispatcher.Invoke(DispatcherPriority.Normal, (System.Windows.Forms.MethodInvoker)delegate ()
+                        {
+                            ieHost.StartTest();
+                            ieHost.PollData();
+                        });
+                    };
+                }
+        
             }
             catch (Exception ex)
             {
@@ -246,6 +278,11 @@ namespace IEClient
                     slaveDataHandlerThread.Abort();
                 }
             }
+        }
+
+        private void settingWindow_Click(object sender, RoutedEventArgs e)
+        {
+            this.ieSlaves[1].Status = SlaveStatus.ON_CLOCKING;
         }
     }
 }

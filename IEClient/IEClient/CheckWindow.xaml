@@ -31,15 +31,25 @@
             <Border Width="Auto" VerticalAlignment="Stretch" BorderBrush="BlueViolet" BorderThickness="3" Margin="5" CornerRadius="10,10,10,10">
                 <StackPanel Orientation="Vertical" Background="Transparent">
                     <UniformGrid Columns="2">
-                        <CheckBox IsChecked="{Binding Path=Gender}"   HorizontalAlignment="Left"/>
+                        <CheckBox IsChecked="{Binding Path=Selected}"   HorizontalAlignment="Left"/>
+                        <Rectangle Fill="{Binding Situation}" x:Name="SituationR" HorizontalAlignment="Center" Height="20" Grid.RowSpan="3" Stroke="Black" VerticalAlignment="Top" Width="20"/>
                         <!--<TextBlock Text="当前电量：" Margin="5" HorizontalAlignment="Right" Foreground="Black" FontWeight="Bold" FontSize="14"/>-->
                         <TextBlock Text="{Binding Path=Electricity}"   HorizontalAlignment="Center" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="14"/>
                         <TextBlock  Text="{Binding Path=Status}" HorizontalAlignment="Left" Foreground="Blue" FontWeight="Bold" FontSize="10"/>
+                     
                     </UniformGrid>
                     <TextBlock Text="{Binding Path=Name}" Margin="5" FontWeight="Bold" HorizontalAlignment="Center" FontSize="20"/>
                     <TextBlock Text="{Binding Path=Code}" Margin="5" HorizontalAlignment="Center" FontSize="15"/>
                 </StackPanel>
             </Border>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Status}" Value="100">
+                    <Setter TargetName="SituationR" Property="Fill" Value="red"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Status}" Value="500">
+                    <Setter TargetName="SituationR" Property="Fill" Value="yellow"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
         </DataTemplate>
         <Style x:Key="deviceListStyle">
             <Setter Property="ListBoxItem.Background" Value="Transparent"/>
@@ -74,7 +84,7 @@
                         <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">测试管理</TextBlock>
                     </StackPanel>
                 </Button>
-                <Button x:Name="settingWindow" Style="{StaticResource menuButton}">
+                <Button x:Name="settingWindow" Style="{StaticResource menuButton}" Click="settingWindow_Click">
                     <StackPanel>
                         <Image Source="image/set.png" Height="64" Width="86" ></Image>
                         <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">设置</TextBlock>
@@ -86,7 +96,7 @@
 
         <GridSplitter  Height="2" Background="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="1"/>
         <DockPanel Grid.Row="2">
-            <CheckBox x:Name="allCheckBox"  Content="全  选" Height="30" Margin="30,5" Foreground="BlanchedAlmond" Checked="allCheckBox_Click"/>
+            <CheckBox x:Name="allCheckBox"  Content="全  选" Height="30" Margin="30,5" Foreground="Black" Checked="allCheckBox_Click" Unchecked="allCheckBox_Uncheck"/>
             <Button  HorizontalAlignment="Left" Height="Auto" Width="80" Margin="30,5" FontSize="13" Cursor="Hand" BorderBrush="White" Click="range_set_Click">范围设置</Button>
         </DockPanel>
 
@@ -112,6 +122,7 @@
             <Button x:Name="begin" Content="开始测试" Style="{StaticResource taskButton}" Click="begin_Click"/>
             <Button x:Name="finish" Content="结束测试" Style="{StaticResource taskButton}" Click="finish_Click" IsEnabled="False"/>
         </UniformGrid>
+        
 
 
     </Grid>

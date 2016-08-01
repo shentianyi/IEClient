@@ -12,13 +12,14 @@ namespace IEClientLib
             this.Stored = false;
             this.Valid = true;
             this.Time = 0;
+            this.PolledAt = DateTime.Now;
         }
 
         /// <summary>
         /// 是否被保存为数据载体，默认是false
         /// </summary>
         public bool Stored { get; set; }
-        
+
         /// <summary>
         /// 是否是合法的数据，默认是true
         /// </summary>
@@ -28,6 +29,11 @@ namespace IEClientLib
         /// 时间长度
         /// </summary>
         public float Time { get; set; }
+
+        /// <summary>
+        /// 被抓取到的时间
+        /// </summary>
+        public DateTime PolledAt { get; set; }
 
 
     }

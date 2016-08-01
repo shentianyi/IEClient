@@ -76,9 +76,15 @@ namespace IEClient
 
         private void to_Item_Click(object sender, RoutedEventArgs e)
         {
-            ItemsWindow win = new ItemsWindow();
-            win.Show();
-            this.Close();
+            if (finish.IsEnabled == false)
+            {
+                ItemsWindow win = new ItemsWindow();
+                win.Show();
+                this.Close();
+            }
+            else {
+                MessageBox.Show("请先结束测试");
+            }
         }
         private void detail_Click(object sender, RoutedEventArgs e)
         {
@@ -104,9 +110,12 @@ namespace IEClient
                     if (ieHost != null)
                     {
                         ieHost.StopTest();
+<<<<<<< HEAD
+=======
+                        
+>>>>>>> b6277c7c0186d8180c07b13b1c89a9928724642b
                         begin.IsEnabled = true;
                         finish.IsEnabled = false;
-                        itemWindow.IsEnabled = true;
                     }
                 }
                 catch (Exception ex)
@@ -115,7 +124,6 @@ namespace IEClient
                     LogUtil.Logger.Error(ex.Source);
                     begin.IsEnabled = false;
                     finish.IsEnabled = true;
-                    itemWindow.IsEnabled = false;
                     MessageBox.Show(ex.Message);
                 }
             }
@@ -165,9 +173,11 @@ namespace IEClient
         /// <param name="e"></param>
         private void begin_Click(object sender, RoutedEventArgs e)
         {
+
             try
             {
                 begin.IsEnabled = false;
+<<<<<<< HEAD
                 finish.IsEnabled = true;
  
 
@@ -180,6 +190,21 @@ namespace IEClient
               //  });
 
                  
+=======
+                finish.IsEnabled = true;   
+                foreach (IESlave<Node> slave in ieSlaves)
+                {
+                    if (slave.Selected == true) {
+                        /// 开始测试
+                        this.Dispatcher.Invoke(DispatcherPriority.Normal, (System.Windows.Forms.MethodInvoker)delegate ()
+                        {
+                            ieHost.StartTest();
+                            ieHost.PollData();
+                        });
+                    };
+                }
+        
+>>>>>>> b6277c7c0186d8180c07b13b1c89a9928724642b
             }
             catch (Exception ex)
             {
@@ -187,7 +212,6 @@ namespace IEClient
                 LogUtil.Logger.Error(ex.Source);
                 begin.IsEnabled = true;
                 finish.IsEnabled = false;
-                itemWindow.IsEnabled = true;
                 MessageBox.Show(ex.Message);
             }
         }
@@ -282,6 +306,7 @@ namespace IEClient
                 };
 
                 KpiEntry back = api.UploadKpiEntry(entry);
+                data.Stored = true;
             }
         }
 
@@ -298,6 +323,17 @@ namespace IEClient
                     slaveDataHandlerThread.Abort();
                 }
             }
+        }
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            if (begin.IsEnabled == false)
+            {
+                e.Cancel = true;
+            }
+            else {
+                e.Cancel = false;
+            }
+            
         }
 
         private void settingWindow_Click(object sender, RoutedEventArgs e)

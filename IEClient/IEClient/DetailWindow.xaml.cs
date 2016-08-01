@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,9 +19,9 @@ namespace IEClient
     /// <summary>
     /// DetailPage.xaml 的交互逻辑
     /// </summary>
-    public partial class DetailPage : Page
+    public partial class DetailWindow : MetroWindow
     {
-        public DetailPage()
+        public DetailWindow()
         {
             InitializeComponent();
             

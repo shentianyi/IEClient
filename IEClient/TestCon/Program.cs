@@ -37,7 +37,17 @@ namespace TestCon
             //Console.WriteLine(ScaleHelper.HexByteToDecimal(0xff));
             //Console.WriteLine(ScaleHelper.HexBytesToDecimal(new byte[3] { 0xFF,0x00,0xFF}));
 
-            new SerialPortReadTimeout().Test();
+            //    new SerialPortReadTimeout().Test();
+
+            List<People> nameP = Searcher.FindByName("2");
+            foreach (var p in nameP) {
+                Console.WriteLine(p);
+            }
+            Console.WriteLine("===========================");
+            List<People> ageP = Searcher.FindBetAge(18, 25);
+            foreach (var p in ageP) {
+                Console.WriteLine(p);
+           }
 
             Console.Read();
         }

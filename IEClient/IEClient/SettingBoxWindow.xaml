@@ -11,7 +11,7 @@
         AllowsTransparency="True"
         MouseDown="Window_MouseDown">
     <Border Width="Auto" Height="Auto" Name="windowFrame"
-            BorderBrush="Black" BorderThickness="5"
+            BorderBrush="Transparent" BorderThickness="5"
             CornerRadius="30,30,40,40">
         <Border.Background>
             <LinearGradientBrush>

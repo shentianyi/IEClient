@@ -21,7 +21,7 @@
         <TextBlock x:Name="ie" Text="用户登录   LOGIN" HorizontalAlignment="Center" Margin="0,90,0,0" VerticalAlignment="Top" FontWeight="ExtraLight" Foreground="Black" FontSize="15">
         </TextBlock>
 
-        <TextBox FontSize="17" Width="200" Height="Auto" Margin="0,135,0,0" Name="email"  HorizontalAlignment="Center"  VerticalAlignment="Top" Foreground="Indigo" TabIndex="0" BorderThickness="1">
+        <TextBox FontSize="17" Width="200" Height="30" Margin="0,135,0,0" Name="email"  HorizontalAlignment="Center"  VerticalAlignment="Top" Foreground="Indigo" TabIndex="0" BorderThickness="1">
             <TextBox.Resources>
                 <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="1" Stretch="None" AlignmentX="Left">
                     <VisualBrush.Visual>
@@ -43,7 +43,7 @@
             </TextBox.Style>
         </TextBox>
 
-        <PasswordBox FontSize="17"   Width="200" Height="Auto" Margin="0,175,0,0" Name="password"  HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="Indigo" TabIndex="0" BorderThickness="1">
+        <PasswordBox FontSize="17"   Width="200" Height="30" Margin="0,175,0,0" Name="password"  HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="Indigo" TabIndex="0" BorderThickness="1">
             <PasswordBox.Resources>
                 <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="1" Stretch="None" AlignmentX="Left">
                     <VisualBrush.Visual>

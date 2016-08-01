@@ -76,7 +76,7 @@
         </Grid>
 
 
-        <GridSplitter  Height="2" Background="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="1"/>
+        <GridSplitter  Height="2" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="1"/>
 
 
 
@@ -90,7 +90,7 @@
                  
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Columns="3" VerticalAlignment="Top"></UniformGrid>
+                    <UniformGrid Columns="4" VerticalAlignment="Top"></UniformGrid>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>

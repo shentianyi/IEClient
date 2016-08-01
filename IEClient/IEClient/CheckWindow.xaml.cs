@@ -76,9 +76,15 @@ namespace IEClient
 
         private void to_Item_Click(object sender, RoutedEventArgs e)
         {
-            ItemsWindow win = new ItemsWindow();
-            win.Show();
-            this.Close();
+            if (finish.IsEnabled == false)
+            {
+                ItemsWindow win = new ItemsWindow();
+                win.Show();
+                this.Close();
+            }
+            else {
+                MessageBox.Show("请先结束测试");
+            }
         }
         private void detail_Click(object sender, RoutedEventArgs e)
         {
@@ -104,10 +110,9 @@ namespace IEClient
                     if (ieHost != null)
                     {
                         ieHost.StopTest();
-
+                        
                         begin.IsEnabled = true;
                         finish.IsEnabled = false;
-                        itemWindow.IsEnabled = true;
                     }
                 }
                 catch (Exception ex)
@@ -116,7 +121,6 @@ namespace IEClient
                     LogUtil.Logger.Error(ex.Source);
                     begin.IsEnabled = false;
                     finish.IsEnabled = true;
-                    itemWindow.IsEnabled = false;
                     MessageBox.Show(ex.Message);
                 }
             }
@@ -166,11 +170,11 @@ namespace IEClient
         /// <param name="e"></param>
         private void begin_Click(object sender, RoutedEventArgs e)
         {
+
             try
             {
                 begin.IsEnabled = false;
-                finish.IsEnabled = true;
-                itemWindow.IsEnabled = false;
+                finish.IsEnabled = true;   
                 foreach (IESlave<Node> slave in ieSlaves)
                 {
                     if (slave.Selected == true) {
@@ -190,7 +194,6 @@ namespace IEClient
                 LogUtil.Logger.Error(ex.Source);
                 begin.IsEnabled = true;
                 finish.IsEnabled = false;
-                itemWindow.IsEnabled = true;
                 MessageBox.Show(ex.Message);
             }
         }
@@ -268,6 +271,17 @@ namespace IEClient
                     slaveDataHandlerThread.Abort();
                 }
             }
+        }
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            if (begin.IsEnabled == false)
+            {
+                e.Cancel = true;
+            }
+            else {
+                e.Cancel = false;
+            }
+            
         }
 
         private void settingWindow_Click(object sender, RoutedEventArgs e)

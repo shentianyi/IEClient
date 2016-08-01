@@ -79,7 +79,7 @@
                 <ColumnDefinition Width="1.1*"/>
             </Grid.ColumnDefinitions>
             <UniformGrid Columns="3" Grid.Row="0" Grid.Column="1">
-                <Button x:Name="itemWindow" Style="{StaticResource menuButton}"  Click="to_Item_Click">
+                <Button x:Name="itemWindow" Style="{StaticResource menuButton}"  Click="to_Item_Click" IsEnabled="True">
                     <StackPanel>
                         <Image Source="image/item.png" Height="64" Width="86" ></Image>
                         <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">项目管理</TextBlock>

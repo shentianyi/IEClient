@@ -27,7 +27,7 @@ namespace IEClientLib
         /// <summary>
         /// 时间长度
         /// </summary>
-        public int Time { get; set; }
+        public float Time { get; set; }
 
 
     }

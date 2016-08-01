@@ -132,7 +132,10 @@ namespace IEClientLib
         /// </summary>
         public List<IEData> DataList { get { return dataList; } set { this.dataList = value; } }
          
-        
+        public float? MaxFilter { get; set; }
+        public float? MinFilter { get; set; }
+
+
         public void AddDatasToList(List<IEData> datas)
         {
             foreach (IEData data in datas)

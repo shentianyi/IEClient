@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ClearInsight.Model;
+using IEClientLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +21,9 @@ namespace IEClient
     /// </summary>
     public partial class SettingBoxWindow : Window
     {
+
+        public List<IESlave<Node>> IESlaves { get; set; }
+
         public SettingBoxWindow()
         {
             InitializeComponent();
@@ -27,6 +32,7 @@ namespace IEClient
             double screenWidth = SystemParameters.FullPrimaryScreenWidth;
             this.Top = (screenHeight - this.Height) / 2;
             this.Left = (screenWidth - this.Width) / 2;
+
         }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -41,7 +47,32 @@ namespace IEClient
         }
         private void save_Setting_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            try
+            {
+                float? max = null;
+                float? min = null;
+
+                if (!string.IsNullOrEmpty(maxNumber.Text))
+                {
+                    max = float.Parse(maxNumber.Text);
+                }
+                if (!string.IsNullOrEmpty(minNumber.Text))
+                {
+                    min = float.Parse(minNumber.Text);
+                }
+                foreach (IESlave<Node> node in IESlaves)
+                {
+                    node.MaxFilter = max;
+                    node.MinFilter = min;
+                }
+
+                this.Close();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
     }

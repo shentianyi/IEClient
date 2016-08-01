@@ -91,7 +91,7 @@ namespace IEClient
         //范围设置
         private void range_set_Click(object sender, RoutedEventArgs e)
         {
-            SettingBoxWindow win = new SettingBoxWindow();
+            SettingBoxWindow win = new SettingBoxWindow() { IESlaves=GetSelectedSlaves()};
             win.ShowDialog(); 
         }
 
@@ -238,22 +238,51 @@ namespace IEClient
         private void SlaveDataHandler(Dictionary<string, object> dic) {
             IESlave<Node> slave = dic["slave"] as IESlave<Node>;
             IEData data = dic["data"] as IEData;
+            float value =  data.Time / 10;
+            bool up = false;
 
-            ClearInsightAPI api = new ClearInsightAPI(BaseConfig.Server, UserSession.GetInstance().CurrentUser.token);
-
-            KpiEntry entry = new KpiEntry()
+            LogUtil.Logger.Info(string.Format("slave: {0}, value is: {1}, maxfilter: {2} , minfilter: {3}",slave.Code,value,slave.MaxFilter,slave.MinFilter));
+            if (slave.MinFilter.HasValue) {
+                if (value >= slave.MinFilter.Value) {
+                    up = true;
+                }
+            }
+            else
             {
-                kpi_code = BaseConfig.CycleTimeKpiCode,
-                entry_at = DateTime.Now,
-                project_item_id = slave.ExtItem.project_item_id,
-                tenant_id = slave.ExtItem.tenant_id,
-                node_id = slave.ExtItem.id,
-                node_code = slave.ExtItem.code,
-                node_uuid = slave.ExtItem.uuid,
-                value = data.Time/10
-            };
+                up = true;
+            }
 
-            KpiEntry back = api.UploadKpiEntry(entry);
+            if (slave.MaxFilter.HasValue)
+            {
+                if (up)
+                {
+                    if (value <= slave.MaxFilter.Value)
+                    {
+                        up = true;
+                    }
+                    else { up = false; }
+                }
+            }
+
+            if (up)
+            {
+
+                ClearInsightAPI api = new ClearInsightAPI(BaseConfig.Server, UserSession.GetInstance().CurrentUser.token);
+
+                KpiEntry entry = new KpiEntry()
+                {
+                    kpi_code = BaseConfig.CycleTimeKpiCode,
+                    entry_at = DateTime.Now,
+                    project_item_id = slave.ExtItem.project_item_id,
+                    tenant_id = slave.ExtItem.tenant_id,
+                    node_id = slave.ExtItem.id,
+                    node_code = slave.ExtItem.code,
+                    node_uuid = slave.ExtItem.uuid,
+                    value = data.Time / 10
+                };
+
+                KpiEntry back = api.UploadKpiEntry(entry);
+            }
         }
 
         private void MetroWindow_Closing(object sender, CancelEventArgs e)

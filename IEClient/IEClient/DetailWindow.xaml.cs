@@ -33,6 +33,7 @@ namespace IEClient
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            this.Title = Slave.Name;
             List<IEData<Node>> data = new List<IEData<Node>>();
             for(int i = 0; i < 1000; i++)
             {

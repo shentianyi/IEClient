@@ -1,4 +1,6 @@
-﻿using MahApps.Metro.Controls;
+﻿using ClearInsight.Model;
+using IEClientLib;
+using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +23,22 @@ namespace IEClient
     /// </summary>
     public partial class DetailWindow : MetroWindow
     {
+        public IESlave<Node> Slave { get; set; }
+
         public DetailWindow()
         {
             InitializeComponent();
             
+        }
+
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            List<IEData<Node>> data = new List<IEData<Node>>();
+            for(int i = 0; i < 1000; i++)
+            {
+                data.Add(new IEData<Node> { Time=new Random().Next(100),PolledAt=DateTime.Now });
+            }
+            this.DataListDG.ItemsSource = data;//this.Slave.DataList;
         }
     }
 }

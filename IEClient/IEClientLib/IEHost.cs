@@ -580,11 +580,11 @@ namespace IEClientLib
                 {
                     slave.Status = SlaveStatus.OUT_CLOCKING;
                 }
-                List<IEData> datas = new List<IEData>();
+                List<IEData<T>> datas = new List<IEData<T>>();
                 foreach (int t in times)
                 {
                     LogUtil.Logger.Info(slave.Code + "数据：" + t);
-                    datas.Add(new IEData() { Time = t});
+                    datas.Add(new IEData<T>() { Time = t,Slave=slave});
                 }
                 slave.AddDatasToList(datas);
                 /// 给从机反馈，主机收到了数据 TODO ACK

@@ -34,12 +34,12 @@ namespace IEClientLib
         public delegate void StatusChangedEventHandler(IESlave<T> slave);
         public event StatusChangedEventHandler StatusChanged;
         // 计时事件
-        public delegate void TimeTickedEventHandler(IESlave<T> slave, IEData data);
+        public delegate void TimeTickedEventHandler(IESlave<T> slave, IEData<T> data);
         public event TimeTickedEventHandler TimeTicked;
         
         private string code;
         private SlaveStatus status;
-        private List<IEData> dataList = new List<IEData>();
+        private List<IEData<T>> dataList = new List<IEData<T>>();
         private bool selected;
         private string situation;
         /// <summary>
@@ -130,15 +130,15 @@ namespace IEClientLib
         /// <summary>
         /// IEData 列表
         /// </summary>
-        public List<IEData> DataList { get { return dataList; } set { this.dataList = value; } }
+        public List<IEData<T>> DataList { get { return dataList; } set { this.dataList = value; } }
          
         public float? MaxFilter { get; set; }
         public float? MinFilter { get; set; }
 
 
-        public void AddDatasToList(List<IEData> datas)
+        public void AddDatasToList(List<IEData<T>> datas)
         {
-            foreach (IEData data in datas)
+            foreach (IEData<T> data in datas)
             {
                 if (data.Time != 0)
                 {

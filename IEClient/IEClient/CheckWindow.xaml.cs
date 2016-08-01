@@ -88,8 +88,11 @@ namespace IEClient
         }
         private void detail_Click(object sender, RoutedEventArgs e)
         {
-            DetailWindow win = new DetailWindow();
-            win.Show();
+            if (this.UniformGrid.SelectedIndex > -1)
+            {
+                DetailWindow win = new DetailWindow() { Slave=this.UniformGrid.SelectedItem as IESlave<Node>};
+                win.Show();
+            }
         }
         //范围设置
         private void range_set_Click(object sender, RoutedEventArgs e)
@@ -107,10 +110,6 @@ namespace IEClient
                     if (ieHost != null)
                     {
                         ieHost.StopTest();
-<<<<<<< HEAD
-=======
-                        
->>>>>>> b6277c7c0186d8180c07b13b1c89a9928724642b
                         begin.IsEnabled = true;
                         finish.IsEnabled = false;
                     }
@@ -174,7 +173,6 @@ namespace IEClient
             try
             {
                 begin.IsEnabled = false;
-<<<<<<< HEAD
                 finish.IsEnabled = true;
  
 
@@ -185,23 +183,6 @@ namespace IEClient
                     ieHost.StartTest();
                     ieHost.PollData();
               //  });
-
-                 
-=======
-                finish.IsEnabled = true;   
-                foreach (IESlave<Node> slave in ieSlaves)
-                {
-                    if (slave.Selected == true) {
-                        /// 开始测试
-                        this.Dispatcher.Invoke(DispatcherPriority.Normal, (System.Windows.Forms.MethodInvoker)delegate ()
-                        {
-                            ieHost.StartTest();
-                            ieHost.PollData();
-                        });
-                    };
-                }
-        
->>>>>>> b6277c7c0186d8180c07b13b1c89a9928724642b
             }
             catch (Exception ex)
             {
@@ -223,7 +204,7 @@ namespace IEClient
         /// </summary>
         /// <param name="slave"></param>
         /// <param name="data"></param>
-        private void Slave_TimeTicked(IESlave<Node> slave, IEData data)
+        private void Slave_TimeTicked(IESlave<Node> slave, IEData<Node> data)
         {
             if (slaveDataSyncQueue == null)
             {
@@ -258,7 +239,7 @@ namespace IEClient
 
         private void SlaveDataHandler(Dictionary<string, object> dic) {
             IESlave<Node> slave = dic["slave"] as IESlave<Node>;
-            IEData data = dic["data"] as IEData;
+            IEData<Node> data = dic["data"] as IEData<Node>;
             float value =  data.Time / 10;
             bool up = false;
 

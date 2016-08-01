@@ -5,7 +5,7 @@ using System.Text;
 
 namespace IEClientLib
 {
-    public class IEData
+    public class IEData<T>
     {
         public IEData()
         {
@@ -14,6 +14,8 @@ namespace IEClientLib
             this.Time = 0;
             this.PolledAt = DateTime.Now;
         }
+
+        public IESlave<T> Slave { get; set; }
 
         /// <summary>
         /// 是否被保存为数据载体，默认是false
@@ -26,9 +28,14 @@ namespace IEClientLib
         public bool Valid { get; set; }
 
         /// <summary>
-        /// 时间长度
+        /// 时间长度,100ms为单位
         /// </summary>
         public float Time { get; set; }
+
+        /// <summary>
+        /// 时间长度, 1s为单位
+        /// </summary>
+        public float ParsedTime { get {return this.Time / 10; } }
 
         /// <summary>
         /// 被抓取到的时间

@@ -88,11 +88,8 @@ namespace IEClient
         }
         private void detail_Click(object sender, RoutedEventArgs e)
         {
-            ItemsWindow page = new ItemsWindow();
-            page.Content = new DetailPage();
-            page.WindowState = System.Windows.WindowState.Normal;
-            page.Topmost = true;
-            page.Show();
+            DetailWindow win = new DetailWindow();
+            win.Show();
         }
         //范围设置
         private void range_set_Click(object sender, RoutedEventArgs e)
@@ -283,7 +280,6 @@ namespace IEClient
             }
             
         }
-
         private void settingWindow_Click(object sender, RoutedEventArgs e)
         {
         }

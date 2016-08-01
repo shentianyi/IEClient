@@ -19,20 +19,41 @@
             <Setter Property="FontFamily" Value="Times New Roman" />
         </Style>
     </Window.Resources>
-    
-    <Grid>
-        <DataGrid Name="DataListDG" BorderThickness="0" Background="White" Height="300"  
+
+    <Grid ShowGridLines="False">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <DataGrid Name="DataListDG" BorderThickness="0" Grid.Row="0" Background="White" Height="Auto"  AlternationCount="2" AlternatingRowBackground="#e7e7e7"  
                               ClipboardCopyMode="IncludeHeader" AutoGenerateColumns="False" IsReadOnly="True"
-                              CanUserAddRows="false" CanUserDeleteRows="false" SnapsToDevicePixels="True" 
-                         
+                              CanUserAddRows="false" CanUserDeleteRows="false" SnapsToDevicePixels="True"                       
                               CanUserReorderColumns="True" FontSize="13">
+            <DataGrid.Resources>
+                <Style TargetType="DataGrid">
+                    <!--网格线颜色-->
+                    <Setter Property="CanUserResizeColumns" Value="false"/>
+                    <Setter Property="Background" Value="#E6DBBB" />
+                    <Setter Property="BorderBrush" Value="#d6c79b" />
+                    <Setter Property="HorizontalGridLinesBrush">
+                        <Setter.Value>
+                            <SolidColorBrush Color="#d6c79b"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="VerticalGridLinesBrush">
+                        <Setter.Value>
+                            <SolidColorBrush Color="#d6c79b"/>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.Resources>
 
 
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="DataGridColumnHeader">
                     <Setter Property="Background">
                         <Setter.Value>
-                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <LinearGradientBrush EndPoint="0.5,10" StartPoint="0.5,0">
                                 <GradientStop Color="#FF269EF1"/>
                                 <GradientStop Color="#FF052841" Offset="1"/>
                             </LinearGradientBrush>
@@ -42,14 +63,27 @@
                     <Setter Property="FontSize" Value="10" />
                     <Setter Property="Padding" Value="20,10,20,10"/>
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
+
                 </Style>
             </DataGrid.ColumnHeaderStyle>
 
             <DataGrid.Columns>
+                <DataGridTextColumn Header="Number" Binding="{Binding Path=LineNumber}" ElementStyle="{StaticResource contentCenterStyle}" Width="20"/>
                 <DataGridTextColumn Header="Value" Binding="{Binding Path=ParsedTime}" ElementStyle="{StaticResource contentCenterStyle}"/>
                 <DataGridTextColumn Header="PolledAt" Binding="{Binding Path=PolledAt}" ElementStyle="{StaticResource contentCenterStyle}"/>
-
             </DataGrid.Columns>
         </DataGrid>
+        <Grid Grid.Row="1" Background="#FF269EF1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="title" Text="共计：" Grid.Column="0" VerticalAlignment="Center" TextWrapping="Wrap" Margin="10,0"/>
+            <TextBlock x:Name="listCount" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+            <TextBlock x:Name="line" Text="行" Grid.Column="2" VerticalAlignment="Center" TextWrapping="Wrap"  Margin="10,0"/>
+        </Grid>
+
     </Grid>
+
 </controls:MetroWindow>

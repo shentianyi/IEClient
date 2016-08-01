@@ -101,29 +101,7 @@ namespace IEClient
             win.ShowDialog(); 
         }
 
-        private void finish_Click(object sender, RoutedEventArgs e)
-        {
-            if (MessageBox.Show("确定结束测试？", "确定结束测试？", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-            {
-                try
-                {
-                    if (ieHost != null)
-                    {
-                        ieHost.StopTest();
-                        begin.IsEnabled = true;
-                        finish.IsEnabled = false;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogUtil.Logger.Error(ex.Message);
-                    LogUtil.Logger.Error(ex.Source);
-                    begin.IsEnabled = false;
-                    finish.IsEnabled = true;
-                    MessageBox.Show(ex.Message);
-                }
-            }
-        }
+       
 
         /// <summary>
         /// 全选
@@ -193,6 +171,32 @@ namespace IEClient
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void finish_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("确定结束测试？", "确定结束测试？", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    if (ieHost != null)
+                    {
+                        ieHost.StopTest();
+                      
+                        begin.IsEnabled = true;
+                        finish.IsEnabled = false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogUtil.Logger.Error(ex.Message);
+                    LogUtil.Logger.Error(ex.Source);
+                    begin.IsEnabled = false;
+                    finish.IsEnabled = true;
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
 
         private List<IESlave<Node>> GetSelectedSlaves() {
             return this.ieSlaves.Where(s => s.Selected == true).ToList();
@@ -283,7 +287,7 @@ namespace IEClient
                     value = data.Time / 10
                 };
 
-                KpiEntry back = api.UploadKpiEntry(entry);
+               KpiEntry back = api.UploadKpiEntry(entry);
                 data.Stored = true;
             }
         }

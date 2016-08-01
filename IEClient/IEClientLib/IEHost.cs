@@ -102,7 +102,11 @@ namespace IEClientLib
             started = false;
             this.pollDataTimer.Stop();
             this.pollDataTimer.Enabled = false;
+            Thread.Sleep(3000);
+
             StartOrStopTest(CmdType.STOP_TEST);
+            Thread.Sleep(3000);
+            Close();
         }
 
         /// <summary>
@@ -150,6 +154,10 @@ namespace IEClientLib
         {
             try
             {
+                if (!reSend)
+                {
+                    resendCount = 0;
+                }
                 res = false;
                 Thread.Sleep(100);
                 if (string.IsNullOrWhiteSpace(slaveCode))
@@ -341,6 +349,8 @@ namespace IEClientLib
                 if (sp.IsOpen)
                 {
                     Thread.Sleep(100);
+
+                    if (comIsClosing) return;
                     byte[] bytesData = new byte[sp.BytesToRead];
                     sp.Read(bytesData, 0, bytesData.Length);
                     if (firstByte != 0x00)
@@ -358,6 +368,10 @@ namespace IEClientLib
                     res = true;
                 }
             }
+            catch (Exception ex)
+            {
+                LogUtil.Logger.Info(ex.Message);
+            }
             finally {
                 comIsListening = false;
             }
@@ -367,7 +381,7 @@ namespace IEClientLib
         /// 关闭串口
         /// </summary>
         /// <returns></returns>
-        private bool Close()
+        private bool Close(bool reclose=false)
         {
             if (this.sp != null)
             {
@@ -385,9 +399,16 @@ namespace IEClientLib
                 }
                 catch (Exception ex)
                 {
+                    if (!reclose)
+                    {
+                        Close(true);
+                    }
                     LogUtil.Logger.Error("Close Error");
                     LogUtil.Logger.Error(ex.Message);
-                    throw ex;
+                    if (reclose)
+                    {
+                        throw ex;
+                    }
                 }
             }
             return false;
@@ -435,6 +456,8 @@ namespace IEClientLib
         /// <param name="e"></param>
         private void PollDataTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
+
+          
             // 先停止timer
             pollDataTimer.Stop();
             // 获取数据
@@ -448,7 +471,10 @@ namespace IEClientLib
         /// 获取从机数据
         /// </summary>
         private void DoPollData()
-        {
+        {  if (comIsClosing)
+            {
+                return;
+            }
             this.CheckSlaves();
             for (int i = 0; i < this.Slaves.Count; i++)
             {

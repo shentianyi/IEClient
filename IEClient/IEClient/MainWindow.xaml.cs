@@ -52,7 +52,7 @@ namespace IEClient
             }
             else
             {
-                MessageBox.Show("登录失败，请核实邮件和密码");
+                MessageBox.Show("登录失败，请核实邮箱和密码");
             }
         }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)

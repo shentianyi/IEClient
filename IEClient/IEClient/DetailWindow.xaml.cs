@@ -33,12 +33,12 @@ namespace IEClient
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            List<IEData<Node>> data = new List<IEData<Node>>();
-            for(int i = 0; i < 1000; i++)
-            {
-                data.Add(new IEData<Node> { Time=new Random().Next(100),PolledAt=DateTime.Now });
-            }
-            this.DataListDG.ItemsSource = data;//this.Slave.DataList;
+            //List<IEData<Node>> data = new List<IEData<Node>>();
+            //for(int i = 0; i < 1000; i++)
+            //{
+            //    data.Add(new IEData<Node> { Time=new Random().Next(100),PolledAt=DateTime.Now });
+            //}
+            this.DataListDG.ItemsSource =this.Slave.DataList;
         }
     }
 }

@@ -127,13 +127,19 @@ namespace IEClientLib
         {
             get { return bettery; }
             set {
+                
                 bettery = value;
                 OnPropertyChanged(new PropertyChangedEventArgs("Battery"));
                 OnPropertyChanged(new PropertyChangedEventArgs("BatteryDisplay"));
                 OnPropertyChanged(new PropertyChangedEventArgs("BatteryStage"));
+                OnPropertyChanged(new PropertyChangedEventArgs("BatteryWidth"));
             }
         }
-
+        public int BatteryWidth
+        {
+            get { return bettery/2; }
+             
+        }
         public string BatteryDisplay
         {
             get { return string.Format("{0}%",this.bettery); }
@@ -142,36 +148,12 @@ namespace IEClientLib
         {
             get
             {
-                if (this.bettery == 0)
-                {
-                    return 0;
-                }
-                else if (this.bettery > 0 && bettery <= 15)
+                if (this.bettery > 15)
                 {
                     return 1;
                 }
-                else if (this.bettery > 15 && bettery <= 30)
-                {
-                    return 2;
-                }
-                else if (this.bettery > 30 && bettery <= 45)
-                {
-                    return 3;
-                }
-                else if (this.bettery > 45 && bettery <= 60)
-                {
-                    return 4;
-                }
-                else if (this.bettery > 60 && bettery <= 75)
-                {
-                    return 5;
-                }
-                else if (this.bettery > 75 && bettery <= 90)
-                {
-                    return 6;
-                }
                 else
-                    return 70;
+                    return 0;
             }
         }
 

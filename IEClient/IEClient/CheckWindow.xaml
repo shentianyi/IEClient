@@ -3,13 +3,14 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-        xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
       xmlns:local="clr-namespace:IEClient"
       mc:Ignorable="d" 
       d:DesignHeight="400" d:DesignWidth="600"
       Background="#115292"
       Title="测试管理" Loaded="MetroWindow_Loaded" WindowStartupLocation="CenterScreen" Closing="MetroWindow_Closing">
     <Window.Resources>
+
         <Style x:Key="menuButton">
             <Setter Property="Button.Margin" Value="10,5"/>
             <Setter Property="Button.Cursor" Value="Hand"/>
@@ -53,15 +54,38 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
-                        <ProgressBar x:Name="BatteryBody" Grid.Column="0" Height="16" Width="50" Background="White" BorderBrush="White" Value="{Binding Path=Battery}"/>
-                        <Rectangle x:Name="BatteryHead" Fill="White" Grid.Column="1" Height="8" Width="3" Stroke="White" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        <!--<TextBlock Name="Electric" Grid.Column="0" FontSize="12" TextWrapping="Wrap"  Foreground="White"  Text="{Binding Path=BatteryDisplay}" HorizontalAlignment="Center" />-->
+                        <ProgressBar   Grid.Column="1"  Height="16" Width="50" 
+                                       BorderBrush="White" BorderThickness="1"
+                                       Background="White" Foreground="White"  Margin="0" 
+                                       Value="{Binding Path=Battery}" HorizontalAlignment="Left">
+                            <ProgressBar.Template>
+                                <ControlTemplate>
+                                    <StackPanel>
+                                        <Rectangle x:Name="BatteryBody" Width="{Binding Path=BatteryWidth}" Height="16" Fill="Orange" HorizontalAlignment="Left"/>
+                                    </StackPanel>
+                                    <ControlTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding BatteryStage}" Value="0">
+                                            <Setter TargetName="BatteryBody" Property="Fill" Value="Red"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding BatteryStage}" Value="1">
+                                            <Setter TargetName="BatteryBody" Property="Fill" Value="Orange"/>
+                                        </DataTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </ProgressBar.Template>
+                        </ProgressBar>
+                        <Rectangle x:Name="BatteryHead" Grid.Column="2" Height="8" Width="3" Stroke="White "   VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        <Rectangle x:Name="BatteryBodyR" Grid.Column="1" Height="16" Width="50" Stroke="White" Margin="0"  VerticalAlignment="Center" HorizontalAlignment="Left"/>
+
                     </Grid>
                 </StackPanel>
             </Border>
             <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding Status}" Value="100">
-                    <Setter TargetName="SituationR" Property="Fill" Value="white"/>
+                    <Setter TargetName="SituationR" Property="Fill" Value="gray"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Status}" Value="200">
                     <Setter TargetName="SituationR" Property="Fill" Value="green"/>
@@ -69,9 +93,11 @@
                 <DataTrigger Binding="{Binding Status}" Value="500">
                     <Setter TargetName="SituationR" Property="Fill" Value="yellow"/>
                 </DataTrigger>
+
                 <DataTrigger Binding="{Binding Status}" Value="600">
-                    <Setter TargetName="SituationR" Property="Fill" Value="lightgreen"/>
+                    <Setter TargetName="SituationR" Property="Fill" Value="orange"/>
                 </DataTrigger>
+               
             </DataTemplate.Triggers>
         </DataTemplate>
         <Style x:Key="deviceListStyle">
@@ -79,7 +105,6 @@
             <Setter Property="ListBoxItem.BorderBrush" Value="Transparent"/>
         </Style>
     </Window.Resources>
-
     <Grid ShowGridLines="False">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -117,15 +142,13 @@
             </UniformGrid>
             <Image Source="image/logo.png" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Height="70"></Image>
         </Grid>
-
         <GridSplitter   Background="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1"/>
         <GridSplitter   Background="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4"/>
         <DockPanel Grid.Row="2">
             <CheckBox x:Name="allCheckBox"  Content="全  选" Height="30" Margin="30,5" Foreground="Black" Checked="allCheckBox_Click" Unchecked="allCheckBox_Uncheck"/>
-            <Button  HorizontalAlignment="Left" Height="Auto" Width="80" Margin="30,5" FontSize="13" Cursor="Hand" BorderBrush="White" Click="range_set_Click">范围设置</Button>
+            <Button  HorizontalAlignment="Left" Height="Auto" Width="80" Margin="30,5" FontSize="13" Cursor="Hand" BorderBrush="White" Click="range_set_Click">范围设置
+            </Button>
         </DockPanel>
-
-
         <ListBox Name="UniformGrid" Grid.Row="3" Margin="7,3,7,10" ItemTemplate="{StaticResource deviceList}" 
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                  ItemsSource="{Binding}"
@@ -137,10 +160,6 @@
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>
-
-
-
-
         <Grid Grid.Row="5" Background="#164E80">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*"/>

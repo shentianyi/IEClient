@@ -531,57 +531,66 @@ namespace IEClientLib
         /// <param name="bytesData"></param>
         private void Parse(byte[] bytesData)
         {
-            // 解析返回
-            if (this.currentCmdType == CmdType.START_TEST || this.currentCmdType == CmdType.STOP_TEST)
+            if (bytesData.Length > 7)
             {
-                if (bytesData.Length == 8 || bytesData.Length == 9)
+                byte[] bcode = bytesData.Take(2).ToArray();
+                byte ack_nak = bytesData[4];
+
+              
+
+                IESlave<T> slave = FindSalveByBCode(bcode);
+                if (slave != null)
                 {
-                    byte[] bcode = bytesData.Take(2).ToArray();
-                    byte ack_nak = bytesData[4];
+                    // parse bettery
+                    byte bettery = bytesData.Skip(bytesData.Length - 3).Take(1).First();
+                    LogUtil.Logger.Info(slave.Code + "电量：" + ScaleHelper.HexByteToDecimal(bettery));
+                    slave.Battery = ScaleHelper.HexByteToDecimal(bettery);
 
-                    IESlave<T> slave = FindSalveByBCode(bcode);
-                    if (slave != null)
+
+                    // 解析返回
+                    if (this.currentCmdType == CmdType.START_TEST || this.currentCmdType == CmdType.STOP_TEST)
                     {
-                        if (ack_nak == 0xB0)
+                        if (bytesData.Length == 8 || bytesData.Length == 9)
                         {
-                            slave.Status = this.currentCmdType == CmdType.START_TEST ? SlaveStatus.OK_TO_TEST : SlaveStatus.OFF;
-                        }
-                        else if (ack_nak == 0xB1)
-                        {
-                            byte error = bytesData[6];
-                            slave.Status = GetNakSlaveStatus(error);
-                        }
-                        else if (ack_nak == 0xD0)
-                        {
-                            /// 给从机反馈，主机收到了数据 TODO ACK
-                            // SendCmd(CmdType.ACK, slave.Code, false, false);
 
-                            ParsePollData(bytesData, slave);
+                            if (ack_nak == 0xB0)
+                            {
+                                slave.Status = this.currentCmdType == CmdType.START_TEST ? SlaveStatus.OK_TO_TEST : SlaveStatus.OFF;
+                            }
+                            else if (ack_nak == 0xB1)
+                            {
+                                byte error = bytesData[6];
+                                slave.Status = GetNakSlaveStatus(error);
+                            }
+                            else if (ack_nak == 0xD0)
+                            {
+                                /// 给从机反馈，主机收到了数据 TODO ACK
+                                // SendCmd(CmdType.ACK, slave.Code, false, false);
+
+                                ParsePollData(bytesData, slave);
+                            }
+
+
+
                         }
                     }
-
-                }
-            }
-            else if (this.currentCmdType == CmdType.POLL_DATA)
-            {
-                if (bytesData.Length >= 8)
-                {
-                    byte[] bcode = bytesData.Take(2).ToArray();
-
-                    IESlave<T> slave = FindSalveByBCode(bcode);
-
-                    byte ack_nak = bytesData[4];
-                    if (ack_nak == 0xD0)
+                    else if (this.currentCmdType == CmdType.POLL_DATA)
                     {
-                        ParsePollData(bytesData, slave);
-                        /// 给从机反馈，主机收到了数据 TODO ACK
-                            // SendCmd(CmdType.ACK, slave.Code, false, false);
+                        if (bytesData.Length >= 8)
+                        {
+                            if (ack_nak == 0xD0)
+                            {
+                                ParsePollData(bytesData, slave);
+                                /// 给从机反馈，主机收到了数据 TODO ACK
+                                // SendCmd(CmdType.ACK, slave.Code, false, false);
 
-                    }
-                    else if (ack_nak == 0xB1)
-                    {
-                        byte error = bytesData[6];
-                        slave.Status = GetNakSlaveStatus(error);
+                            }
+                            else if (ack_nak == 0xB1)
+                            {
+                                byte error = bytesData[6];
+                                slave.Status = GetNakSlaveStatus(error);
+                            }
+                        }
                     }
                 }
             }

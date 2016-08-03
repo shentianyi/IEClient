@@ -109,6 +109,39 @@ namespace IEClientLib
                 }
             }
         }
+
+        private int bettery = 100;
+        public int Battery
+        {
+            get { return bettery; }
+            set {
+                bettery = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("Battery"));
+                OnPropertyChanged(new PropertyChangedEventArgs("BatteryDisplay"));
+                OnPropertyChanged(new PropertyChangedEventArgs("BatteryStage"));
+            }
+        }
+
+        public string BatteryDisplay
+        {
+            get { return string.Format("{0}%",this.bettery); }
+        }
+        public int BatteryStage
+        {
+            get
+            {
+                if (this.bettery == 0)
+                {
+                    return 0;
+                }
+                else if (this.bettery > 0 && bettery <= 15)
+                {
+                    return 15;
+                }
+                return 100;
+            }
+        }
+
         //从机运行状态颜色提示
         public bool Selected
         {

@@ -40,7 +40,7 @@ namespace IEClientLib
         private string code;
         private SlaveStatus status;
         private List<IEData<T>> dataList = new List<IEData<T>>();
-        private bool selected;
+        private bool? selected;
         private string situation;
         /// <summary>
         /// Id
@@ -176,7 +176,7 @@ namespace IEClientLib
         }
 
         //从机运行状态颜色提示
-        public bool Selected
+        public bool? Selected
         {
             get { return selected; }
             set
@@ -203,14 +203,15 @@ namespace IEClientLib
 
         public void AddDatasToList(List<IEData<T>> datas)
         {
-            foreach (IEData<T> data in datas)
+            for (int i = 0; i < datas.Count; i++)
             {
-                if (data.Time != 0)
+                if (datas[i].Time != 0)
                 {
-                    this.dataList.Add(data);
+                    datas[i].Nr = this.dataList.Count + i + 1;
+                    this.dataList.Add(datas[i]);
                     if (this.TimeTicked != null)
                     {
-                        this.TimeTicked(this, data);
+                        this.TimeTicked(this, datas[i]);
                     }
                 }
             }

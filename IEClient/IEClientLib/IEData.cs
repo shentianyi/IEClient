@@ -15,6 +15,7 @@ namespace IEClientLib
             this.PolledAt = DateTime.Now;
         }
 
+
         public IESlave<T> Slave { get; set; }
 
         /// <summary>
@@ -41,7 +42,7 @@ namespace IEClientLib
         /// 被抓取到的时间
         /// </summary>
         public DateTime PolledAt { get; set; }
-        public int LineNumber { get; set; }
+        public int Nr { get; set; }
 
     }
 }

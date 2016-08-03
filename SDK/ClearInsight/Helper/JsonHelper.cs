@@ -18,7 +18,7 @@ namespace ClearInsight.Helper
         /// <returns></returns>
         public static T JsonDeserialize<T>(string jsonString)
         {
-            Console.WriteLine(jsonString);
+            //Console.WriteLine(jsonString);
             JavaScriptSerializer jsonSerialize = new JavaScriptSerializer();
             return (T)jsonSerialize.Deserialize<T>(jsonString);
         }

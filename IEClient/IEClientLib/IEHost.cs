@@ -238,7 +238,10 @@ namespace IEClientLib
                 return true;
             }
             catch (TimeoutException ex) {
-                ReSendCmd();
+                if (started || currentCmdType == CmdType.STOP_TEST || currentCmdType==CmdType.START_TEST)
+                {
+                    ReSendCmd();
+                }
             }
             return false;
 
@@ -516,7 +519,7 @@ namespace IEClientLib
                 case 0x01:
                     return SlaveStatus.ID_NOT_MATCH;
                 case 0x02:
-                    return SlaveStatus.OUT_CLOCKING;
+                    return currentCmdType==CmdType.STOP_TEST ? SlaveStatus.OFF : SlaveStatus.OUT_CLOCKING;
                 default:
                     return SlaveStatus.NOK_TO_TEST;
             }

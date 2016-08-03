@@ -103,7 +103,6 @@ namespace IEClientLib
             this.pollDataTimer.Stop();
             this.pollDataTimer.Enabled = false;
             Thread.Sleep(3000);
-
             StartOrStopTest(CmdType.STOP_TEST);
             Thread.Sleep(3000);
             Close();
@@ -246,50 +245,7 @@ namespace IEClientLib
             return false;
 
         }
-
-        /// <summary>
-        /// 接收数据线程
-        /// </summary>
-        //private void ReceiveDataThread(SerialPort _sp) {
-        //    Thread receiveThread = new Thread(new ParameterizedThreadStart(SynReceiveData));
-        //    receiveThread.Start(_sp);
-        //}
-
-        ////同步阻塞读取    
-        //private void SynReceiveData()
-        //{
-        //    try
-        //    {
-        //        System.Threading.Thread.Sleep(500);
-
-        //       LogUtil.Logger.Debug(">>接收到数据：" + this.sp.ReadBufferSize);
-        //        LogUtil.Logger.Debug(">>接收到数据：" + this.sp.BytesToRead);
-        //        byte[] d = new byte[4096];
-        //        this.sp.Read(d, 0, 4096);
-        //        LogUtil.Logger.Debug(d);
-        //        //byte firstByte = Convert.ToByte(this.sp.ReadByte());
-
-        //        //int bytesRead = this.sp.BytesToRead;
-        //        //byte[] bytesData = new byte[bytesRead + 1];
-        //        //bytesData[0] = firstByte;
-        //        //for (int i = 1; i <= bytesRead; i++)
-        //        //{
-        //        //    bytesData[i] = Convert.ToByte(this.sp.ReadByte());
-        //        //}
-        //        //string ss = ScaleHelper.HexBytesToString(bytesData);
-
-        //        //this.resendCount = 0;
-        //        //LogUtil.Logger.Debug("接收到数据：" + ScaleHelper.HexBytesToString(bytesData));
-
-        //        //  Parse(bytesData);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        LogUtil.Logger.Error(ex.Message + ":" + this.Slaves[currentSlaveIndex].Code);
-        //        // ReSendCmd();
-        //    }
-
-        //}
+         
 
         /// <summary>
         /// 重新发送
@@ -384,7 +340,7 @@ namespace IEClientLib
         /// 关闭串口
         /// </summary>
         /// <returns></returns>
-        private bool Close(bool reclose=false)
+        public bool Close(bool reclose=false)
         {
             if (this.sp != null)
             {

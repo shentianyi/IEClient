@@ -11,7 +11,7 @@
         Width="500"
         Background="#0078C1"
         WindowStartupLocation="CenterScreen"
-        Title="设置">
+        Title="设置" Loaded="MetroWindow_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1.2*"/>
@@ -24,7 +24,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock x:Name="Server" Grid.Column="0" HorizontalAlignment="Right" TextWrapping="Wrap" Text="服务器：" VerticalAlignment="Center" FontSize="16"/>
+            <TextBlock x:Name="ServerLab" Grid.Column="0" HorizontalAlignment="Right" TextWrapping="Wrap" Text="服务器：" VerticalAlignment="Center" FontSize="16"/>
             <TextBox x:Name="ServerText" Grid.Column="1" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Center" Width="200"/>
         </Grid>
         <Grid Grid.Row="1">
@@ -32,16 +32,16 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock x:Name="ComText" Grid.Column="0" HorizontalAlignment="Right" TextWrapping="Wrap" Text="串口号：" VerticalAlignment="Center" FontSize="16"/>
-            <ComboBox x:Name="COM" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="200"/>
+            <TextBlock x:Name="lable1" Grid.Column="0" HorizontalAlignment="Right" TextWrapping="Wrap" Text="串口号：" VerticalAlignment="Center" FontSize="16"/>
+            <ComboBox x:Name="ComCB" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="200"/>
         </Grid>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock x:Name="BaudRateText" Grid.Column="0" HorizontalAlignment="Right" TextWrapping="Wrap" Text="波特率：" VerticalAlignment="Center" FontSize="16"/>
-            <TextBox x:Name="BaudRate" Grid.Column="1" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Center" Width="200" 
+            <TextBlock x:Name="label2" Grid.Column="0" HorizontalAlignment="Right" TextWrapping="Wrap" Text="波特率：" VerticalAlignment="Center" FontSize="16"/>
+            <TextBox x:Name="BaudRateText" Grid.Column="1" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Center" Width="200" 
                      input:InputMethod.IsInputMethodEnabled="False"
                      PreviewTextInput="Baud_PreviewTextInput" Grid.ColumnSpan="2"/>
         </Grid>

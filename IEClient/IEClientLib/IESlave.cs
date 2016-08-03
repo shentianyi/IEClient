@@ -86,7 +86,7 @@ namespace IEClientLib
         public byte[] BCode { get; set; }
 
         /// <summary>
-        /// 状态
+        /// 当前状态
         /// </summary>
         public SlaveStatus Status
         {
@@ -102,12 +102,24 @@ namespace IEClientLib
 
                     OnPropertyChanged(new PropertyChangedEventArgs("Status"));
 
+                    OnPropertyChanged(new PropertyChangedEventArgs("StatusDispaly"));
                     if (this.StatusChanged != null)
                     {
                         this.StatusChanged(this);
                     }
                 }
             }
+        }
+
+        public string StatusDispaly {
+            get { return EnumHelper.GetDescription(this.status); }
+        }
+
+        /// <summary>
+        /// 需要变成的状态
+        /// </summary>
+        public SlaveStatus ToStauts {
+            get; set;
         }
 
         private int bettery = 100;
@@ -187,8 +199,7 @@ namespace IEClientLib
         public List<IEData<T>> DataList { get { return dataList; } set { this.dataList = value; } }
          
         public float? MaxFilter { get; set; }
-        public float? MinFilter { get; set; }
-
+        public float? MinFilter { get; set; } 
 
         public void AddDatasToList(List<IEData<T>> datas)
         {

@@ -155,12 +155,14 @@ namespace IEClient
  
 
                 ieHost.Slaves = GetSelectedSlaves();
-                /// 开始测试
-              //  this.Dispatcher.Invoke(DispatcherPriority.Normal, (System.Windows.Forms.MethodInvoker)delegate ()
-               // {
-                    ieHost.StartTest();
-                    ieHost.PollData();
-              //  });
+                // 开始测试
+                //this.Dispatcher.Invoke(DispatcherPriority.Normal, (System.Windows.Forms.MethodInvoker)delegate ()
+                //{
+                    
+                        ieHost.StartTest();
+                        ieHost.PollData();
+                    
+               // });
             }
             catch (Exception ex)
             {

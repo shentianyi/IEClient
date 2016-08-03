@@ -550,7 +550,7 @@ namespace IEClientLib
                     // 解析返回
                     if (this.currentCmdType == CmdType.START_TEST || this.currentCmdType == CmdType.STOP_TEST)
                     {
-                        if (bytesData.Length == 8 || bytesData.Length == 9)
+                        if (bytesData.Length == 9 || bytesData.Length == 10)
                         {
 
                             if (ack_nak == 0xB0)

@@ -317,8 +317,10 @@ namespace IEClient
             }
             
         }
-        private void settingWindow_Click(object sender, RoutedEventArgs e)
+        private void setterWindow_Click(object sender, RoutedEventArgs e)
         {
+            SetterWindow win = new SetterWindow();
+            win.ShowDialog();
         }
     }
 }

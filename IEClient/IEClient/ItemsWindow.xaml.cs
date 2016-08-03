@@ -77,5 +77,11 @@ namespace IEClient
                 LoadData();
             }
         }
+
+        private void to_Setter_Click(object sender, RoutedEventArgs e)
+        {
+            SetterWindow win = new SetterWindow();
+            win.ShowDialog();
+        }
     }
 }

@@ -97,7 +97,7 @@
                         <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">测试管理</TextBlock>
                     </StackPanel>
                 </Button>
-                <Button x:Name="settingWindow" Style="{StaticResource menuButton}" Click="settingWindow_Click">
+                <Button x:Name="settingWindow" Style="{StaticResource menuButton}" Click="setterWindow_Click">
                     <StackPanel>
                         <Image Source="image/set.png" Height="64" Width="86" ></Image>
                         <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">设置</TextBlock>

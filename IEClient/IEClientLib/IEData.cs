@@ -41,7 +41,7 @@ namespace IEClientLib
         /// 被抓取到的时间
         /// </summary>
         public DateTime PolledAt { get; set; }
-
+        public int LineNumber { get; set; }
 
     }
 }

@@ -63,7 +63,7 @@
                     </StackPanel>
                 </Button>
 
-                <Button x:Name="settingWindow" Style="{StaticResource menuButton}">
+                <Button x:Name="settingWindow" Style="{StaticResource menuButton}" Click="to_Setter_Click">
                     <StackPanel>
                         <Image Source="image/set.png" Height="64" Width="86" ></Image>
                         <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">设置</TextBlock>

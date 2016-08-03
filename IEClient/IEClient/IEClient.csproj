@@ -89,6 +89,9 @@
     <Compile Include="ItemBindingWindow.xaml.cs">
       <DependentUpon>ItemBindingWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SetterWindow.xaml.cs">
+      <DependentUpon>SetterWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SettingBoxWindow.xaml.cs">
       <DependentUpon>SettingBoxWindow.xaml</DependentUpon>
     </Compile>
@@ -127,6 +130,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SetterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SettingBoxWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

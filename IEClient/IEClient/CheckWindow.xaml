@@ -10,6 +10,8 @@
       Background="#115292"
       Title="测试管理" Loaded="MetroWindow_Loaded" WindowStartupLocation="CenterScreen" Closing="MetroWindow_Closing">
     <Window.Resources>
+
+
         <Style x:Key="menuButton">
             <Setter Property="Button.Margin" Value="10,5"/>
             <Setter Property="Button.Cursor" Value="Hand"/>
@@ -42,9 +44,27 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <CheckBox IsChecked="{Binding Path=Selected}" Grid.Column="0" BorderBrush="Black" VerticalAlignment="Top"/>
-                        <TextBlock  Grid.Column="1" Text="{Binding Path=BatteryDisplay}" Foreground="Black" FontWeight="Bold" FontSize="14" VerticalAlignment="Top"/>
-                        <!--<TextBlock Text="{Binding Path=Electricity}" Grid.Column="2"  HorizontalAlignment="Center" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="14" VerticalAlignment="Top"/>-->
-                        <Rectangle Fill="{Binding Situation}" x:Name="SituationR" Grid.Column="3" RadiusX="15" RadiusY="15" Height="16" Width="16" Grid.RowSpan="3" Stroke="Transparent" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                        <!--<TextBlock  Grid.Column="1" Text="{Binding Path=BatteryStage}" Foreground="Black" FontWeight="Bold" FontSize="14" VerticalAlignment="Top"/>-->
+                        <ProgressBar x:Name="progressBar" Grid.Column="2" Height="15" Width="50" OverridesDefaultStyle="True" RenderTransformOrigin="0.5,0.5" Value="{Binding Path=Battery}">
+                                <ProgressBar.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform/>
+                                        <RotateTransform/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </ProgressBar.RenderTransform>
+                                <ProgressBar.Foreground>
+                                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                        <GradientStop Color="#FF24EE27" Offset="0"/>
+                                        <GradientStop Color="#FF5434AC" Offset="0.5"/>
+                                        <GradientStop Color="#FFB371EA" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </ProgressBar.Foreground>
+                            </ProgressBar>
+                        
+                        
+                        <Rectangle x:Name="SituationR" Grid.Column="3" RadiusX="15" RadiusY="15" Height="16" Width="16" Grid.RowSpan="3" Stroke="Transparent" VerticalAlignment="Top" HorizontalAlignment="Right"/>
                     </Grid>
                     <TextBlock  Text="{Binding Path=Status}" HorizontalAlignment="Right" Foreground="Black" FontWeight="Bold" FontSize="10"/>
                     <TextBlock Text="{Binding Path=Name}"  FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" FontSize="18"/>

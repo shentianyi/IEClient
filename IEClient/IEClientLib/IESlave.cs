@@ -136,9 +136,30 @@ namespace IEClientLib
                 }
                 else if (this.bettery > 0 && bettery <= 15)
                 {
-                    return 15;
+                    return 1;
                 }
-                return 100;
+                else if (this.bettery > 15 && bettery <= 30)
+                {
+                    return 2;
+                }
+                else if (this.bettery > 30 && bettery <= 45)
+                {
+                    return 3;
+                }
+                else if (this.bettery > 45 && bettery <= 60)
+                {
+                    return 4;
+                }
+                else if (this.bettery > 60 && bettery <= 75)
+                {
+                    return 5;
+                }
+                else if (this.bettery > 75 && bettery <= 90)
+                {
+                    return 6;
+                }
+                else
+                    return 70;
             }
         }
 

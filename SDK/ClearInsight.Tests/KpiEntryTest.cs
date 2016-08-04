@@ -13,7 +13,7 @@ namespace ClearInsight.Tests
         private ClearInsightAPI api;
         public KpiEntryTest()
         {
-            api = new ClearInsightAPI("http://192.168.10.150:3000", "6ac975df20fd0e42c43f9ff0e3cfe7d36004e16471d0eb3951460285d74260bd");
+            api = new ClearInsightAPI("http://192.168.1.27:3000", "bc608381d6d1854342a8473c15d6a5a9bcde2f373ad280c1f2b3b321b4c8497a");
         }
 
         public void TestUserLogin()
@@ -40,6 +40,7 @@ namespace ClearInsight.Tests
 
             //call api
             CIResponse response = api.UserLogout(user);
+            Console.WriteLine(response.ToString());
         }
 
         public void TestUploadKpiEntry()

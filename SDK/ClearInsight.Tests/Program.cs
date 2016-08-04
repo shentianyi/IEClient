@@ -16,8 +16,8 @@ namespace ClearInsight.Tests
                 //kpitest.TestGetWorkUnitNodes();
                 //kpitest.TestGetProjects();
                 //kpitest.TestUploadKpiEntry();
-                //kpitest.TestUserLogin();
-                kpitest.TestUserLogout();
+                kpitest.TestUserLogin();
+                //kpitest.TestUserLogout();
             }
             catch (System.Exception e)
             {

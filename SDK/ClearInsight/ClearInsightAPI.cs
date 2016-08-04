@@ -32,6 +32,15 @@ namespace ClearInsight
         /// Constructor <c>ClearInsigheAPI</c>
         /// </summary>
         /// <param name="baseUrl">api base url,like "www.cz-tek.com".</param>
+        public ClearInsightAPI(string baseUrl)
+        {
+            _baseUrl = baseUrl;
+        }
+
+        /// <summary>
+        /// Constructor <c>ClearInsigheAPI</c>
+        /// </summary>
+        /// <param name="baseUrl">api base url,like "www.cz-tek.com".</param>
         /// <param name="accessToken">api access token.</param>
         public ClearInsightAPI(string baseUrl, string accessToken)
         {
@@ -45,7 +54,7 @@ namespace ClearInsight
         /// <typeparam name="T">Delegator</typeparam>
         /// <param name="request">RestSharp.RestRequest request</param>
         /// <returns>Delegator</returns>
-        public T Execute<T>(RestRequest request) where T : new()
+        private T Execute<T>(RestRequest request) where T : new()
         {
             var client = new RestClient();
             client.BaseUrl = _baseUrl;
@@ -65,7 +74,7 @@ namespace ClearInsight
         /// </summary>
         /// <param name="resquest">RestSharp.RestRequest request</param>
         /// <returns>CIResponse response</returns>
-        public CIResponse Execute(RestRequest resquest)
+        private CIResponse Execute(RestRequest resquest)
         {
             var client = new RestClient();
             client.AddHandler("application.json", new JsonDeserializer());
@@ -82,7 +91,7 @@ namespace ClearInsight
         /// </summary>
         /// <param name="request"></param>
         /// <param name="callback"></param>
-        public void ExecuteAsync(RestRequest request,Action<CIResponse> callback)
+        private void ExecuteAsync(RestRequest request,Action<CIResponse> callback)
         {
             var client = new RestClient();
             client.AddHandler("application.json",new JsonDeserializer());
@@ -95,20 +104,22 @@ namespace ClearInsight
         }
 
         /// <summary>
-        /// User Login And Out
+        /// User Login
         /// </summary>
-        /// <param name="entry">ClearInsight.Model.User</param>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
         /// <returns>CIResponse response</returns>
-        public User UserLogin(User user)
+        public Msg<User> UserLogin(string email, string password)
         {
             var request = new RestRequest(Method.POST);
 
             request.Resource = "/api/v1/users/login";
-            request.AddParameter("user", user.toJson());
+            request.AddParameter("user", new User() { email = email, password = password }.toJson());
 
             //return Execute(request);
-            return JsonHelper.JsonDeserialize<User>(Execute(request).Content);
+            return JsonHelper.JsonDeserialize<Msg<User>>(Execute(request).Content);
         }
+
 
         public CIResponse UserLogout(User user)
         {
@@ -145,20 +156,11 @@ namespace ClearInsight
         {
             var request = new RestRequest(Method.GET);
             request.Resource = "/api/v1/projects";
-            request.AddParameter("status", Status);
-
-            return JsonHelper.JsonDeserialize<List<Project>>(Execute(request).Content);
-        }
-
-        public List<Project> GetMProjects(ProjectStatus Status = ProjectStatus.ON_GOING)
-        {
-            var request = new RestRequest(Method.GET);
-            request.Resource = "/api/v1/projects";
             request.AddParameter("status", (int)Status);
 
             return JsonHelper.JsonDeserialize<List<Project>>(Execute(request).Content);
         }
-
+         
         public List<Node> GetWorkUnitNodes(int id)
         {
             var request = new RestRequest(Method.GET);
@@ -166,6 +168,17 @@ namespace ClearInsight
             request.AddParameter("project_id", id);
 
             return JsonHelper.JsonDeserialize<List<Node>>(Execute(request).Content);
+        }
+
+        public Msg<string> BindNodeDevise(int id,string deviseCode)
+        {
+            var request = new RestRequest(Method.PUT);
+            request.Resource = "/api/v1/nodes/bind_devise";
+            request.AddParameter("id", id);
+            request.AddParameter("devise_code",deviseCode);
+
+            return JsonHelper.JsonDeserialize<Msg<string>>(Execute(request).Content);
+
         }
 
         /// <summary>

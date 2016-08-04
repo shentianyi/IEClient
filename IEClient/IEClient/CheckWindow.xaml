@@ -1,0 +1,175 @@
+﻿<controls:MetroWindow x:Class="IEClient.CheckWindow"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      xmlns:local="clr-namespace:IEClient"
+      mc:Ignorable="d" 
+      d:DesignHeight="400" d:DesignWidth="600"
+      Background="#115292"
+      Title="测试管理" Loaded="MetroWindow_Loaded" WindowStartupLocation="CenterScreen" Closing="MetroWindow_Closing">
+    <Window.Resources>
+
+        <Style x:Key="menuButton">
+            <Setter Property="Button.Margin" Value="10,5"/>
+            <Setter Property="Button.Cursor" Value="Hand"/>
+            <Setter Property="Button.Background" Value="Transparent"/>
+            <Setter Property="Button.BorderBrush" Value="Transparent"/>
+        </Style>
+        <Style x:Key="itemButton">
+            <Setter Property="Button.FontSize" Value="16"></Setter>
+            <Setter Property="Button.MaxWidth" Value="100"></Setter>
+            <Setter Property="Button.MaxHeight" Value="100"></Setter>
+            <Setter Property="Button.Cursor" Value="Hand"/>
+            <Setter Property="Button.Margin" Value="20"></Setter>
+        </Style>
+        <Style x:Key="taskButton">
+            <Setter Property="Button.FontSize" Value="17"></Setter>
+            <Setter Property="Button.Cursor" Value="Hand"/>
+            <Setter Property="Button.Background" Value="White"/>
+            <Setter Property="Button.Margin" Value="7,1,5,5"></Setter>
+            <Setter Property="Button.BorderThickness" Value="3"/>
+        </Style>
+
+        <DataTemplate x:Key="deviceList">
+            <Border Width="Auto" VerticalAlignment="Stretch" BorderBrush="#4E70FF" BorderThickness="5" Margin="5" Padding="5" CornerRadius="10,10,10,10">
+                <StackPanel Orientation="Vertical" Background="Transparent">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox IsChecked="{Binding Path=Selected}" Grid.Column="0" BorderBrush="Black" VerticalAlignment="Top"/>
+                        <!--<TextBlock  Grid.Column="1" Text="{Binding Path=BatteryStage}" Foreground="Black" FontWeight="Bold" FontSize="14" VerticalAlignment="Top"/>-->
+ 
+                        <!--<ProgressBar x:Name="BatteryBody" Grid.Column="1" Height="15" Width="50" Foreground="White" Background="White" BorderBrush="White" Value="{Binding Path=Battery}"></ProgressBar>
+                        <Rectangle x:Name="BatteryHead" Fill="White" Grid.Column="2" Height="8" Width="3" Stroke="White" VerticalAlignment="Center" HorizontalAlignment="Left"/>-->
+                        <Rectangle x:Name="SituationR" Fill="red" Grid.Column="3" RadiusX="15" RadiusY="15" Height="16" Width="16" Grid.RowSpan="3" Stroke="Transparent" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                    </Grid>
+                    <TextBlock  Text="{Binding Path=StatusDispaly}" HorizontalAlignment="Right"  Foreground="Black" FontWeight="Bold" FontSize="10"/>
+                    <TextBlock Text="{Binding Path=Name}"  FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" FontSize="18"/>
+                    <TextBlock Text="{Binding Path=Code}" HorizontalAlignment="Center" FontSize="17" Foreground="White"/>
+                    <Grid HorizontalAlignment="Right">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <!--<TextBlock Name="Electric" Grid.Column="0" FontSize="12" TextWrapping="Wrap"  Foreground="White"  Text="{Binding Path=BatteryDisplay}" HorizontalAlignment="Center" />-->
+                        <ProgressBar   Grid.Column="1"  Height="16" Width="50" 
+                                       BorderBrush="White" BorderThickness="1"
+                                       Background="White" Foreground="White"  Margin="0" 
+                                       Value="{Binding Path=Battery}" HorizontalAlignment="Left">
+                            <ProgressBar.Template>
+                                <ControlTemplate>
+                                    <StackPanel>
+                                        <Rectangle x:Name="BatteryBody" Width="{Binding Path=BatteryWidth}" Height="16" Fill="Orange" HorizontalAlignment="Left"/>
+                                    </StackPanel>
+                                    <ControlTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding BatteryStage}" Value="0">
+                                            <Setter TargetName="BatteryBody" Property="Fill" Value="Red"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding BatteryStage}" Value="1">
+                                            <Setter TargetName="BatteryBody" Property="Fill" Value="Orange"/>
+                                        </DataTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </ProgressBar.Template>
+                        </ProgressBar>
+                        <Rectangle x:Name="BatteryHead" Grid.Column="2" Height="8" Width="3" Stroke="White "   VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        <Rectangle x:Name="BatteryBodyR" Grid.Column="1" Height="16" Width="50" Stroke="White" Margin="0"  VerticalAlignment="Center" HorizontalAlignment="Left"/>
+
+                    </Grid>
+                </StackPanel>
+            </Border>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Status}" Value="100">
+                    <Setter TargetName="SituationR" Property="Fill" Value="gray"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Status}" Value="200">
+                    <Setter TargetName="SituationR" Property="Fill" Value="green"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Status}" Value="500">
+                    <Setter TargetName="SituationR" Property="Fill" Value="yellow"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding Status}" Value="600">
+                    <Setter TargetName="SituationR" Property="Fill" Value="orange"/>
+                </DataTrigger>
+               
+            </DataTemplate.Triggers>
+        </DataTemplate>
+        <Style x:Key="deviceListStyle">
+            <Setter Property="ListBoxItem.Background" Value="Transparent"/>
+            <Setter Property="ListBoxItem.BorderBrush" Value="Transparent"/>
+        </Style>
+    </Window.Resources>
+    <Grid ShowGridLines="False">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="2"/>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="2.5"/>
+            <RowDefinition Height="40"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Background="#164E80">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="1.1*"/>
+            </Grid.ColumnDefinitions>
+            <UniformGrid Columns="3" Grid.Row="0" Grid.Column="1">
+                <Button x:Name="itemWindow" Style="{StaticResource menuButton}"  Click="to_Item_Click" IsEnabled="True">
+                    <StackPanel>
+                        <Image Source="image/item.png" Height="64" Width="86" ></Image>
+                        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">项目管理</TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="checkWindow">
+                    <StackPanel>
+                        <Image Source="image/check.png" Height="64" Width="86" ></Image>
+                        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">测试管理</TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="settingWindow" Style="{StaticResource menuButton}" Click="setterWindow_Click">
+                    <StackPanel>
+                        <Image Source="image/set.png" Height="64" Width="86" ></Image>
+                        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">设置</TextBlock>
+                    </StackPanel>
+                </Button>
+            </UniformGrid>
+            <Image Source="image/logo.png" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Height="70"></Image>
+        </Grid>
+        <GridSplitter   Background="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1"/>
+        <GridSplitter   Background="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4"/>
+        <DockPanel Grid.Row="2">
+            <CheckBox x:Name="allCheckBox"  Content="全  选" Height="30" Margin="30,5" Foreground="Black" Checked="allCheckBox_Click" Unchecked="allCheckBox_Uncheck"/>
+            <Button  HorizontalAlignment="Left" Height="Auto" Width="80" Margin="30,5" FontSize="13" Cursor="Hand" BorderBrush="White" Click="range_set_Click">范围设置
+            </Button>
+        </DockPanel>
+        <ListBox Name="UniformGrid" Grid.Row="3" Margin="7,3,7,10" ItemTemplate="{StaticResource deviceList}" 
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                 ItemsSource="{Binding}"
+                 Background="Transparent"
+                 MouseDoubleClick="binding_Click">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="5" VerticalAlignment="Top"></UniformGrid>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+        <Grid Grid.Row="5" Background="#164E80">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="detail" Content="查看数据" Grid.Column="1" Style="{StaticResource taskButton}" Click="detail_Click"/>
+            <Button x:Name="begin" Content="开始测试" Grid.Column="2" Style="{StaticResource taskButton}" Click="begin_Click"/>
+            <Button x:Name="finish" Content="结束测试" Grid.Column="3" Style="{StaticResource taskButton}" Click="finish_Click" IsEnabled="False"/>
+        </Grid>
+    </Grid>
+</controls:MetroWindow>

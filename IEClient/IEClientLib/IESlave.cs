@@ -111,6 +111,11 @@ namespace IEClientLib
             }
         }
 
+        /// <summary>
+        /// 当前的命令类型
+        /// </summary>
+        public CmdType CurrentCmdType { get; set; }
+
         public string StatusDispaly {
             get { return EnumHelper.GetDescription(this.status); }
         }

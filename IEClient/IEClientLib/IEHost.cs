@@ -76,6 +76,16 @@ namespace IEClientLib
             this.pollDataTimer.Elapsed += PollDataTimer_Elapsed;
         }
 
+        /// <summary>
+        /// 发送命令
+        /// </summary>
+        /// <param name="cmdtype">命令类型</param>
+        /// <param name="slaveCodes">从机编号列表</param>
+        public void DoSendCmd(CmdType cmdtype,List<string> slaveCodes)
+        {
+
+        }
+
 
         /// <summary>
         /// 开始测试
@@ -402,6 +412,16 @@ namespace IEClientLib
         private IESlave<T> FindSalveByBCode(byte[] bcode)
         {
             return this.Slaves.SingleOrDefault(s => s.Code.Equals(ScaleHelper.HexBytesToString(bcode, false)));
+        }
+
+        /// <summary>
+        /// 根据code找到从机
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        private IESlave<T> FindSlaveByCode(string code)
+        {
+            return this.Slaves.SingleOrDefault(s => s.Code.Equals(code));
         }
 
         /// <summary>

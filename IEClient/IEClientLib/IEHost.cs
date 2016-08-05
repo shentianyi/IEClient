@@ -247,13 +247,22 @@ namespace IEClientLib
         }
          
 
+
         /// <summary>
         /// 重新发送
         /// </summary>
         private void ReSendCmd()
         {
+            int resentMax = 1;
+            if (currentCmdType == CmdType.START_TEST || currentCmdType == CmdType.STOP_TEST) {
+                resentMax = 3;
+            }
+            else
+            {
+                resentMax = 1;
+            }
             // 重复1次
-            if (this.resendCount <= 0)
+            if (this.resendCount < resentMax)
             {
                 this.resendCount += 1;
                 LogUtil.Logger.Info("重新发送");

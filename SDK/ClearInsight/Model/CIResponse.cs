@@ -11,6 +11,9 @@ namespace ClearInsight.Model
     /// </summary>
     public class CIResponse
     {
+        public bool Result { get; set; }
+        public string ErrorMsg { get; set; }
+
         /// <summary>
         /// Property <c>Code</c>
         /// HttpStatusCode

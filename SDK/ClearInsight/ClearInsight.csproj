@@ -72,8 +72,11 @@
   <ItemGroup>
     <Compile Include="ClearInsightAPI.cs" />
     <Compile Include="Exception\CiArgumentErrorException.cs" />
+    <Compile Include="Exception\CiConnectErrorException.cs" />
     <Compile Include="Exception\CiPropertyMissingException.cs" />
     <Compile Include="Exception\CiRequestTooLong.cs" />
+    <Compile Include="Exception\CiServerErrorException.cs" />
+    <Compile Include="Exception\CiUnauthorizedErrorException.cs" />
     <Compile Include="Exception\ClearInsightException.cs" />
     <Compile Include="Model\CIResponse.cs" />
     <Compile Include="Helper\JsonHelper.cs" />

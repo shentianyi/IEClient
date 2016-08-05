@@ -52,7 +52,7 @@ namespace ClearInsight.Model
         /// <remarks>should not be empty</remarks>
         /// </summary>
         //public string TenantID { get; set; }
-        public int tenant_id { get; set; }
+        //public int tenant_id { get; set; }
 
         /// <summary>
         /// Property <c>Remark</c>
@@ -60,13 +60,12 @@ namespace ClearInsight.Model
         /// <remarks>can be empty</remarks>
         /// </summary>
         //public string Remark { get; set; }
-        public string remark { get; set; }
+        //public string remark { get; set; }
 
 
         //
         public int id { get; set; }
         public DateTime created_at { get; set; }
         public DateTime updated_at { get; set; }
-         
     }
 }

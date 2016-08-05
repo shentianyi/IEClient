@@ -13,33 +13,25 @@ namespace ClearInsight.Tests
         private ClearInsightAPI api;
         public KpiEntryTest()
         {
-            api = new ClearInsightAPI("http://192.168.1.27:3000", "bc608381d6d1854342a8473c15d6a5a9bcde2f373ad280c1f2b3b321b4c8497a");
+            api = new ClearInsightAPI("http://192.168.1.27:3000", "c13d9ba34f4cf028f8a1416869799c7bf42cf474f5c51b0bf3d9912c638f39e4");
         }
 
         public void TestUserLogin()
         {
             Console.WriteLine("Test User Login");
-            //init user
-            User user = new User();
-            user.email = "admin@ci.com";
-            user.password = "123456@";
 
             //call api
-            User user2 = api.UserLogin(user);
+            var user2 = api.UserLogin("admin@ci.com", "123456@");
             //
-            Console.WriteLine(user2.ToString());
+            Console.WriteLine(user2.toJson());
         }
 
         public void TestUserLogout()
         {
             Console.WriteLine("Test User Logout");
-            //init user
-            User user = new User();
-            user.email = "admin@ci.com";
-            user.password = "123456@";
 
             //call api
-            CIResponse response = api.UserLogout(user);
+            CIResponse response = api.UserLogout("admin@ci.com", "123456@");
             Console.WriteLine(response.ToString());
         }
 
@@ -54,8 +46,8 @@ namespace ClearInsight.Tests
             entry.node_id = 1;
             entry.node_code = "1";
             entry.node_uuid = "1";
-            entry.value = "2222";
-            entry.entry = new System.DateTime();
+            entry.value = 30;
+            entry.entry_at = new System.DateTime();
 
             //call api
             KpiEntry ke = api.UploadKpiEntry(entry);
@@ -68,7 +60,7 @@ namespace ClearInsight.Tests
             Console.WriteLine("Test Get Projects");
             //init params
             //call api
-            List<Project> projects  = api.GetMProjects(ProjectStatus.ON_GOING);
+            List<Project> projects = api.GetProjects(ProjectStatus.FINISHED);
 
             //
             Console.WriteLine(projects);
@@ -79,7 +71,7 @@ namespace ClearInsight.Tests
             Console.WriteLine("Test Get Work Unit Nodes");
             //init params
             //call api
-            List<Node> nodes = api.GetWorkUnitNodes(5);
+            List<Node> nodes = api.GetWorkUnitNodes(1);
 
             //output
             Console.WriteLine(nodes);

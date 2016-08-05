@@ -13,16 +13,17 @@ namespace ClearInsight.Tests
             KpiEntryTest kpitest = new KpiEntryTest();
             try
             {
-                //kpitest.TestGetWorkUnitNodes();
+                kpitest.TestGetWorkUnitNodes();
                 //kpitest.TestGetProjects();
                 //kpitest.TestUploadKpiEntry();
-                kpitest.TestUserLogin();
+
+                //kpitest.TestUserLogin();
                 //kpitest.TestUserLogout();
             }
             catch (System.Exception e)
             {
                 Console.WriteLine(e.Message);
-                throw;
+                //throw;
             }
             Console.WriteLine("End Test...");
             Console.ReadLine();

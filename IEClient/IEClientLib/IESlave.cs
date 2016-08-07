@@ -56,7 +56,23 @@ namespace IEClientLib
         /// 外部实例
         /// </summary>
         public T ExtItem { get; set; }
-        
+
+        private string barCode;
+        /// <summary>
+        /// 条码编号
+        /// </summary>
+        public string BarCode
+        {
+            get { return barCode; }
+            set
+            {
+                barCode = value;
+                string id = barCode.Substring(2, barCode.Length - 2);
+                string hex = ScaleHelper.DecimalToHexString(int.Parse(id), true, 2);
+                this.Code = "55" + hex;
+                OnPropertyChanged(new PropertyChangedEventArgs("BarCode"));
+            }
+        }
         /// <summary>
         /// 编码
         /// </summary>
@@ -66,7 +82,7 @@ namespace IEClientLib
             set
             {
                 code = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("code"));
+                OnPropertyChanged(new PropertyChangedEventArgs("Code"));
                 if (!string.IsNullOrWhiteSpace(code))
                 {
                     this.BCode = ScaleHelper.HexStringToHexByte(code);

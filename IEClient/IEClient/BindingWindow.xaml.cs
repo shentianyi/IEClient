@@ -72,19 +72,16 @@ namespace IEClient
             }
             else
             {
-                /// This is not good....
-
-                string id = deviceID.Text.Skip(2).Take(deviceID.Text.Length - 2).ToString();
-                string hex = ScaleHelper.DecimalToHexString(int.Parse(id), true, 2);
-                this.slave.Code = "55" + hex;
-                ci.BindNodeDevise(this.slave.Id, this.slave.Code);
+                /// This is not good.... 
+                this.slave.BarCode = deviceID.Text.Trim();
+                ci.BindNodeDevise(this.slave.Id, this.slave.BarCode);
                 this.Close();
             }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            this.deviceID.Text = this.slave.Code;
+            this.deviceID.Text = this.slave.BarCode;
             this.deviceID.Focus();
             this.deviceID.SelectAll();
 

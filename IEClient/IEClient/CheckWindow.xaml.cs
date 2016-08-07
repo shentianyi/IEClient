@@ -63,7 +63,7 @@ namespace IEClient
                     Id = node.id,
                     ExtItem = node,
                     Name = node.name,
-                    Code = node.devise_code
+                    BarCode = node.devise_code
                 };
                 slave.TimeTicked += new IESlave<Node>.TimeTickedEventHandler(Slave_TimeTicked);
                 ieSlaves.Add(slave);

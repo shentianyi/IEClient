@@ -63,7 +63,9 @@ namespace IEClient
                     Id = node.id,
                     ExtItem = node,
                     Name = node.name,
-                    BarCode = node.devise_code
+                    BarCode = node.devise_code,
+                    OutClockingMax=BaseConfig.OutClockingMax,
+                    OnClockingMax=BaseConfig.OnClockingMax
                 };
                 slave.TimeTicked += new IESlave<Node>.TimeTickedEventHandler(Slave_TimeTicked);
                 ieSlaves.Add(slave);
@@ -154,7 +156,7 @@ namespace IEClient
                 //finish.IsEnabled = true;
 
 
-                ieHost.Slaves = GetSelectedSlaves();
+                //ieHost.Slaves = GetSelectedSlaves();
                 // 开始测试
                 //this.Dispatcher.Invoke(DispatcherPriority.Normal, (System.Windows.Forms.MethodInvoker)delegate ()
                 //{
@@ -322,6 +324,11 @@ namespace IEClient
         {
             SetterWindow win = new SetterWindow();
             win.ShowDialog();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            new StatusWarnSettingWindow() { slaves = this.ieSlaves }.ShowDialog();
         }
     }
 }

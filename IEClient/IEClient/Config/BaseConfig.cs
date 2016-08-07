@@ -17,8 +17,8 @@ namespace IEClient.Config
         private static Parity parity;
         private static int timeOut;
         private static string cycleTimeKpiCode;
-
-
+        private static int outClockingMax;
+        private static int onClockingMax;
 
         static BaseConfig()
         {
@@ -30,6 +30,8 @@ namespace IEClient.Config
             parity = (Parity)int.Parse(config.Get("Parity"));
             timeOut = int.Parse(config.Get("TimeOut"));
             cycleTimeKpiCode = config.Get("CycleTimeKpiCode");
+            outClockingMax = int.Parse(config.Get("OutClockingMax"));
+            onClockingMax = int.Parse(config.Get("OnClockingMax"));
 
         }
         public static string Server
@@ -103,7 +105,7 @@ namespace IEClient.Config
             set
             {
                 timeOut = value;
-                config.Set("timeOut", value);
+                config.Set("TimeOut", value);
                 config.Save();
             }
         }
@@ -111,5 +113,36 @@ namespace IEClient.Config
         public static string CycleTimeKpiCode {
             get { return cycleTimeKpiCode; }
         }
+
+        public static int OutClockingMax
+        {
+            get
+            {
+                return outClockingMax;
+            }
+
+            set
+            {
+                outClockingMax = value;
+                config.Set("OutClockingMax", value);
+                config.Save();
+            }
+        }
+
+        public static int OnClockingMax
+        {
+            get
+            {
+                return onClockingMax;
+            }
+
+            set
+            {
+                onClockingMax = value;
+                config.Set("OnClockingMax", value);
+                config.Save();
+            }
+        }
+
     }
 }

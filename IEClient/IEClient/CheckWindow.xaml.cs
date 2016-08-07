@@ -67,10 +67,10 @@ namespace IEClient
                 };
                 slave.TimeTicked += new IESlave<Node>.TimeTickedEventHandler(Slave_TimeTicked);
                 ieSlaves.Add(slave);
-                }
+            }
             this.UniformGrid.DataContext = ieSlaves;
-            ieHost = new IEHost<Node>(BaseConfig.Com,BaseConfig.BaundRate,BaseConfig.Parity,BaseConfig.TimeOut);
-            //ieHost.Slaves = ieSlaves;
+            ieHost = new IEHost<Node>(BaseConfig.Com, BaseConfig.BaundRate, BaseConfig.Parity, BaseConfig.TimeOut);
+            ieHost.Slaves = ieSlaves;
         }
 
 
@@ -150,26 +150,25 @@ namespace IEClient
 
             try
             {
-                begin.IsEnabled = false;
-                finish.IsEnabled = true;
- 
+                //begin.IsEnabled = false;
+                //finish.IsEnabled = true;
+
 
                 ieHost.Slaves = GetSelectedSlaves();
                 // 开始测试
                 //this.Dispatcher.Invoke(DispatcherPriority.Normal, (System.Windows.Forms.MethodInvoker)delegate ()
                 //{
-                    
-                        ieHost.StartTest();
-                        ieHost.PollData();
-                    
-               // });
+                ieHost.DoSendCmd(CmdType.START_TEST, GetSelectedSlaves().Select(s => s.Code).ToList());
+                ieHost.PollData();
+
+                // });
             }
             catch (Exception ex)
             {
                 LogUtil.Logger.Error(ex.Message);
                 LogUtil.Logger.Error(ex.Source);
-                begin.IsEnabled = true;
-                finish.IsEnabled = false;
+                //begin.IsEnabled = true;
+                //finish.IsEnabled = false;
                 MessageBox.Show(ex.Message);
             }
         }
@@ -182,18 +181,18 @@ namespace IEClient
                 {
                     if (ieHost != null)
                     {
-                        ieHost.StopTest();
+                        ieHost.DoSendCmd(CmdType.STOP_TEST,GetSelectedSlaves().Select(s=>s.Code).ToList());
                       
-                        begin.IsEnabled = true;
-                        finish.IsEnabled = false;
+                        //begin.IsEnabled = true;
+                        //finish.IsEnabled = false;
                     }
                 }
                 catch (Exception ex)
                 {
                     LogUtil.Logger.Error(ex.Message);
                     LogUtil.Logger.Error(ex.Source);
-                    begin.IsEnabled = false;
-                    finish.IsEnabled = true;
+                  //  begin.IsEnabled = false;
+                 //   finish.IsEnabled = true;
                     MessageBox.Show(ex.Message);
                 }
             }

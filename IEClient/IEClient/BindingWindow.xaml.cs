@@ -16,6 +16,7 @@ using ClearInsight.Model;
 using IEClient.Properties;
 using IEClient.Config;
 using IEClientLib;
+using IEClientLib.Helper;
 
 namespace IEClient
 {
@@ -71,7 +72,11 @@ namespace IEClient
             }
             else
             {
-                this.slave.Code = deviceID.Text.Trim();
+                /// This is not good....
+
+                string id = deviceID.Text.Skip(2).Take(deviceID.Text.Length - 2).ToString();
+                string hex = ScaleHelper.DecimalToHexString(int.Parse(id), true, 2);
+                this.slave.Code = "55" + hex;
                 ci.BindNodeDevise(this.slave.Id, this.slave.Code);
                 this.Close();
             }

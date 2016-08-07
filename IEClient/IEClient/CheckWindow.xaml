@@ -169,7 +169,7 @@
             </Grid.ColumnDefinitions>
             <Button x:Name="detail" Content="查看数据" Grid.Column="1" Style="{StaticResource taskButton}" Click="detail_Click"/>
             <Button x:Name="begin" Content="开始测试" Grid.Column="2" Style="{StaticResource taskButton}" Click="begin_Click"/>
-            <Button x:Name="finish" Content="结束测试" Grid.Column="3" Style="{StaticResource taskButton}" Click="finish_Click" IsEnabled="False"/>
+            <Button x:Name="finish" Content="结束测试" Grid.Column="3" Style="{StaticResource taskButton}" Click="finish_Click"/>
         </Grid>
     </Grid>
 </controls:MetroWindow>

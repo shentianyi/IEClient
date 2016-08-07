@@ -72,9 +72,16 @@ namespace IEClientLib
             set
             {
                 barCode = value;
-                string id = barCode.Substring(2, barCode.Length - 2);
-                string hex = ScaleHelper.DecimalToHexString(int.Parse(id), true, 2);
-                this.Code = "55" + hex;
+                if (!string.IsNullOrEmpty(barCode))
+                {
+                    string id = barCode.Substring(2, barCode.Length - 2);
+                    string hex = ScaleHelper.DecimalToHexString(int.Parse(id), true, 2);
+                    this.Code = "55" + hex;
+                }
+                else
+                {
+                    this.Code = string.Empty;
+                }
                 OnPropertyChanged(new PropertyChangedEventArgs("BarCode"));
             }
         }

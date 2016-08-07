@@ -223,6 +223,7 @@ namespace IEClientLib
         {
             try
             {
+
                 if (!reSend)
                 {
                     resendCount = 0;
@@ -234,7 +235,10 @@ namespace IEClientLib
                 LogUtil.Logger.Debug("start send.................");
                 if (!IsOpen())
                 {
-                    OpenCom();
+                    if (!OpenCom())
+                    {
+                        return false;
+                    }
                 }
               //  currentCmdType = slave.CurrentCmdType;
 
@@ -381,7 +385,8 @@ namespace IEClientLib
             catch (Exception ex)
             {
                 LogUtil.Logger.Error(ex.Message);
-                throw new OpenComException(ex);
+                return false;
+                //throw new OpenComException(ex);
             }
         }
 
@@ -478,7 +483,7 @@ namespace IEClientLib
         /// <returns></returns>
         private IESlave<T> FindSalveByBCode(byte[] bcode)
         {
-            return this.Slaves.SingleOrDefault(s => s.Code.Equals(ScaleHelper.HexBytesToString(bcode, false)));
+            return this.Slaves.SingleOrDefault(s => (!string.IsNullOrEmpty(s.Code)) &&  s.Code.Equals(ScaleHelper.HexBytesToString(bcode, false)));
         }
 
         /// <summary>
@@ -488,7 +493,7 @@ namespace IEClientLib
         /// <returns></returns>
         private IESlave<T> FindSlaveByCode(string code)
         {
-            return this.Slaves.SingleOrDefault(s => s.Code.Equals(code));
+            return this.Slaves.SingleOrDefault(s => (!string.IsNullOrEmpty(s.Code)) && s.Code.Equals(code));
         }
 
         /// <summary>

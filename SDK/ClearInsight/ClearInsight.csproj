@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClearInsightAPI.cs" />
+    <Compile Include="Exception\CiResponseErrorException.cs" />
     <Compile Include="Exception\CiArgumentErrorException.cs" />
     <Compile Include="Exception\CiPropertyMissingException.cs" />
     <Compile Include="Exception\CiRequestTooLong.cs" />

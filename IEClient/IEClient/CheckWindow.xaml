@@ -34,7 +34,7 @@
 
         <DataTemplate x:Key="deviceList">
             <Border Width="Auto" VerticalAlignment="Stretch" BorderBrush="#4E70FF" BorderThickness="5" Margin="5" Padding="5" CornerRadius="10,10,10,10">
-                <StackPanel Orientation="Vertical" Background="Yellow">
+                <StackPanel Orientation="Vertical">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>

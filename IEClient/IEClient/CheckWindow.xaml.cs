@@ -24,6 +24,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using IEClient.Handler;
+using ClearInsight.Exception;
 
 namespace IEClient
 {
@@ -40,6 +42,9 @@ namespace IEClient
         Thread slaveDataHandlerThread;
         ManualResetEvent slaveDataEvent;
 
+
+        System.Timers.Timer uploaDataTimer;
+
         public CheckWindow()
         {
             InitializeComponent();
@@ -47,7 +52,12 @@ namespace IEClient
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
             LoadData();
+            uploaDataTimer = new System.Timers.Timer();
+            uploaDataTimer.Interval = 3000;
+            uploaDataTimer.Elapsed += UploaDataTimer_Elapsed;
+            uploaDataTimer.Start();
         }
+
         /// <summary>
         /// 加载数据
         /// </summary>
@@ -274,23 +284,38 @@ namespace IEClient
 
             if (up)
             {
-
-                ClearInsightAPI api = new ClearInsightAPI(BaseConfig.Server, UserSession.GetInstance().CurrentUser.token);
-
-                KpiEntry entry = new KpiEntry()
+                KpiEntry entry = null;
+                try
                 {
-                    kpi_code = BaseConfig.CycleTimeKpiCode,
-                    entry_at = DateTime.Now,
-                    project_item_id = slave.ExtItem.project_item_id,
-                    tenant_id = slave.ExtItem.tenant_id,
-                    node_id = slave.ExtItem.id,
-                    node_code = slave.ExtItem.code,
-                    node_uuid = slave.ExtItem.uuid,
-                    value = data.Time / 10
-                };
+                    ClearInsightAPI api = new ClearInsightAPI(BaseConfig.Server, UserSession.GetInstance().CurrentUser.token);
 
-               KpiEntry back = api.UploadKpiEntry(entry);
-                data.Stored = true;
+                      entry = new KpiEntry()
+                    {
+                        kpi_code = BaseConfig.CycleTimeKpiCode,
+                        entry_at = DateTime.Now,
+                        project_item_id = slave.ExtItem.project_item_id,
+                        tenant_id = slave.ExtItem.tenant_id,
+                        node_id = slave.ExtItem.id,
+                        node_code = slave.ExtItem.code,
+                        node_uuid = slave.ExtItem.uuid,
+                        value = data.Time / 10
+                    };
+
+                    KpiEntry back = api.UploadKpiEntry(entry);
+                    string s = "2";
+                }
+                catch (CiResponseErrorException ex)
+                {
+                    data.Stored = false;
+                    KpiEntryHandler.SaveLocal(entry);
+                    LogUtil.Logger.Error(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    data.Stored = false;
+                  //  KpiEntryHandler.SaveLocal(entry);
+                    LogUtil.Logger.Error(ex.Message);
+                }
             }
         }
 
@@ -351,6 +376,15 @@ namespace IEClient
         {
             new StatusWarnSettingWindow() { slaves = this.ieSlaves }.ShowDialog();
         }
-         
+
+
+        private void UploaDataTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            this.uploaDataTimer.Stop();
+            KpiEntryHandler.ScanLocalFile();
+            //ffj throw new NotImplementedException();
+            this.uploaDataTimer.Start();
+        }
+
     }
 }

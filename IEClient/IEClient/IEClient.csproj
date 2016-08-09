@@ -89,6 +89,7 @@
     <Compile Include="DetailWindow.xaml.cs">
       <DependentUpon>DetailWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Handler\KpiEntryHandler.cs" />
     <Compile Include="ItemBindingWindow.xaml.cs">
       <DependentUpon>ItemBindingWindow.xaml</DependentUpon>
     </Compile>

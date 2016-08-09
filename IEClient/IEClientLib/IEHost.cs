@@ -106,10 +106,15 @@ namespace IEClientLib
             {
                 if (!string.IsNullOrWhiteSpace(code))
                 {
-                    Dictionary<string, CmdType> dic = new Dictionary<string, CmdType>();
-                    dic.Add(code, cmdtype);
-                    cmdQueue.Enqueue(dic);
-                    cmdEvent.Set();
+
+                    IESlave<T> slave = this.FindSlaveByCode(code);
+                    if (slave != null)
+                    {
+                        Dictionary<string, CmdType> dic = new Dictionary<string, CmdType>();
+                        dic.Add(code, cmdtype);
+                        cmdQueue.Enqueue(dic);
+                        cmdEvent.Set();
+                    }
                 }
             }
         }
@@ -175,7 +180,14 @@ namespace IEClientLib
         /// </summary>
         public void ShutDown()
         {
-            this.cmdHandlerThread.Abort();
+            if (this.cmdHandlerThread != null)
+            {
+                this.cmdHandlerThread.Abort();
+            }
+
+            Thread.Sleep(1000);
+            this.Close();
+            Thread.Sleep(1000);
         }
 
         /// <summary>
@@ -312,7 +324,7 @@ namespace IEClientLib
             }
             catch (TimeoutException ex)
             {
-                if (started || slave.CurrentCmdType == CmdType.STOP_TEST || slave.CurrentCmdType==CmdType.START_TEST)
+                if (started || slave.CurrentCmdType == CmdType.STOP_TEST || slave.CurrentCmdType==CmdType.START_TEST || slave.CurrentCmdType==CmdType.POLL_DATA)
                 {
                     ReSendCmd(slave);
                 }
@@ -539,11 +551,11 @@ namespace IEClientLib
             //this.CheckSlaves();
             if (this.cmdQueue.Count == 0)
             {
+                        List<string> codes = new List<string>();
                 for (int i = 0; i < this.Slaves.Count; i++)
                 {
                     //if (started)
                     //{
-                        List<string> codes = new List<string>();
                         //try
                         //{
                             if (this.Slaves[i].Status != SlaveStatus.OFF)
@@ -562,10 +574,12 @@ namespace IEClientLib
                         //    LogUtil.Logger.Error(ex.Message + ":" + this.Slaves[i].Code);
                         //}
 
-                        this.DoSendCmd(CmdType.POLL_DATA, codes);
+                       // this.DoSendCmd(CmdType.POLL_DATA, codes);
                   //  }
 
                 }
+
+                this.DoSendCmd(CmdType.POLL_DATA, codes);
 
             }
             // 开始timer

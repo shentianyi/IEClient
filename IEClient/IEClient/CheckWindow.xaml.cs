@@ -78,15 +78,14 @@ namespace IEClient
 
         private void to_Item_Click(object sender, RoutedEventArgs e)
         {
-            if (finish.IsEnabled == false)
-            {
-                ItemsWindow win = new ItemsWindow();
-                win.Show();
+            //if (CancloseWindow())
+            //{
+                //ItemsWindow win = new ItemsWindow();
+                //win.Show();
+                //this.ieHost.ShutDown();
+
                 this.Close();
-            }
-            else {
-                MessageBox.Show("请先结束测试");
-            }
+           // }
         }
         private void detail_Click(object sender, RoutedEventArgs e)
         {
@@ -297,29 +296,51 @@ namespace IEClient
 
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
+            if (!CancloseWindow())
+            {
+                e.Cancel = true ;
+            }
+            else
+            {
+                this.ieHost.ShutDown();
+                ItemsWindow win = new ItemsWindow();
+                win.Show();
+            }
+        }
+
+        private bool CancloseWindow()
+        {
             if (slaveDataHandlerThread != null)
             {
                 int count = slaveDataQueue.Count;
-                if (count>0) {
-                    e.Cancel=true;
-                    MessageBox.Show(string.Format("仍有{0}条数据在处理中，请稍候...", count),"数据处理提醒",MessageBoxButton.OK,MessageBoxImage.Warning);
+                if (count > 0)
+                {
+                    MessageBox.Show(string.Format("仍有{0}条数据在处理中，请稍候...", count), "数据处理提醒", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
                 }
-                else {
+                else
+                {
                     slaveDataHandlerThread.Abort();
+                  
                 }
+
+
             }
+
+            //int slaveCount = this.ieSlaves.Where(s => s.Status != SlaveStatus.OFF).Count();
+            //if (slaveCount == 0)
+            //{
+            //    return true;
+            //}
+            //else
+            //{
+            //    MessageBox.Show(string.Format("仍有{0}个从机未停止测试，请停止所有从机测试...", slaveCount), "提醒", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //    return false;
+            //}
+
+            return true;
         }
-        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
-        {
-            if (begin.IsEnabled == false)
-            {
-                e.Cancel = true;
-            }
-            else {
-                e.Cancel = false;
-            }
-            
-        }
+         
         private void setterWindow_Click(object sender, RoutedEventArgs e)
         {
             SetterWindow win = new SetterWindow();
@@ -330,5 +351,6 @@ namespace IEClient
         {
             new StatusWarnSettingWindow() { slaves = this.ieSlaves }.ShowDialog();
         }
+         
     }
 }

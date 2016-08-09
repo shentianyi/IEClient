@@ -8,7 +8,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="400" d:DesignWidth="600"
       Background="#115292"
-      Title="测试管理" Loaded="MetroWindow_Loaded" WindowStartupLocation="CenterScreen" Closing="MetroWindow_Closing">
+      Title="测试管理" Loaded="MetroWindow_Loaded" WindowStartupLocation="CenterScreen" Closing="MetroWindow_Closing" >
     <Window.Resources>
 
         <Style x:Key="menuButton">
@@ -34,7 +34,7 @@
 
         <DataTemplate x:Key="deviceList">
             <Border Width="Auto" VerticalAlignment="Stretch" BorderBrush="#4E70FF" BorderThickness="5" Margin="5" Padding="5" CornerRadius="10,10,10,10">
-                <StackPanel Orientation="Vertical" Background="Transparent">
+                <StackPanel Orientation="Vertical" Background="Yellow">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -127,21 +127,6 @@
                     <Setter TargetName="StatusClockLabel" Property="FontSize" Value="16"/>
                     <Setter TargetName="StatusClockLabel" Property="FontWeight" Value="Bold"/>
                 </DataTrigger>
-
-
-                <!--<DataTrigger  Binding="{Binding GtOnClockingMax}" Value="false">
-                    <Setter TargetName="StatusClockLabel" Property="Foreground" Value="white"/>
-                    <Setter TargetName="StatusClockLabel" Property="FontSize" Value="15"/>
-                    <Setter TargetName="StatusClockLabel" Property="FontWeight" Value="Normal"/>
-
-
-                </DataTrigger>
-                <DataTrigger  Binding="{Binding GtOnClockingMax}" Value="true">
-
-                    <Setter TargetName="StatusClockLabel" Property="Foreground" Value="red"/>
-                    <Setter TargetName="StatusClockLabel" Property="FontSize" Value="16"/>
-                    <Setter TargetName="StatusClockLabel" Property="FontWeight" Value="Bold"/>
-                </DataTrigger>-->
 
             </DataTemplate.Triggers>
         </DataTemplate>

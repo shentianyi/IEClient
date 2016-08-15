@@ -34,7 +34,7 @@ namespace IEClientLib
             }
         }
 
-        /// event
+        //+/ event
         // 状态改变事件
         public delegate void StatusChangedEventHandler(IESlave<T> slave);
         public event StatusChangedEventHandler StatusChanged;

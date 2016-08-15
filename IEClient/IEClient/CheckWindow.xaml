@@ -8,7 +8,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="400" d:DesignWidth="600"
       Background="#115292"
-      Title="测试管理" Loaded="MetroWindow_Loaded" WindowStartupLocation="CenterScreen" Closing="MetroWindow_Closing">
+      Title="测试管理" Loaded="MetroWindow_Loaded" WindowStartupLocation="CenterScreen" Closing="MetroWindow_Closing" >
     <Window.Resources>
 
         <Style x:Key="menuButton">
@@ -34,7 +34,7 @@
 
         <DataTemplate x:Key="deviceList">
             <Border Width="Auto" VerticalAlignment="Stretch" BorderBrush="#4E70FF" BorderThickness="5" Margin="5" Padding="5" CornerRadius="10,10,10,10">
-                <StackPanel Orientation="Vertical" Background="Transparent">
+                <StackPanel Orientation="Vertical">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -49,8 +49,17 @@
                     </Grid>
                     <TextBlock  Text="{Binding Path=StatusDispaly}" HorizontalAlignment="Right"  Foreground="Black" FontWeight="Bold" FontSize="10"/>
                     <TextBlock Text="{Binding Path=Name}"  FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" FontSize="18"/>
-                    <TextBlock Text="{Binding Path=Code}" HorizontalAlignment="Center" FontSize="17" Foreground="White"/>
-                    <Grid HorizontalAlignment="Right">
+                    <TextBlock Text="{Binding Path=BarCode}" HorizontalAlignment="Center" FontSize="17" Foreground="White"/>
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40*"/>
+                            <ColumnDefinition Width="50*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid HorizontalAlignment="Left" Grid.Column="0">
+                        <Label x:Name="StatusClockLabel" Visibility="Collapsed" Content="{Binding Path=StatusClockTick}" FontSize="15" Foreground="White" FontWeight="Normal"/>
+                    </Grid>
+                    
+                    <Grid HorizontalAlignment="Right" Grid.Column="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
@@ -80,6 +89,7 @@
                         <Rectangle x:Name="BatteryHead" Grid.Column="2" Height="8" Width="3" Stroke="White "   VerticalAlignment="Center" HorizontalAlignment="Left"/>
                         <Rectangle x:Name="BatteryBodyR" Grid.Column="1" Height="16" Width="50" Stroke="White" Margin="0"  VerticalAlignment="Center" HorizontalAlignment="Left"/>
 
+                        </Grid>
                     </Grid>
                 </StackPanel>
             </Border>
@@ -97,7 +107,27 @@
                 <DataTrigger Binding="{Binding Status}" Value="600">
                     <Setter TargetName="SituationR" Property="Fill" Value="orange"/>
                 </DataTrigger>
-               
+                <DataTrigger  Binding="{Binding ShowStatusClock}" Value="false">
+                    <Setter TargetName="StatusClockLabel" Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+                <DataTrigger  Binding="{Binding ShowStatusClock}" Value="true">
+                    <Setter TargetName="StatusClockLabel" Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+
+                <DataTrigger  Binding="{Binding GtClockingMax}" Value="false">
+                    <Setter TargetName="StatusClockLabel" Property="Foreground" Value="white"/>
+                    <Setter TargetName="StatusClockLabel" Property="FontSize" Value="15"/>
+                    <Setter TargetName="StatusClockLabel" Property="FontWeight" Value="Normal"/>
+                    
+
+                </DataTrigger>
+                <DataTrigger  Binding="{Binding GtClockingMax}" Value="true">
+
+                    <Setter TargetName="StatusClockLabel" Property="Foreground" Value="red"/>
+                    <Setter TargetName="StatusClockLabel" Property="FontSize" Value="16"/>
+                    <Setter TargetName="StatusClockLabel" Property="FontWeight" Value="Bold"/>
+                </DataTrigger>
+
             </DataTemplate.Triggers>
         </DataTemplate>
         <Style x:Key="deviceListStyle">
@@ -146,8 +176,9 @@
         <GridSplitter   Background="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4"/>
         <DockPanel Grid.Row="2">
             <CheckBox x:Name="allCheckBox"  Content="全  选" Height="30" Margin="30,5" Foreground="Black" Checked="allCheckBox_Click" Unchecked="allCheckBox_Uncheck"/>
-            <Button  HorizontalAlignment="Left" Height="Auto" Width="80" Margin="30,5" FontSize="13" Cursor="Hand" BorderBrush="White" Click="range_set_Click">范围设置
-            </Button>
+            <Button  HorizontalAlignment="Left" Height="Auto" Width="80" Margin="30,5" FontSize="13" Cursor="Hand" BorderBrush="White" Click="range_set_Click" Content="计时过滤"/>
+            <Button  HorizontalAlignment="Left" Height="Auto" Width="80" Margin="30,5" FontSize="13" Cursor="Hand" BorderBrush="White"  Content="状态提醒" Click="Button_Click"/>
+
         </DockPanel>
         <ListBox Name="UniformGrid" Grid.Row="3" Margin="7,3,7,10" ItemTemplate="{StaticResource deviceList}" 
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
@@ -169,7 +200,7 @@
             </Grid.ColumnDefinitions>
             <Button x:Name="detail" Content="查看数据" Grid.Column="1" Style="{StaticResource taskButton}" Click="detail_Click"/>
             <Button x:Name="begin" Content="开始测试" Grid.Column="2" Style="{StaticResource taskButton}" Click="begin_Click"/>
-            <Button x:Name="finish" Content="结束测试" Grid.Column="3" Style="{StaticResource taskButton}" Click="finish_Click" IsEnabled="False"/>
+            <Button x:Name="finish" Content="结束测试" Grid.Column="3" Style="{StaticResource taskButton}" Click="finish_Click"/>
         </Grid>
     </Grid>
 </controls:MetroWindow>

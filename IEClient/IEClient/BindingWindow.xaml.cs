@@ -16,6 +16,7 @@ using ClearInsight.Model;
 using IEClient.Properties;
 using IEClient.Config;
 using IEClientLib;
+using IEClientLib.Helper;
 
 namespace IEClient
 {
@@ -71,15 +72,16 @@ namespace IEClient
             }
             else
             {
-                this.slave.Code = deviceID.Text.Trim();
-                ci.BindNodeDevise(this.slave.Id, this.slave.Code);
+                /// This is not good.... 
+                this.slave.BarCode = deviceID.Text.Trim();
+                ci.BindNodeDevise(this.slave.Id, this.slave.BarCode);
                 this.Close();
             }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            this.deviceID.Text = this.slave.Code;
+            this.deviceID.Text = this.slave.BarCode;
             this.deviceID.Focus();
             this.deviceID.SelectAll();
 

@@ -10,7 +10,7 @@ namespace ClearInsight.Exception
     /// Base ClearInsight Exception
     /// </summary>
     [Serializable]
-    class ClearInsightException : ApplicationException
+    public class ClearInsightException : ApplicationException
     {
         /// <summary>
         /// ClearInsightException

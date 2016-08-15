@@ -208,8 +208,17 @@ namespace ClearInsight
             CIResponse res = new CIResponse();
             res.Code = statusCode;
             res.Content = response.Content;
+ 
             res.Result = true;
-
+ 
+            if (response.ResponseStatus == ResponseStatus.Error)
+            {
+                throw new CiResponseErrorException(response.ErrorMessage);
+            }
+            else if(response.ResponseStatus==ResponseStatus.TimedOut)
+            {
+                throw new CiResponseErrorException(response.ErrorMessage);
+            } 
             //check defined msg
             switch (statusCode)
             {

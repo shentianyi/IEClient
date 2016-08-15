@@ -68,9 +68,10 @@
             </DataGrid.ColumnHeaderStyle>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Nr." Binding="{Binding Path=LineNumber}" ElementStyle="{StaticResource contentCenterStyle}"/>
+              
                 <DataGridTextColumn Header="Value" Binding="{Binding Path=ParsedTime}" ElementStyle="{StaticResource contentCenterStyle}"/>
                 <DataGridTextColumn Header="PolledAt" Binding="{Binding Path=PolledAt}" ElementStyle="{StaticResource contentCenterStyle}"/>
+                <DataGridTextColumn Header="Upload" Binding="{Binding Path=Stored}" ElementStyle="{StaticResource contentCenterStyle}"/>
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="1" Background="#FF269EF1">

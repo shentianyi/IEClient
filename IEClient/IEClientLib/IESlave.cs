@@ -5,6 +5,7 @@ using System.Text;
 using IEClientLib.Enums;
 using IEClientLib.Helper;
 using System.ComponentModel;
+using System.Timers;
 
 namespace IEClientLib
 {
@@ -13,11 +14,15 @@ namespace IEClientLib
     /// </summary>
     public class IESlave<T> : INotifyPropertyChanged
     {
+        private static List<SlaveStatus> showStautsClockStatuses = new List<SlaveStatus>() { SlaveStatus.ON_CLOCKING, SlaveStatus.OUT_CLOCKING };
         public IESlave()
         {
             this.selected = false;
             this.Status = SlaveStatus.OFF;
-            this.situation = "#FFFFFF";	
+            this.statusTimer = new Timer();
+            this.statusTimer.Interval = 1000;
+            this.statusTimer.Elapsed += StatusTimer_Elapsed;
+            this.statusTimer.Start();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -29,7 +34,7 @@ namespace IEClientLib
             }
         }
 
-        /// event
+        //+/ event
         // 状态改变事件
         public delegate void StatusChangedEventHandler(IESlave<T> slave);
         public event StatusChangedEventHandler StatusChanged;
@@ -41,7 +46,7 @@ namespace IEClientLib
         private SlaveStatus status;
         private List<IEData<T>> dataList = new List<IEData<T>>();
         private bool? selected;
-        private string situation;
+
         /// <summary>
         /// Id
         /// </summary>
@@ -56,7 +61,30 @@ namespace IEClientLib
         /// 外部实例
         /// </summary>
         public T ExtItem { get; set; }
-        
+
+        private string barCode;
+        /// <summary>
+        /// 条码编号
+        /// </summary>
+        public string BarCode
+        {
+            get { return barCode; }
+            set
+            {
+                barCode = value;
+                if (!string.IsNullOrEmpty(barCode))
+                {
+                    string id = barCode.Substring(2, barCode.Length - 2);
+                    string hex = ScaleHelper.DecimalToHexString(int.Parse(id), true, 2);
+                    this.Code = "55" + hex;
+                }
+                else
+                {
+                    this.Code = string.Empty;
+                }
+                OnPropertyChanged(new PropertyChangedEventArgs("BarCode"));
+            }
+        }
         /// <summary>
         /// 编码
         /// </summary>
@@ -66,7 +94,7 @@ namespace IEClientLib
             set
             {
                 code = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("code"));
+                OnPropertyChanged(new PropertyChangedEventArgs("Code"));
                 if (!string.IsNullOrWhiteSpace(code))
                 {
                     this.BCode = ScaleHelper.HexStringToHexByte(code);
@@ -98,11 +126,18 @@ namespace IEClientLib
             {
                 if (status != value)
                 {
-                    status = value;
 
+                    status = value;
+                     
+                    this.GtOnClockingMax = false;
+                    this.GtOutClockingMax = false;
+
+                    this.StatusClockTick = 0;
                     OnPropertyChanged(new PropertyChangedEventArgs("Status"));
 
                     OnPropertyChanged(new PropertyChangedEventArgs("StatusDispaly"));
+                    OnPropertyChanged(new PropertyChangedEventArgs("ShowStatusClock"));
+
                     if (this.StatusChanged != null)
                     {
                         this.StatusChanged(this);
@@ -110,6 +145,11 @@ namespace IEClientLib
                 }
             }
         }
+
+        /// <summary>
+        /// 当前的命令类型
+        /// </summary>
+        public CmdType CurrentCmdType { get; set; }
 
         public string StatusDispaly {
             get { return EnumHelper.GetDescription(this.status); }
@@ -168,20 +208,117 @@ namespace IEClientLib
             }
         }
 
-        public string Situation
-        {
-            get { return situation; }
-            set { situation = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Situation"));
-            }
-        }
+      
         /// <summary>
         /// IEData 列表
         /// </summary>
         public List<IEData<T>> DataList { get { return dataList; } set { this.dataList = value; } }
          
         public float? MaxFilter { get; set; }
-        public float? MinFilter { get; set; } 
+        public float? MinFilter { get; set; }
+
+        private Timer statusTimer;
+
+        private int outClockingMax;
+        private int onClockingMax;
+        private bool gtOutClockingMax;
+        private bool gtOnClockingMax;
+
+        private int statusClockTick=0;
+
+        public int OutClockingMax
+        {
+            get { return this.outClockingMax; }
+            set
+            {
+                this.outClockingMax = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("OutClockingMax"));
+            }
+        }
+
+        public int OnClockingMax
+        {
+            get { return this.onClockingMax; }
+            set
+            {
+                this.onClockingMax = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("OnClockingMax"));
+            }
+        }
+
+        public int StatusClockTick
+        {
+            get
+            {
+                return this.statusClockTick;
+            }
+
+            set
+            {
+                this.statusClockTick = value;
+                if (this.Status == SlaveStatus.OUT_CLOCKING)
+                {
+                    this.GtOutClockingMax = this.StatusClockTick > this.OutClockingMax;
+                }
+                else if (this.Status == SlaveStatus.ON_CLOCKING)
+                {
+                    this.GtOnClockingMax = this.StatusClockTick > this.OnClockingMax;
+                }
+                else
+                {
+                    this.GtOutClockingMax = false;
+                    this.GtOnClockingMax = false;
+                }
+                OnPropertyChanged(new PropertyChangedEventArgs("StatusClockTick"));
+            }
+        }
+
+        public bool GtOutClockingMax
+        {
+            get
+            {
+                return gtOutClockingMax;
+            }
+
+            set
+            {
+                gtOutClockingMax = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("GtOutClockingMax"));
+                OnPropertyChanged(new PropertyChangedEventArgs("GtClockingMax"));
+            }
+        }
+        public bool GtOnClockingMax
+        {
+            get
+            {
+                return gtOnClockingMax;
+            }
+
+            set
+            {
+                gtOnClockingMax = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("GtOnClockingMax"));
+                OnPropertyChanged(new PropertyChangedEventArgs("GtClockingMax"));
+
+            }
+        }
+
+        public bool GtClockingMax
+        {
+            get { return this.GtOutClockingMax || this.GtOnClockingMax; }
+        }
+
+        public bool ShowStatusClock
+        {
+            get { return showStautsClockStatuses.Contains(this.Status); }
+        }
+
+    
+
+        private void StatusTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            this.StatusClockTick += ((int)this.statusTimer.Interval / 1000);
+        }
 
         public void AddDatasToList(List<IEData<T>> datas)
         {

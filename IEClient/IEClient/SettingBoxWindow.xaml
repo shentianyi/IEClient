@@ -9,7 +9,8 @@
         Background="Transparent"
         WindowStyle="None"
         AllowsTransparency="True"
-        MouseDown="Window_MouseDown">
+        MouseDown="Window_MouseDown"
+        Loaded="MetroWindow_Loaded">
     <Border Width="Auto" Height="Auto" Name="windowFrame"
             BorderBrush="Transparent" BorderThickness="5"
             CornerRadius="30,30,40,40">
@@ -37,8 +38,8 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBox x:Name="minNumber" Grid.Column="0" HorizontalAlignment="Right" Height="23" Width="150" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="1" Margin="35,0,0,0"/>
-                <TextBox x:Name="maxNumber" Grid.Column="2" HorizontalAlignment="Left" Height="23" Width="150" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="1" Margin="0,0,35,0"/>
+                <TextBox x:Name="minNumber" Grid.Column="0" HorizontalAlignment="Right" Height="23" Width="150" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="1" Margin="35,0,0,0" ToolTip="最小值"/>
+                <TextBox x:Name="maxNumber" Grid.Column="2" HorizontalAlignment="Left" Height="23" Width="150" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="1" Margin="0,0,35,0" ToolTip="最大值"/>
                 <GridSplitter x:Name="gridSplitter" Grid.Column="1" HorizontalAlignment="Stretch" Height="1" VerticalAlignment="Center" Background="Black"/>
 
             </Grid>

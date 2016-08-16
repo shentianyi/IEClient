@@ -11,6 +11,11 @@
         ResizeMode="NoResize"
         MouseDown="Window_MouseDown"
         Background="#0078C1" WindowStartupLocation="CenterScreen">
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <Button Content="设置" Click="SettingClick" Cursor="Hand" ToolTip="基本设置"/>
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
 
     <Grid>
         <TextBlock x:Name="IE"  Text="IE" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="50" FontWeight="ExtraLight" Foreground="WhiteSmoke">

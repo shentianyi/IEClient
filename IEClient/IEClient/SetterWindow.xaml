@@ -7,9 +7,9 @@
         xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
         mc:Ignorable="d"
-        Height="270"
-        Width="500"
-        Background="#0078C1"
+        Height="300"
+        Width="380"
+        Background="White"
         WindowStartupLocation="CenterScreen"
         Title="设置" Loaded="MetroWindow_Loaded">
     <Grid>
@@ -45,7 +45,7 @@
                      input:InputMethod.IsInputMethodEnabled="False"
                      PreviewTextInput="Baud_PreviewTextInput" Grid.ColumnSpan="2"/>
         </Grid>
-        <Button x:Name="save" Grid.Row="3" Content="保存" HorizontalAlignment="Center" VerticalAlignment="Top" Width="75" Click="save_Click" FontSize="15"/>
+        <Button x:Name="save" Grid.Row="3" Content="保存" Background="#0078C1" HorizontalAlignment="Center" VerticalAlignment="Top" Width="75" Click="save_Click" FontSize="15"/>
 
 
 

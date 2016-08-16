@@ -83,5 +83,10 @@ namespace IEClient
             SetterWindow win = new SetterWindow();
             win.ShowDialog();
         }
+
+        private void reload_Click(object sender, RoutedEventArgs e)
+        {
+            LoadData();
+        }
     }
 }

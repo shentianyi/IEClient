@@ -66,6 +66,12 @@ namespace IEClient
         {
             MessageBox.Show(email.Text);
         }
+
+        private void SettingClick(object sender, RoutedEventArgs e)
+        {
+            SetterWindow win = new SetterWindow();
+            win.ShowDialog();
+        }
     }
 
   

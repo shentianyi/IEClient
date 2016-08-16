@@ -19,6 +19,8 @@ namespace IEClient.Config
         private static string cycleTimeKpiCode;
         private static int outClockingMax;
         private static int onClockingMax;
+        private static int? minimunValue;
+        private static int? maxmunValue;
 
         static BaseConfig()
         {
@@ -32,7 +34,8 @@ namespace IEClient.Config
             cycleTimeKpiCode = config.Get("CycleTimeKpiCode");
             outClockingMax = int.Parse(config.Get("OutClockingMax"));
             onClockingMax = int.Parse(config.Get("OnClockingMax"));
-
+            minimunValue = int.Parse(config.Get("MinimunValue"));
+            maxmunValue = int.Parse(config.Get("MaxmunValue"));
         }
         public static string Server
         {
@@ -143,6 +146,33 @@ namespace IEClient.Config
                 config.Save();
             }
         }
+        public static int? MinimunValue
+        {
+            get
+            {
+                return minimunValue;
+            }
 
+            set
+            {
+                minimunValue = value;
+                config.Set("MinimunValue", value);
+                config.Save();
+            }
+        }
+        public static int? MaxmunValue
+        {
+            get
+            {
+                return maxmunValue;
+            }
+
+            set
+            {
+                maxmunValue = value;
+                config.Set("MaxmunValue", value);
+                config.Save();
+            }
+        }
     }
 }

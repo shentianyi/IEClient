@@ -258,28 +258,17 @@ namespace IEClient
             IEData<Node> data = dic["data"] as IEData<Node>;
             float value =  data.Time / 10;
             bool up = false;
-
             LogUtil.Logger.Info(string.Format("slave: {0}, value is: {1}, maxfilter: {2} , minfilter: {3}",slave.Code,value,slave.MaxFilter,slave.MinFilter));
-            if (slave.MinFilter.HasValue) {
-                if (value >= slave.MinFilter.Value) {
-                    up = true;
-                }
-            }
-            else
+            MessageBox.Show(value.ToString());
+            //if (slave.MinFilter.HasValue && slave.MaxFilter.HasValue)
+
+            if (value >= BaseConfig.MinimunValue && value <= BaseConfig.MaxmunValue)
             {
                 up = true;
             }
-
-            if (slave.MaxFilter.HasValue)
+            else
             {
-                if (up)
-                {
-                    if (value <= slave.MaxFilter.Value)
-                    {
-                        up = true;
-                    }
-                    else { up = false; }
-                }
+                up = false;
             }
 
             if (up)

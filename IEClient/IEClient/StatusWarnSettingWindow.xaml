@@ -44,8 +44,5 @@
             
         </Grid>
         <Button x:Name="save" Grid.Row="3" Content="保存" HorizontalAlignment="Center" VerticalAlignment="Top" Width="75" Click="save_Click" FontSize="15"/>
-
-
-
     </Grid>
 </controls:MetroWindow>

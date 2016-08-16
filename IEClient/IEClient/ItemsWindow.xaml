@@ -50,7 +50,7 @@
                 <Button x:Name="searchButton" Content="搜索" Width="75" Height="25" Margin="5,0,5,0" Cursor="Hand" Click="Search_Click"/>
             </StackPanel>
             <UniformGrid Columns="3" Grid.Row="0" Grid.Column="1">
-                <Button x:Name="itemWindow">
+                <Button x:Name="itemWindow" Click="reload_Click" ToolTip="点击刷新">
                     <StackPanel>
                         <Image Source="image/item.png" Height="64" Width="86" ></Image>
                         <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">项目管理</TextBlock>

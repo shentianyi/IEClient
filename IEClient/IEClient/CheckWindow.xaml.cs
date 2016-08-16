@@ -259,7 +259,6 @@ namespace IEClient
             float value =  data.Time / 10;
             bool up = false;
             LogUtil.Logger.Info(string.Format("slave: {0}, value is: {1}, maxfilter: {2} , minfilter: {3}",slave.Code,value,slave.MaxFilter,slave.MinFilter));
-            MessageBox.Show(value.ToString());
             //if (slave.MinFilter.HasValue && slave.MaxFilter.HasValue)
 
             if (value >= BaseConfig.MinimunValue && value <= BaseConfig.MaxmunValue)
